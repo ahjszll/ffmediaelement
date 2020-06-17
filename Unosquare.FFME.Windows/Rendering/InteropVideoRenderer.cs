@@ -1,13 +1,11 @@
 ﻿namespace Unosquare.FFME.Rendering
 {
-    using System;
-    using System.IO.MemoryMappedFiles;
-    using System.Windows.Interop;
-    using System.Windows.Media;
-    using System.Windows.Threading;
     using Common;
     using Container;
     using Diagnostics;
+    using System;
+    using System.IO.MemoryMappedFiles;
+    using System.Windows.Interop;
     using Unosquare.FFME.Engine;
 
     internal sealed class InteropVideoRenderer : VideoRendererBase, IDisposable
@@ -35,7 +33,6 @@
                     return;
 
                 MediaElement?.RaiseRenderingVideoEvent(block, bitmap, clockPosition);
-                UpdateTargetImage(DispatcherPriority.Loaded, true);
             }
             catch (Exception ex)
             {
@@ -56,12 +53,6 @@
 
         public void Dispose() => Graphics?.Dispose();
 
-        private void UpdateTargetImage(DispatcherPriority priority, bool syncrhonous)
-        {
-            var task = VideoDispatcher?.InvokeAsync(() => Graphics.Render(MediaElement.VideoView), priority);
-            if (syncrhonous)
-                task?.Wait();
-        }
 
         private sealed class InteropBuffer : IDisposable
         {
@@ -113,26 +104,7 @@
                     return BitmapData;
                 }
             }
-
-            public void Render(ImageHost host)
-            {
-                lock (SyncLock)
-                {
-                    if (IsDisposed) return;
-
-                    if (NeedsNewImage)
-                    {
-                        BackBufferImage = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(
-                            BackBufferFile.SafeMemoryMappedFileHandle.DangerousGetHandle(), Width, Height, PixelFormats.Bgra32, Stride, 0);
-
-                        NeedsNewImage = false;
-                    }
-
-                    BackBufferImage.Invalidate();
-                    host.Source = BackBufferImage;
-                }
-            }
-
+        
             public void Dispose()
             {
                 lock (SyncLock)

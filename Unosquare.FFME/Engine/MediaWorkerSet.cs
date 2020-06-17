@@ -12,7 +12,7 @@
     internal sealed class MediaWorkerSet : IDisposable
     {
         private readonly object SyncLock = new object();
-        private readonly IMediaWorker[] Workers = new IMediaWorker[3];
+        private readonly IMediaWorker[] Workers = new IMediaWorker[2];
         private bool m_IsDisposed;
 
         /// <summary>
@@ -25,11 +25,9 @@
 
             Reading = new PacketReadingWorker(mediaCore);
             Decoding = new FrameDecodingWorker(mediaCore);
-            Rendering = new BlockRenderingWorker(mediaCore);
 
             Workers[(int)MediaWorkerType.Read] = Reading;
             Workers[(int)MediaWorkerType.Decode] = Decoding;
-            Workers[(int)MediaWorkerType.Render] = Rendering;
         }
 
         /// <summary>
@@ -47,10 +45,6 @@
         /// </summary>
         public FrameDecodingWorker Decoding { get; }
 
-        /// <summary>
-        /// Gets the block rendering worker.
-        /// </summary>
-        public BlockRenderingWorker Rendering { get; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is disposed.
@@ -95,7 +89,7 @@
         /// <summary>
         /// Resumes all the media core workers waiting for the operation to complete.
         /// </summary>
-        public void ResumeAll() => Resume(true, true, true, true);
+        public void ResumeAll() => Resume(true, true, true);
 
         /// <summary>
         /// Pauses the reading and decoding workers waiting for the operation to complete.
@@ -110,8 +104,7 @@
         public void ResumePaused() => Resume(
             true,
             Reading.WorkerState == WorkerState.Paused,
-            Decoding.WorkerState == WorkerState.Paused,
-            Rendering.WorkerState == WorkerState.Paused);
+            Decoding.WorkerState == WorkerState.Paused);
 
         /// <inheritdoc />
         public void Dispose() => Dispose(true);
@@ -128,7 +121,7 @@
             if (IsDisposed)
                 return;
 
-            var tasks = CaptureTasks(read, decode, render, WorkerState.Paused);
+            var tasks = CaptureTasks(read, decode, WorkerState.Paused);
             if (wait) Task.WaitAll(tasks);
         }
 
@@ -139,11 +132,11 @@
         /// <param name="read">if set to <c>true</c> executes the opration on the reading worker.</param>
         /// <param name="decode">if set to <c>true</c> executes the opration on the decoding worker.</param>
         /// <param name="render">if set to <c>true</c> executes the opration on the rendering worker.</param>
-        private void Resume(bool wait, bool read, bool decode, bool render)
+        private void Resume(bool wait, bool read, bool decode)
         {
             if (IsDisposed) return;
 
-            var tasks = CaptureTasks(read, decode, render, WorkerState.Running);
+            var tasks = CaptureTasks(read, decode,  WorkerState.Running);
             if (wait) Task.WaitAll(tasks);
         }
 
@@ -155,14 +148,13 @@
         /// <param name="render">The render worker.</param>
         /// <param name="targetState">The target state.</param>
         /// <returns>The awaitable tasks.</returns>
-        private Task<WorkerState>[] CaptureTasks(bool read, bool decode, bool render, WorkerState targetState)
+        private Task<WorkerState>[] CaptureTasks(bool read, bool decode, WorkerState targetState)
         {
             var tasks = new List<Task<WorkerState>>(3);
             var workers = new List<IMediaWorker>(3);
 
             if (read) workers.Add(Reading);
             if (decode) workers.Add(Decoding);
-            if (render) workers.Add(Rendering);
 
             foreach (var worker in workers)
             {

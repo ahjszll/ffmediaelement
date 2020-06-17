@@ -1,8 +1,6 @@
 ﻿namespace Unosquare.FFME.Rendering
 {
-    using Common;
     using Container;
-    using Diagnostics;
     using Engine;
     using FFmpeg.AutoGen;
     using Platform;
@@ -11,7 +9,8 @@
     using System.Runtime.CompilerServices;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
-    using System.Windows.Threading;
+    using Unosquare.FFME.Common;
+    using Unosquare.FFME.Diagnostics;
 
     /// <summary>
     /// Provides Video Image Rendering via a WPF Writable Bitmap.
@@ -30,6 +29,7 @@
             { AVPixelFormat.AV_PIX_FMT_BGRA, PixelFormats.Bgra32 }
         };
 
+
         /// <summary>
         /// The bitmap that is presented to the user.
         /// </summary>
@@ -39,22 +39,6 @@
         /// The reference to a bitmap data bound to the target bitmap.
         /// </summary>
         private BitmapDataBuffer TargetBitmapData;
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VideoRenderer"/> class.
-        /// </summary>
-        /// <param name="mediaCore">The core media element.</param>
-        public VideoRenderer(MediaEngine mediaCore)
-            : base(mediaCore)
-        {
-            // Check that the renderer supports the passed in Pixel format
-            if (MediaPixelFormats.ContainsKey(Constants.VideoPixelFormat) == false)
-                throw new NotSupportedException($"Unable to get equivalent pixel format from source: {Constants.VideoPixelFormat}");
-        }
 
         #endregion
 
@@ -75,12 +59,27 @@
                 TargetBitmapData = m_TargetBitmap != null
                     ? new BitmapDataBuffer(m_TargetBitmap)
                     : null;
-
-                MediaElement.VideoView.Source = m_TargetBitmap;
             }
         }
 
         #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VideoRenderer"/> class.
+        /// </summary>
+        /// <param name="mediaCore">The core media element.</param>
+        public VideoRenderer(MediaEngine mediaCore)
+            : base(mediaCore)
+        {
+            // Check that the renderer supports the passed in Pixel format
+            if (MediaPixelFormats.ContainsKey(Constants.VideoPixelFormat) == false)
+                throw new NotSupportedException($"Unable to get equivalent pixel format from source: {Constants.VideoPixelFormat}");
+        }
+
+        #endregion
+
 
         #region MediaRenderer Methods
 
@@ -90,14 +89,13 @@
             var block = BeginRenderingCycle(mediaBlock);
             if (block == null) return;
 
-            VideoDispatcher?.Invoke(() =>
-            {
+            
                 try
                 {
                     // Prepare and write frame data
                     if (PrepareVideoFrameBuffer(block))
                         WriteVideoFrameBuffer(block, clockPosition);
-                }
+            }
                 catch (Exception ex)
                 {
                     this.LogError(Aspects.VideoRenderer, $"{nameof(VideoRenderer)}.{nameof(Render)} bitmap failed.", ex);
@@ -106,10 +104,7 @@
                 {
                     FinishRenderingCycle(block, clockPosition);
                 }
-            }, DispatcherPriority.Normal);
         }
-
-        #endregion
 
         /// <summary>
         /// Initializes the target bitmap if not available and returns a pointer to the back-buffer for filling.
@@ -185,5 +180,6 @@
                 bitmap.Unlock();
             }
         }
+        #endregion
     }
 }

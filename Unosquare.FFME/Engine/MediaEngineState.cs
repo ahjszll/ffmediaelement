@@ -50,7 +50,6 @@
         private int m_SubtitleStreamIndex;
         private bool m_HasAudio;
         private bool m_HasVideo;
-        private bool m_HasSubtitles;
         private string m_VideoCodec;
         private long m_VideoBitRate;
         private double m_VideoRotation;
@@ -72,7 +71,6 @@
 
         private string m_VideoSmtpeTimeCode = string.Empty;
         private string m_VideoHardwareDecoder = string.Empty;
-        private bool m_HasClosedCaptions;
 
         #endregion
 
@@ -203,12 +201,7 @@
             private set => SetProperty(ref m_VideoHardwareDecoder, value);
         }
 
-        /// <inheritdoc />
-        public bool HasClosedCaptions
-        {
-            get => m_HasClosedCaptions;
-            private set => SetProperty(ref m_HasClosedCaptions, value);
-        }
+       
 
         #endregion
 
@@ -327,12 +320,7 @@
             private set => SetProperty(ref m_HasVideo, value);
         }
 
-        /// <inheritdoc />
-        public bool HasSubtitles
-        {
-            get => m_HasSubtitles;
-            private set => SetProperty(ref m_HasSubtitles, value);
-        }
+       
 
         /// <inheritdoc />
         public string VideoCodec
@@ -547,12 +535,8 @@
             MediaStreamSize = MediaCore.Container?.MediaStreamSize ?? default;
             VideoStreamIndex = MediaCore.Container?.Components.Video?.StreamIndex ?? -1;
             AudioStreamIndex = MediaCore.Container?.Components.Audio?.StreamIndex ?? -1;
-            SubtitleStreamIndex = MediaCore.Container?.Components.Subtitles?.StreamIndex ?? -1;
             HasAudio = MediaCore.Container?.Components.HasAudio ?? default;
             HasVideo = MediaCore.Container?.Components.HasVideo ?? default;
-            HasClosedCaptions = MediaCore.Container?.Components.Video?.StreamInfo?.HasClosedCaptions ?? default;
-            HasSubtitles = (MediaCore.PreloadedSubtitles?.Count ?? 0) > 0
-                || (MediaCore.Container?.Components.HasSubtitles ?? false);
             VideoCodec = MediaCore.Container?.Components.Video?.CodecName;
             VideoBitRate = MediaCore.Container?.Components.Video?.BitRate ?? default;
             VideoRotation = MediaCore.Container?.Components.Video?.DisplayRotation ?? default;
@@ -623,10 +607,6 @@
             NaturalVideoWidth = videoBlock.PixelWidth;
             NaturalVideoHeight = videoBlock.PixelHeight;
 
-            // Update the has closed captions state as it might come in later
-            // as frames are decoded
-            if (HasClosedCaptions == false && videoBlock.ClosedCaptions.Count > 0)
-                HasClosedCaptions = true;
 
             VideoSmtpeTimeCode = videoBlock.SmtpeTimeCode;
             VideoHardwareDecoder = videoBlock.IsHardwareFrame ?

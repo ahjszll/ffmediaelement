@@ -9,8 +9,6 @@
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using System.Windows;
-    using System.Windows.Media;
-    using System.Windows.Threading;
 
     /// <summary>
     /// Provides basic infrastructure for video rendering.
@@ -23,11 +21,6 @@
         /// The default dpi.
         /// </summary>
         protected const double DefaultDpi = 96.0;
-
-        /// <summary>
-        /// The WPF lock timeout equivalent to hald of the duration of a 60FPS cycle -- approximately 8ms).
-        /// </summary>
-        protected static readonly Duration WpfLockTimeout = new Duration(TimeSpan.FromMilliseconds(1000d / 60d / 2d));
 
         /// <summary>
         /// Set when a bitmap is being written to the target bitmap.
@@ -47,18 +40,6 @@
         protected VideoRendererBase(MediaEngine mediaCore)
         {
             MediaCore = mediaCore;
-
-            // Set the DPI
-            Library.GuiContext.EnqueueInvoke(() =>
-            {
-                var media = MediaElement;
-                if (media != null)
-                {
-                    var visual = PresentationSource.FromVisual(media);
-                    DpiX = DefaultDpi * visual?.CompositionTarget?.TransformToDevice.M11 ?? DefaultDpi;
-                    DpiY = DefaultDpi * visual?.CompositionTarget?.TransformToDevice.M22 ?? DefaultDpi;
-                }
-            });
         }
 
         /// <inheritdoc />
@@ -92,16 +73,6 @@
         }
 
         /// <summary>
-        /// Gets the video dispatcher.
-        /// </summary>
-        protected Dispatcher VideoDispatcher => MediaElement?.VideoView?.ElementDispatcher;
-
-        /// <summary>
-        /// Gets the control dispatcher.
-        /// </summary>
-        protected Dispatcher ControlDispatcher => MediaElement?.Dispatcher;
-
-        /// <summary>
         /// Gets a value indicating whether it is time to render after applying frame rate limiter.
         /// </summary>
         protected bool IsRenderTime
@@ -128,10 +99,10 @@
         }
 
         /// <inheritdoc />
-        public virtual void OnClose() => ClearVideo();
+        public virtual void OnClose() { }
 
         /// <inheritdoc />
-        public virtual void OnSeek() => ClearCaptions();
+        public virtual void OnSeek() { }
 
         /// <inheritdoc />
         public virtual void OnStarting()
@@ -149,32 +120,8 @@
         public abstract void Render(MediaBlock mediaBlock, TimeSpan clockPosition);
 
         /// <inheritdoc />
-        public virtual void OnStop() => ClearCaptions();
+        public virtual void OnStop() { }
 
-        /// <summary>
-        /// Clears the video and captions.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void ClearVideo()
-        {
-            // Force captions reset in the background so it's the last thing processed.
-            ClearCaptions();
-
-            // Force image source refresh in the background so it's the last thing processed.
-            VideoDispatcher?.InvokeAsync(() =>
-            {
-                var videoView = MediaElement.VideoView;
-                if (videoView != null)
-                    videoView.Source = null;
-            }, DispatcherPriority.Background);
-        }
-
-        /// <summary>
-        /// Clears the captions.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void ClearCaptions() =>
-            ControlDispatcher?.InvokeAsync(() => MediaElement?.CaptionsView?.Reset(), DispatcherPriority.Background);
 
         /// <summary>
         /// Begins the rendering cycle.
@@ -200,7 +147,6 @@
 
             // VerticalSyncContext.Flush();
             // Send the packets to the CC renderer
-            MediaElement?.CaptionsView?.SendPackets(block, MediaCore);
 
             if (!IsRenderTime)
                 return null;
@@ -222,9 +168,6 @@
             // Alwasy set the progress to false to allow for next cycle.
             IsRenderingInProgress = false;
 
-            // Update the layout including pixel ratio and video rotation
-            ControlDispatcher?.InvokeAsync(() =>
-                UpdateLayout(block, clockPosition), DispatcherPriority.Loaded);
         }
 
         /// <summary>
@@ -237,73 +180,11 @@
         {
             try
             {
-                MediaElement?.CaptionsView?.Render(MediaElement.ClosedCaptionsChannel, clockPosition);
-                ApplyLayoutTransforms(block);
             }
             catch (Exception ex)
             {
                 this.LogError(Aspects.VideoRenderer, $"{nameof(VideoRenderer)}.{nameof(Render)} layout/CC failed.", ex);
             }
-        }
-
-        /// <summary>
-        /// Applies the scale transform according to the block's aspect ratio.
-        /// </summary>
-        /// <param name="b">The b.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void ApplyLayoutTransforms(VideoBlock b)
-        {
-            var videoView = MediaElement?.VideoView;
-            if (videoView == null) return;
-
-            ScaleTransform scaleTransform;
-            RotateTransform rotateTransform;
-
-            if (videoView.LayoutTransform is TransformGroup layoutTransforms)
-            {
-                scaleTransform = layoutTransforms.Children[0] as ScaleTransform;
-                rotateTransform = layoutTransforms.Children[1] as RotateTransform;
-            }
-            else
-            {
-                layoutTransforms = new TransformGroup();
-                scaleTransform = new ScaleTransform(1, 1);
-                rotateTransform = new RotateTransform(0, 0.5, 0.5);
-                layoutTransforms.Children.Add(scaleTransform);
-                layoutTransforms.Children.Add(rotateTransform);
-
-                videoView.LayoutTransform = layoutTransforms;
-            }
-
-            // return if no proper transforms were found
-            if (scaleTransform == null || rotateTransform == null)
-                return;
-
-            // Check if we need to ignore pixel aspect ratio
-            var ignoreAspectRatio = MediaElement?.IgnorePixelAspectRatio ?? false;
-
-            // Process Aspect Ratio according to block.
-            if (!ignoreAspectRatio && b.PixelAspectWidth != b.PixelAspectHeight)
-            {
-                var scaleX = b.PixelAspectWidth > b.PixelAspectHeight ? Convert.ToDouble(b.PixelAspectWidth) / Convert.ToDouble(b.PixelAspectHeight) : 1d;
-                var scaleY = b.PixelAspectHeight > b.PixelAspectWidth ? Convert.ToDouble(b.PixelAspectHeight) / Convert.ToDouble(b.PixelAspectWidth) : 1d;
-
-                if (Math.Abs(scaleTransform.ScaleX - scaleX) > double.Epsilon ||
-                    Math.Abs(scaleTransform.ScaleY - scaleY) > double.Epsilon)
-                {
-                    scaleTransform.ScaleX = scaleX;
-                    scaleTransform.ScaleY = scaleY;
-                }
-            }
-            else
-            {
-                scaleTransform.ScaleX = 1d;
-                scaleTransform.ScaleY = 1d;
-            }
-
-            // Process Rotation
-            if (Math.Abs(MediaCore.State.VideoRotation - rotateTransform.Angle) > double.Epsilon)
-                rotateTransform.Angle = MediaCore.State.VideoRotation;
         }
     }
 }

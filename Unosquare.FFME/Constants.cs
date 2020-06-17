@@ -1,6 +1,5 @@
 ﻿namespace Unosquare.FFME
 {
-    using ClosedCaptions;
     using Common;
     using Engine;
     using FFmpeg.AutoGen;
@@ -52,11 +51,6 @@
         /// The default volume.
         /// </summary>
         public static double DefaultVolume => 1.0d;
-
-        /// <summary>
-        /// The default closed captions channel.
-        /// </summary>
-        public static CaptionsChannel DefaultClosedCaptionsChannel => CaptionsChannel.CCP;
 
         /// <summary>
         /// The minimum speed ratio.
@@ -160,7 +154,6 @@
         {
             const int MinVideoBlocks = 8;
             const int MinAudioBlocks = 48;
-            const int MinSubtitleBlocks = 4;
 
             var result = 0;
 
@@ -173,11 +166,6 @@
             {
                 result = mediaCore.MediaOptions.AudioBlockCache;
                 if (result < MinAudioBlocks) result = MinAudioBlocks;
-            }
-            else if (t == MediaType.Subtitle)
-            {
-                result = mediaCore.MediaOptions.SubtitleBlockCache;
-                if (result < MinSubtitleBlocks) result = MinSubtitleBlocks;
             }
 
             return result;

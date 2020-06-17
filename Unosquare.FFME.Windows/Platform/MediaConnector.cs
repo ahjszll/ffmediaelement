@@ -21,8 +21,6 @@
                         VideoRendererImageType.InteropBitmap => new InteropVideoRenderer(mediaCore),
                         _ => new VideoRenderer(mediaCore),
                     };
-                case MediaType.Subtitle:
-                    return new SubtitleRenderer(mediaCore);
                 default:
                     throw new NotSupportedException($"No suitable renderer for Media Type '{mediaType}'");
             }

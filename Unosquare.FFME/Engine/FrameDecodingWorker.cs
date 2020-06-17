@@ -60,14 +60,6 @@
                         MediaCore.Connector?.OnVideoFrameDecoded((AVFrame*)frame.ToPointer(), Container.InputContext);
                 }
             };
-
-            Container.Components.OnSubtitleDecoded = (subtitle) =>
-            {
-                unsafe
-                {
-                    MediaCore.Connector?.OnSubtitleDecoded((AVSubtitle*)subtitle.ToPointer(), Container.InputContext);
-                }
-            };
         }
 
         /// <inheritdoc />
@@ -161,7 +153,8 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool AddNextBlock(MediaType t)
         {
-            // Decode the frames
+            //Container.Components[t].ReceiveNextFrame();
+            //Decode the frames
             var block = MediaCore.Blocks[t].Add(Container.Components[t].ReceiveNextFrame(), Container);
             return block != null;
         }

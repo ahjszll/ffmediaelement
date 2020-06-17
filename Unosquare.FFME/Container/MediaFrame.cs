@@ -32,20 +32,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MediaFrame"/> class.
-        /// </summary>
-        /// <param name="pointer">The pointer.</param>
-        /// <param name="component">The component.</param>
-        protected MediaFrame(AVSubtitle* pointer, MediaComponent component)
-            : this(pointer, component, MediaType.Subtitle)
-        {
-            // TODO: Compressed size is simply an estimate
-            CompressedSize = (int)pointer->num_rects * 256;
-            PresentationTime = Convert.ToInt64(pointer->start_display_time);
-            DecodingTime = pointer->pts;
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="MediaFrame" /> class.
         /// </summary>
         /// <param name="pointer">The pointer.</param>

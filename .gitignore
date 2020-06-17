@@ -255,3 +255,17 @@ paket-files/
 .idea/
 *.sln.iml
 _site/
+/Unosquare.FFME/Common/ViewModelBase.cs
+/Unosquare.FFME/Common/SubtitleDecodedEventArgs.cs
+/Unosquare.FFME/Common/PositionChangedEventArgs.cs
+/Unosquare.FFME/Common/PacketReadEventArgs.cs
+/Unosquare.FFME/Common/MediaStateChangedEventArgs.cs
+/Unosquare.FFME/Common/MediaOpeningEventArgs.cs
+/Unosquare.FFME/Common/MediaOpenedEventArgs.cs
+/Unosquare.FFME/Common/MediaLogMessageEventArgs.cs
+/Unosquare.FFME/Common/MediaInitializingEventArgs.cs
+/Unosquare.FFME/Common/MediaFailedEventArgs.cs
+/Unosquare.FFME/Common/InputFormatEventArgs.cs
+/Unosquare.FFME/Common/FrameDecodedEventArgs.cs
+/Unosquare.FFME/Common/DataFrameReceivedEventArgs.cs
+/FFWindowsFormsApp

@@ -1,6 +1,5 @@
 ﻿namespace Unosquare.FFME.Container
 {
-    using ClosedCaptions;
     using Common;
     using FFmpeg.AutoGen;
     using System;
@@ -64,37 +63,12 @@
             SmtpeTimeCode = Utilities.ComputeSmtpeTimeCode(DisplayPictureNumber, frameRate);
             IsHardwareFrame = component.IsUsingHardwareDecoding;
             HardwareAcceleratorName = component.HardwareAccelerator?.Name;
-
-            // Process side data such as CC packets
-            for (var i = 0; i < frame->nb_side_data; i++)
-            {
-                var sideData = frame->side_data[i];
-
-                // Get the Closed-Caption packets
-                if (sideData->type != AVFrameSideDataType.AV_FRAME_DATA_A53_CC)
-                    continue;
-
-                // Parse 3 bytes at a time
-                for (var p = 0; p < sideData->size; p += 3)
-                {
-                    var packet = new ClosedCaptionPacket(TimeSpan.FromTicks(StartTime.Ticks + p), sideData->data, p);
-                    if (packet.PacketType == CaptionsPacketType.NullPad || packet.PacketType == CaptionsPacketType.Unrecognized)
-                        continue;
-
-                    // at this point, we have valid CC data
-                    ClosedCaptions.Add(packet);
-                }
-            }
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets the closed caption data collected from the frame in CEA-708/EAS-608 format.
-        /// </summary>
-        public IList<ClosedCaptionPacket> ClosedCaptions { get; } = new List<ClosedCaptionPacket>(128);
 
         /// <summary>
         /// Gets the display picture number (frame number).

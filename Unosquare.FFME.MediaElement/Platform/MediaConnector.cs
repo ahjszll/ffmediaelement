@@ -39,26 +39,6 @@
         public void OnMediaEnded(MediaEngine sender)
         {
             if (Parent == null || sender == null) return;
-
-            Library.GuiContext.EnqueueInvoke(async () =>
-            {
-                Parent.PostMediaEndedEvent();
-                var behavior = Parent.LoopingBehavior;
-
-                if (behavior == MediaPlaybackState.Close)
-                {
-                    await sender.Close();
-                }
-                else if (behavior == MediaPlaybackState.Play)
-                {
-                    await sender.Stop();
-                    await sender.Play();
-                }
-                else if (behavior == MediaPlaybackState.Stop)
-                {
-                    await sender.Stop();
-                }
-            });
         }
 
         /// <inheritdoc />
@@ -69,39 +49,38 @@
         public void OnMediaOpened(MediaEngine sender, MediaInfo mediaInfo)
         {
             if (Parent == null || sender == null) return;
+            Parent.PostMediaOpenedEvent(mediaInfo);
+            //Library.GuiContext.EnqueueInvoke(async () =>
+            //{
+            //    // Set initial controller properties
+            //    // Has to be on the GUI thread as we are reading dependency properties
+            //    // sender.State.Balance = Parent.Balance;
+            //    // sender.State.Volume = Parent.Volume;
+            //    // sender.State.IsMuted = Parent.IsMuted;
+            //    // sender.State.VerticalSyncEnabled = Parent.VerticalSyncEnabled;
+            //    // sender.State.ScrubbingEnabled = Parent.ScrubbingEnabled;
 
-            Library.GuiContext.EnqueueInvoke(async () =>
-            {
-                // Set initial controller properties
-                // Has to be on the GUI thread as we are reading dependency properties
-                sender.State.Balance = Parent.Balance;
-                sender.State.Volume = Parent.Volume;
-                sender.State.IsMuted = Parent.IsMuted;
-                sender.State.VerticalSyncEnabled = Parent.VerticalSyncEnabled;
-                sender.State.ScrubbingEnabled = Parent.ScrubbingEnabled;
+            //    // Notify the end user media has opened successfully
 
-                // Notify the end user media has opened successfully
-                Parent.PostMediaOpenedEvent(mediaInfo);
+            //    //try
+            //    //{
+            //    //    // Start playback if we don't support pausing
+            //    //    if (sender.State.CanPause == false)
+            //    //    {
+            //    //        await sender.Play();
+            //    //        return;
+            //    //    }
 
-                try
-                {
-                    // Start playback if we don't support pausing
-                    if (sender.State.CanPause == false)
-                    {
-                        await sender.Play();
-                        return;
-                    }
-
-                    if (Parent.LoadedBehavior == MediaPlaybackState.Play)
-                        await sender.Play();
-                    else if (Parent.LoadedBehavior == MediaPlaybackState.Pause)
-                        await sender.Pause();
-                }
-                finally
-                {
-                    Parent.PostMediaReadyEvent();
-                }
-            });
+            //    //    if (Parent.LoadedBehavior == MediaPlaybackState.Play)
+            //    //        await sender.Play();
+            //    //    else if (Parent.LoadedBehavior == MediaPlaybackState.Pause)
+            //    //        await sender.Pause();
+            //    //}
+            //    //finally
+            //    //{
+            //    //    Parent.PostMediaReadyEvent();
+            //    //}
+            //});
         }
 
         /// <inheritdoc />
@@ -156,8 +135,5 @@
         public unsafe void OnAudioFrameDecoded(AVFrame* audioFrame, AVFormatContext* context) =>
             Parent?.RaiseAudioFrameDecodedEvent(audioFrame, context);
 
-        /// <inheritdoc />
-        public unsafe void OnSubtitleDecoded(AVSubtitle* subtitle, AVFormatContext* context) =>
-            Parent?.RaiseSubtitleDecodedEvent(subtitle, context);
     }
 }

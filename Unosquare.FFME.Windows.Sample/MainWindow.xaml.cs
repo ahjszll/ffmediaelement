@@ -194,7 +194,6 @@
             FFME.MediaElement.FFmpegMessageLogged += OnMediaFFmpegMessageLogged;
 
             // MediaElement event bindings
-            Media.PreviewMouseDoubleClick += OnMediaDoubleClick;
             Media.MediaInitializing += OnMediaInitializing;
             Media.MediaOpening += OnMediaOpening;
             Media.MediaOpened += OnMediaOpened;

@@ -30,7 +30,6 @@
             // Skip reading and decoding unused blocks
             tempContainer.MediaOptions.IsAudioDisabled = sourceType != MediaType.Audio;
             tempContainer.MediaOptions.IsVideoDisabled = sourceType != MediaType.Video;
-            tempContainer.MediaOptions.IsSubtitleDisabled = sourceType != MediaType.Subtitle;
 
             // Open the container
             tempContainer.Open();

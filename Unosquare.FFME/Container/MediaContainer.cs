@@ -491,7 +491,6 @@ namespace Unosquare.FFME.Container
                     {
                         MediaType.Video => Components.HasVideo && Components.Video.MaterializeFrame(input, ref output, previousBlock),
                         MediaType.Audio => Components.HasAudio && Components.Audio.MaterializeFrame(input, ref output, previousBlock),
-                        MediaType.Subtitle => Components.HasSubtitles && Components.Subtitles.MaterializeFrame(input, ref output, previousBlock),
                         _ => throw new MediaContainerException($"Unable to materialize frame of {nameof(MediaType)} {input.MediaType}"),
                     };
                 }
@@ -868,9 +867,6 @@ namespace Unosquare.FFME.Container
                 case MediaType.Video:
                     isDisabled = MediaOptions.IsVideoDisabled;
                     break;
-                case MediaType.Subtitle:
-                    isDisabled = MediaOptions.IsSubtitleDisabled;
-                    break;
                 default:
                     return MediaType.None;
             }
@@ -888,8 +884,6 @@ namespace Unosquare.FFME.Container
                         Components.AddComponent(new AudioComponent(this, stream.StreamIndex));
                     else if (t == MediaType.Video)
                         Components.AddComponent(new VideoComponent(this, stream.StreamIndex));
-                    else if (t == MediaType.Subtitle)
-                        Components.AddComponent(new SubtitleComponent(this, stream.StreamIndex));
                 }
             }
             catch (Exception ex)
@@ -911,10 +905,9 @@ namespace Unosquare.FFME.Container
             // Apply Media Options by selecting the desired components
             StreamCreateComponent(MediaType.Audio, MediaOptions.AudioStream);
             StreamCreateComponent(MediaType.Video, MediaOptions.VideoStream);
-            StreamCreateComponent(MediaType.Subtitle, MediaOptions.SubtitleStream);
 
             // Verify we have at least 1 stream component to work with.
-            if (Components.HasVideo == false && Components.HasAudio == false && Components.HasSubtitles == false)
+            if (Components.HasVideo == false && Components.HasAudio == false)
                 throw new MediaContainerException($"{MediaSource}: No audio, video, or subtitle streams found to decode.");
 
             // Initially and depending on the video component, require picture attachments.

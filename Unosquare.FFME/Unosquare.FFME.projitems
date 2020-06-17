@@ -12,13 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\DataFrame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Container\DataComponentSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Aspects.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ClosedCaptions\CaptionsChannel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ClosedCaptions\CaptionsColor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ClosedCaptions\CaptionsCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ClosedCaptions\CaptionsPacketType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ClosedCaptions\CaptionsStyle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ClosedCaptions\CaptionsXdsClass.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ClosedCaptions\ClosedCaptionPacket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandManager.Direct.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandManager.Enums.cs" />
@@ -31,10 +24,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)FFmpeg\FFLibrary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\RC.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Library.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Playlists\PlaylistEntry.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Playlists\PlaylistEntryAttributeDictionary.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Playlists\PlaylistEntryCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Playlists\PlaylistExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\StepTimer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\IntervalWorkerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\RealtimeClock.cs" />
@@ -49,8 +38,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Container\PacketBufferState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Container\PacketQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Container\PacketQueueOp.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Container\SubtitleComponent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Container\SubtitleFrame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Container\VideoComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Container\VideoFrame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Container\AudioBlock.cs" />
@@ -68,7 +55,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Platform\IMediaConnector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\IMediaEngineState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\IMediaInputStream.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Platform\IMediaRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Container\MediaBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\MediaContainerException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\MediaEngineState.cs" />
@@ -80,7 +66,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\OptionMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\MediaPlaybackState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\VideoResolutionDivider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Container\SubtitleBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Container\VideoBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\VideoSeekIndex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\VideoSeekIndexEntry.cs" />
@@ -105,7 +90,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\MediaTypeDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\SyncLockerFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\WorkerState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\BlockRenderingWorker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\FrameDecodingWorker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\IMediaWorker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\MediaWorkerSet.cs" />

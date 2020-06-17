@@ -306,13 +306,9 @@
             target.CompressedSize = source.CompressedSize;
             target.CodedPictureNumber = source.CodedPictureNumber;
             target.StreamIndex = source.StreamIndex;
-            target.ClosedCaptions = source.ClosedCaptions.ToList();
             target.PictureType = source.PictureType;
 
-            // Update the stream info object if we get Closed Caption Data
-            if (StreamInfo.HasClosedCaptions == false && target.ClosedCaptions.Count > 0)
-                StreamInfo.HasClosedCaptions = true;
-
+          
             // Process the aspect ratio
             var aspectRatio = ffmpeg.av_guess_sample_aspect_ratio(Container.InputContext, Stream, source.Pointer);
             if (aspectRatio.num == 0 || aspectRatio.den == 0)

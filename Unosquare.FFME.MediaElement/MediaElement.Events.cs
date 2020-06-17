@@ -89,15 +89,6 @@
         public event EventHandler<FrameDecodedEventArgs> VideoFrameDecoded;
 
         /// <summary>
-        /// Raised when a subtitle is decoded from input stream. Useful for capturing streams.
-        /// This event is not raised on the UI thread and the pointers in the event arguments
-        /// are only valid for the call. If you need to keep a queue you will need to clone and
-        /// release the allocated memory yourself by using clone and release methods in the native
-        /// FFmpeg API.
-        /// </summary>
-        public event EventHandler<SubtitleDecodedEventArgs> SubtitleDecoded;
-
-        /// <summary>
         /// Occurs when buffering of packets was started
         /// </summary>
         public event EventHandler BufferingStarted;
@@ -231,15 +222,6 @@
         internal unsafe void RaiseVideoFrameDecodedEvent(AVFrame* frame, AVFormatContext* context) =>
             VideoFrameDecoded?.Invoke(this, new FrameDecodedEventArgs(frame, context));
 
-        /// <summary>
-        /// Raises the subtitle decoded event.
-        /// </summary>
-        /// <param name="subtitle">The subtitle pointer.</param>
-        /// <param name="context">The input context pointer.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal unsafe void RaiseSubtitleDecodedEvent(AVSubtitle* subtitle, AVFormatContext* context) =>
-            SubtitleDecoded?.Invoke(this, new SubtitleDecodedEventArgs(subtitle, context));
-
         #endregion
 
         #region UI Context Event Raisers
@@ -252,11 +234,8 @@
         internal void PostMediaFailedEvent(Exception ex)
         {
             LogEventStart(nameof(MediaFailed));
-            Library.GuiContext.EnqueueInvoke(() =>
-            {
-                MediaFailed?.Invoke(this, new MediaFailedEventArgs(ex));
-                LogEventDone(nameof(MediaFailed));
-            });
+            MediaFailed?.Invoke(this, new MediaFailedEventArgs(ex));
+            LogEventDone(nameof(MediaFailed));
         }
 
         /// <summary>
@@ -267,11 +246,8 @@
         internal void PostMediaOpenedEvent(MediaInfo mediaInfo)
         {
             LogEventStart(nameof(MediaOpened));
-            Library.GuiContext.EnqueueInvoke(() =>
-            {
-                MediaOpened?.Invoke(this, new MediaOpenedEventArgs(mediaInfo));
-                LogEventDone(nameof(MediaOpened));
-            });
+            MediaOpened?.Invoke(this, new MediaOpenedEventArgs(mediaInfo));
+            LogEventDone(nameof(MediaOpened));
         }
 
         /// <summary>
@@ -281,11 +257,8 @@
         internal void PostMediaReadyEvent()
         {
             LogEventStart(nameof(MediaReady));
-            Library.GuiContext.EnqueueInvoke(() =>
-            {
-                MediaReady?.Invoke(this, EventArgs.Empty);
-                LogEventDone(nameof(MediaReady));
-            });
+            MediaReady?.Invoke(this, EventArgs.Empty);
+            LogEventDone(nameof(MediaReady));
         }
 
         /// <summary>
@@ -295,11 +268,8 @@
         internal void PostMediaClosedEvent()
         {
             LogEventStart(nameof(MediaClosed));
-            Library.GuiContext.EnqueueInvoke(() =>
-            {
-                MediaClosed?.Invoke(this, EventArgs.Empty);
-                LogEventDone(nameof(MediaClosed));
-            });
+            MediaClosed?.Invoke(this, EventArgs.Empty);
+            LogEventDone(nameof(MediaClosed));
         }
 
         /// <summary>
@@ -310,11 +280,8 @@
         internal void PostMediaChangedEvent(MediaInfo mediaInfo)
         {
             LogEventStart(nameof(MediaChanged));
-            Library.GuiContext.EnqueueInvoke(() =>
-            {
-                MediaChanged?.Invoke(this, new MediaOpenedEventArgs(mediaInfo));
-                LogEventDone(nameof(MediaChanged));
-            });
+            MediaChanged?.Invoke(this, new MediaOpenedEventArgs(mediaInfo));
+            LogEventDone(nameof(MediaChanged));
         }
 
         /// <summary>
@@ -326,11 +293,9 @@
         internal void PostPositionChangedEvent(TimeSpan oldValue, TimeSpan newValue)
         {
             // Event logging disabled because this happens too often.
-            Library.GuiContext.EnqueueInvoke(() =>
-            {
-                PositionChanged?.Invoke(
-                    this, new PositionChangedEventArgs(MediaCore.State, oldValue, newValue));
-            });
+            PositionChanged?.Invoke(
+                this, new PositionChangedEventArgs(MediaCore.State, oldValue, newValue));
+            
         }
 
         /// <summary>
@@ -342,11 +307,8 @@
         internal void PostMediaStateChangedEvent(MediaPlaybackState oldValue, MediaPlaybackState newValue)
         {
             LogEventStart(nameof(MediaStateChanged));
-            Library.GuiContext.EnqueueInvoke(() =>
-            {
-                MediaStateChanged?.Invoke(this, new MediaStateChangedEventArgs(oldValue, newValue));
-                LogEventDone(nameof(MediaStateChanged));
-            });
+            MediaStateChanged?.Invoke(this, new MediaStateChangedEventArgs(oldValue, newValue));
+            LogEventDone(nameof(MediaStateChanged));
         }
 
         /// <summary>
@@ -356,11 +318,8 @@
         internal void PostBufferingStartedEvent()
         {
             LogEventStart(nameof(BufferingStarted));
-            Library.GuiContext.EnqueueInvoke(() =>
-            {
-                BufferingStarted?.Invoke(this, EventArgs.Empty);
-                LogEventDone(nameof(BufferingStarted));
-            });
+            BufferingStarted?.Invoke(this, EventArgs.Empty);
+            LogEventDone(nameof(BufferingStarted));
         }
 
         /// <summary>
@@ -370,11 +329,8 @@
         internal void PostBufferingEndedEvent()
         {
             LogEventStart(nameof(BufferingEnded));
-            Library.GuiContext.EnqueueInvoke(() =>
-            {
-                BufferingEnded?.Invoke(this, EventArgs.Empty);
-                LogEventDone(nameof(BufferingEnded));
-            });
+            BufferingEnded?.Invoke(this, EventArgs.Empty);
+            LogEventDone(nameof(BufferingEnded));
         }
 
         /// <summary>
@@ -384,11 +340,8 @@
         internal void PostSeekingStartedEvent()
         {
             LogEventStart(nameof(SeekingStarted));
-            Library.GuiContext.EnqueueInvoke(() =>
-            {
-                SeekingStarted?.Invoke(this, EventArgs.Empty);
-                LogEventDone(nameof(SeekingStarted));
-            });
+            SeekingStarted?.Invoke(this, EventArgs.Empty);
+            LogEventDone(nameof(SeekingStarted));
         }
 
         /// <summary>
@@ -398,11 +351,8 @@
         internal void PostSeekingEndedEvent()
         {
             LogEventStart(nameof(SeekingEnded));
-            Library.GuiContext.EnqueueInvoke(() =>
-            {
-                SeekingEnded?.Invoke(this, EventArgs.Empty);
-                LogEventDone(nameof(SeekingEnded));
-            });
+            SeekingEnded?.Invoke(this, EventArgs.Empty);
+            LogEventDone(nameof(SeekingEnded));
         }
 
         /// <summary>
@@ -412,11 +362,8 @@
         internal void PostMediaEndedEvent()
         {
             LogEventStart(nameof(MediaEnded));
-            Library.GuiContext.EnqueueInvoke(() =>
-            {
-                MediaEnded?.Invoke(this, EventArgs.Empty);
-                LogEventDone(nameof(MediaEnded));
-            });
+            MediaEnded?.Invoke(this, EventArgs.Empty);
+            LogEventDone(nameof(MediaEnded));
         }
 
         /// <summary>

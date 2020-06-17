@@ -330,7 +330,6 @@
                 container.Initialize();
                 container.MediaOptions.IsAudioDisabled = true;
                 container.MediaOptions.IsVideoDisabled = false;
-                container.MediaOptions.IsSubtitleDisabled = true;
 
                 if (streamIndex >= 0)
                     container.MediaOptions.VideoStream = container.MediaInfo.Streams[streamIndex];

@@ -354,7 +354,6 @@
                 MediaCore.SendOnMediaOpening();
 
                 // Side-load subtitles if requested
-                PreLoadSubtitles();
 
                 // Get the main container open
                 MediaCore.Container.Open();
@@ -375,7 +374,6 @@
             {
                 try { StopWorkers(); } catch { /* Ignore any exceptions and continue */ }
                 try { MediaCore.Container?.Dispose(); } catch { /* Ignore any exceptions and continue */ }
-                DisposePreloadedSubtitles();
                 MediaCore.Container = null;
                 throw;
             }
@@ -410,8 +408,6 @@
             // selected streams and options
             MediaCore.SendOnMediaChanging();
 
-            // Side load subtitles
-            PreLoadSubtitles();
 
             // Recreate selected streams as media components
             MediaCore.Container.UpdateComponents();
@@ -469,19 +465,11 @@
             // This causes the workers to stop and dispose.
             MediaCore.Workers?.Dispose();
 
-            // Call close on all renderers
-            foreach (var renderer in MediaCore.Renderers.Values)
-                renderer.OnClose();
-
-            // Remove the renderers disposing of them
-            MediaCore.Renderers.Clear();
-
             // Dispose the Blocks for all components
             foreach (var kvp in MediaCore.Blocks)
                 kvp.Value.Dispose();
 
             MediaCore.Blocks.Clear();
-            DisposePreloadedSubtitles();
 
             // Clear the render times
             MediaCore.CurrentRenderStartTime.Clear();
@@ -499,9 +487,6 @@
             if (components != null)
                 result.AddRange(components.MediaTypes);
 
-            if (MediaCore.PreloadedSubtitles != null)
-                result.Add(MediaType.Subtitle);
-
             return result.Distinct().ToArray();
         }
 
@@ -509,7 +494,6 @@
         private MediaType[] GetCurrentRenderingTypes()
         {
             var currentMediaTypes = new List<MediaType>(8);
-            currentMediaTypes.AddRange(MediaCore?.Renderers?.Keys?.ToArray() ?? Array.Empty<MediaType>());
             currentMediaTypes.AddRange(MediaCore?.Blocks?.Keys?.ToArray() ?? Array.Empty<MediaType>());
 
             return currentMediaTypes.Distinct().ToArray();
@@ -520,13 +504,6 @@
         {
             var oldMediaTypes = GetCurrentRenderingTypes();
 
-            // We always remove the audio renderer in case there is a change in audio device.
-            if (MediaCore.Renderers.ContainsKey(MediaType.Audio))
-            {
-                MediaCore.Renderers[MediaType.Audio].OnClose();
-                MediaCore.Renderers.Remove(MediaType.Audio);
-            }
-
             // capture the newly selected media types
             var newMediaTypes = GetCurrentComponentTypes();
 
@@ -535,17 +512,6 @@
 
             // find all existing component blocks and renderers that are no longer needed
             var removableRenderers = oldMediaTypes.Where(t => !newMediaTypes.Contains(t)).Distinct().ToArray();
-
-            // find all existing component renderers that are no longer needed
-            foreach (var t in removableRenderers)
-            {
-                // Remove the renderer for the component
-                if (!MediaCore.Renderers.ContainsKey(t))
-                    continue;
-
-                MediaCore.Renderers[t].OnClose();
-                MediaCore.Renderers.Remove(t);
-            }
 
             // Remove blocks that no longer are required or don't match in cache size
             foreach (var t in allMediaTypes)
@@ -569,62 +535,11 @@
                 if (MediaCore.Blocks.ContainsKey(t) == false)
                     MediaCore.Blocks[t] = new MediaBlockBuffer(Constants.GetMaxBlocks(t, MediaCore), t);
 
-                if (MediaCore.Renderers.ContainsKey(t) == false)
-                    MediaCore.Renderers[t] = MediaCore.Connector.CreateRenderer(t, MediaCore);
-
                 MediaCore.Blocks[t].Clear();
-                MediaCore.Renderers[t].OnStarting();
                 MediaCore.InvalidateRenderer(t);
             }
         }
 
-        /// <summary>
-        /// Pre-loads the subtitles from the MediaOptions.SubtitlesUrl.
-        /// </summary>
-        private void PreLoadSubtitles()
-        {
-            DisposePreloadedSubtitles();
-            var subtitlesUrl = MediaCore.MediaOptions.SubtitlesSource;
-
-            // Don't load a thing if we don't have to
-            if (string.IsNullOrWhiteSpace(subtitlesUrl))
-                return;
-
-            try
-            {
-                MediaCore.PreloadedSubtitles = Utilities.LoadBlocks(subtitlesUrl, MediaType.Subtitle, MediaCore);
-
-                // Process and adjust subtitle delays if necessary
-                if (MediaCore.MediaOptions.SubtitlesDelay != TimeSpan.Zero)
-                {
-                    var delay = MediaCore.MediaOptions.SubtitlesDelay;
-                    for (var i = 0; i < MediaCore.PreloadedSubtitles.Count; i++)
-                    {
-                        var target = MediaCore.PreloadedSubtitles[i];
-                        target.StartTime = TimeSpan.FromTicks(target.StartTime.Ticks + delay.Ticks);
-                        target.EndTime = TimeSpan.FromTicks(target.EndTime.Ticks + delay.Ticks);
-                        target.Duration = TimeSpan.FromTicks(target.EndTime.Ticks - target.StartTime.Ticks);
-                    }
-                }
-
-                MediaCore.MediaOptions.IsSubtitleDisabled = true;
-            }
-            catch (MediaContainerException mex)
-            {
-                DisposePreloadedSubtitles();
-                this.LogWarning(Aspects.Component,
-                    $"No subtitles to side-load found in media '{subtitlesUrl}'. {mex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Disposes the preloaded subtitles.
-        /// </summary>
-        private void DisposePreloadedSubtitles()
-        {
-            MediaCore.PreloadedSubtitles?.Dispose();
-            MediaCore.PreloadedSubtitles = null;
-        }
 
         #endregion
     }

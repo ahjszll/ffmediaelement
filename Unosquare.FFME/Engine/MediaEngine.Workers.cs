@@ -30,19 +30,10 @@
         internal MediaTypeDictionary<MediaBlockBuffer> Blocks { get; } = new MediaTypeDictionary<MediaBlockBuffer>();
 
         /// <summary>
-        /// Gets the preloaded subtitle blocks.
-        /// </summary>
-        internal MediaBlockBuffer PreloadedSubtitles { get; set; }
-
-        /// <summary>
         /// Gets the worker collection.
         /// </summary>
         internal MediaWorkerSet Workers { get; set; }
 
-        /// <summary>
-        /// Holds the block renderers.
-        /// </summary>
-        internal MediaTypeDictionary<IMediaRenderer> Renderers { get; } = new MediaTypeDictionary<IMediaRenderer>();
 
         /// <summary>
         /// Holds the last rendered StartTime for each of the media block types.
@@ -226,7 +217,6 @@
             // This forces the rendering worker to send the
             // corresponding block to its renderer
             CurrentRenderStartTime[t] = TimeSpan.MinValue;
-            Renderers[t]?.OnSeek();
         }
 
         /// <summary>
@@ -236,9 +226,9 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void InvalidateRenderers()
         {
-            var mediaTypes = Renderers.Keys.ToArray();
-            foreach (var t in mediaTypes)
-                InvalidateRenderer(t);
+           // var mediaTypes = Renderers.Keys.ToArray();
+            //foreach (var t in mediaTypes)
+            //    InvalidateRenderer(t);
         }
 
         #endregion

@@ -173,10 +173,6 @@
                         Offsets[MediaType.Video] = Offsets[MediaType.Audio];
                     }
 
-                    // Subtitles will always be whatever the video data is.
-                    Clocks[MediaType.Subtitle] = Clocks[MediaType.Video];
-                    Offsets[MediaType.Subtitle] = Offsets[MediaType.Video];
-
                     // Update from previous clocks to keep state
                     foreach (var clock in lastClocks)
                     {

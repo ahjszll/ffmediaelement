@@ -29,7 +29,6 @@
         private MediaComponent m_Seekable;
         private AudioComponent m_Audio;
         private VideoComponent m_Video;
-        private SubtitleComponent m_Subtitle;
         private PacketBufferState BufferState;
 
         #endregion
@@ -56,10 +55,6 @@
         /// </summary>
         public OnFrameDecodedDelegate OnFrameDecoded { get; set; }
 
-        /// <summary>
-        /// Gets or sets a method that gets called when a subtitle frame gets decoded.
-        /// </summary>
-        public OnSubtitleDecodedDelegate OnSubtitleDecoded { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is disposed.
@@ -126,15 +121,6 @@
         }
 
         /// <summary>
-        /// Gets the subtitles component.
-        /// Returns null when there is no such stream component.
-        /// </summary>
-        public SubtitleComponent Subtitles
-        {
-            get { lock (ComponentSyncLock) return m_Subtitle; }
-        }
-
-        /// <summary>
         /// Gets a value indicating whether this instance has a video component.
         /// </summary>
         public bool HasVideo
@@ -150,13 +136,7 @@
             get { lock (ComponentSyncLock) return m_Audio != null; }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether this instance has a subtitles component.
-        /// </summary>
-        public bool HasSubtitles
-        {
-            get { lock (ComponentSyncLock) return m_Subtitle != null; }
-        }
+
 
         /// <summary>
         /// Gets the current length in bytes of the packet buffer for all components.
@@ -221,7 +201,6 @@
                     {
                         MediaType.Audio => m_Audio,
                         MediaType.Video => m_Video,
-                        MediaType.Subtitle => m_Subtitle,
                         _ => null,
                     };
                 }
@@ -360,12 +339,6 @@
 
                         m_Video = component as VideoComponent;
                         break;
-                    case MediaType.Subtitle:
-                        if (m_Subtitle != null)
-                            throw new ArgumentException(errorMessage);
-
-                        m_Subtitle = component as SubtitleComponent;
-                        break;
                     default:
                         throw new NotSupportedException($"Unable to register component with {nameof(MediaType)} '{component.MediaType}'");
                 }
@@ -395,11 +368,7 @@
                     component = m_Video;
                     m_Video = null;
                 }
-                else if (mediaType == MediaType.Subtitle)
-                {
-                    component = m_Subtitle;
-                    m_Subtitle = null;
-                }
+               
 
                 component?.Dispose();
                 UpdateComponentBackingFields();
@@ -429,12 +398,6 @@
                 allMediaTypes.Add(MediaType.Audio);
             }
 
-            if (m_Subtitle != null)
-            {
-                allComponents.Add(m_Subtitle);
-                allMediaTypes.Add(MediaType.Subtitle);
-            }
-
             m_All = allComponents;
             m_MediaTypes = allMediaTypes;
             m_Count = allComponents.Count;
@@ -460,14 +423,6 @@
             {
                 m_Seekable = m_Video;
                 m_SeekableMediaType = MediaType.Video;
-                return;
-            }
-
-            // As a last resort, set the main component to be the subtitles
-            if (m_Subtitle != null)
-            {
-                m_Seekable = m_Subtitle;
-                m_SeekableMediaType = MediaType.Subtitle;
                 return;
             }
 

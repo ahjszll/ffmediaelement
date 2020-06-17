@@ -158,6 +158,7 @@
                     // Ensure ref counted frames for audio and video decoding
                     if (CodecContext->codec_type == AVMediaType.AVMEDIA_TYPE_VIDEO || CodecContext->codec_type == AVMediaType.AVMEDIA_TYPE_AUDIO)
                         decoderOptions.RefCountedFrames = "1";
+                    CodecContext->thread_count = 4;
                 }
 
                 // Setup additional settings. The most important one is Threads -- Setting it to 1 decoding is very slow. Setting it to auto
@@ -214,11 +215,6 @@
                     BufferCountThreshold = 25;
                     BufferDurationThreshold = TimeSpan.FromSeconds(1);
                     DecodePacketFunction = DecodeNextAVFrame;
-                    break;
-                case MediaType.Subtitle:
-                    BufferCountThreshold = 0;
-                    BufferDurationThreshold = TimeSpan.Zero;
-                    DecodePacketFunction = DecodeNextAVSubtitle;
                     break;
                 default:
                     throw new NotSupportedException($"A component of MediaType '{MediaType}' is not supported");
@@ -621,9 +617,7 @@
             MediaFrame managedFrame = null;
             var outputFrame = MediaFrame.CreateAVFrame();
             receiveFrameResult = ffmpeg.avcodec_receive_frame(CodecContext, outputFrame);
-
-            if (receiveFrameResult >= 0)
-                managedFrame = CreateFrameSource(new IntPtr(outputFrame));
+            managedFrame = CreateFrameSource(new IntPtr(outputFrame));
 
             if (managedFrame == null)
                 MediaFrame.ReleaseAVFrame(outputFrame);
@@ -661,61 +655,16 @@
             if (frame == null || Container.Components.OnFrameDecoded == null)
                 return frame;
 
+            unsafe 
+            {
+                frame.Dispose();
+            }
             if (MediaType == MediaType.Audio && frame is AudioFrame audioFrame)
                 Container.Components.OnFrameDecoded?.Invoke((IntPtr)audioFrame.Pointer, MediaType);
             else if (MediaType == MediaType.Video && frame is VideoFrame videoFrame)
                 Container.Components.OnFrameDecoded?.Invoke((IntPtr)videoFrame.Pointer, MediaType);
 
             return frame;
-        }
-
-        /// <summary>
-        /// Decodes the next subtitle frame.
-        /// </summary>
-        /// <returns>The managed frame.</returns>
-        private MediaFrame DecodeNextAVSubtitle()
-        {
-            // For subtitles we use the old API (new API send_packet/receive_frame) is not yet available
-            // We first try to flush anything we've already sent by using an empty packet.
-            MediaFrame managedFrame = null;
-            var packet = MediaPacket.CreateEmptyPacket(Stream->index);
-            var gotFrame = 0;
-            var outputFrame = MediaFrame.CreateAVSubtitle();
-            var receiveFrameResult = ffmpeg.avcodec_decode_subtitle2(CodecContext, outputFrame, &gotFrame, packet.Pointer);
-
-            // If we don't get a frame from flushing. Feed the packet into the decoder and try getting a frame.
-            if (gotFrame == 0)
-            {
-                packet.Dispose();
-
-                // Dequeue the packet and try to decode with it.
-                packet = Packets.Dequeue();
-
-                if (packet != null)
-                {
-                    Container.Components.ProcessPacketQueueChanges(PacketQueueOp.Dequeued, packet, MediaType);
-                    receiveFrameResult = ffmpeg.avcodec_decode_subtitle2(CodecContext, outputFrame, &gotFrame, packet.Pointer);
-                }
-            }
-
-            // If we got a frame, turn into a managed frame
-            if (gotFrame != 0)
-            {
-                Container.Components.OnSubtitleDecoded?.Invoke((IntPtr)outputFrame);
-                managedFrame = CreateFrameSource((IntPtr)outputFrame);
-            }
-
-            // Free the packet if we have dequeued it
-            packet?.Dispose();
-
-            // deallocate the subtitle frame if we did not associate it with a managed frame.
-            if (managedFrame == null)
-                MediaFrame.ReleaseAVSubtitle(outputFrame);
-
-            if (receiveFrameResult < 0)
-                HasPacketsInCodec = false;
-
-            return managedFrame;
         }
 
         #endregion

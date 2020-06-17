@@ -13,7 +13,6 @@
     <AssemblyName>ffme.win</AssemblyName>
     <Product>FFME: The Adavanced WPF MediaElement Alternative</Product>
     <Company>Unosquare SA de CV</Company>
-    <CodeAnalysisRuleSet>..\Analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <NeutralLanguage>en</NeutralLanguage>
 
@@ -42,13 +41,26 @@
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/unosquare/ffmediaelement</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.1|AnyCPU'">
+    <WarningLevel>0</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
+    <WarningLevel>2</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="$(SolutionDir)\Support\readme.txt" Pack="true" PackagePath="" />
     <None Include="$(SolutionDir)\LICENSE" Pack="true" PackagePath="" />
     <None Include="$(SolutionDir)\Support\ffme.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FFmpeg.AutoGen\FFmpeg.AutoGen.csproj" />
   </ItemGroup>
   
   <ItemGroup>
@@ -64,17 +76,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="FFmpeg.AutoGen" Version="4.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.2">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0' AND '$(TargetFramework)' != 'netcoreapp3.1'">

@@ -72,11 +72,7 @@
         /// <returns>True if the command was successful.</returns>
         private bool CommandPlayMedia()
         {
-            foreach (var renderer in MediaCore.Renderers.Values)
-                renderer.OnPlay();
-
             State.MediaState = MediaPlaybackState.Play;
-
             return true;
         }
 
@@ -90,9 +86,6 @@
                 return false;
 
             MediaCore.PausePlayback();
-
-            foreach (var renderer in MediaCore.Renderers.Values)
-                renderer.OnPause();
 
             MediaCore.ChangePlaybackPosition(SnapPositionToBlockPosition(MediaCore.PlaybackPosition));
             State.MediaState = MediaPlaybackState.Pause;
@@ -111,9 +104,6 @@
             MediaCore.ResetPlaybackPosition();
 
             SeekMedia(new SeekOperation(TimeSpan.MinValue, SeekMode.Stop), CancellationToken.None);
-
-            foreach (var renderer in MediaCore.Renderers.Values)
-                renderer.OnStop();
 
             State.MediaState = MediaPlaybackState.Stop;
             return true;

@@ -50,10 +50,11 @@
         {
             get
             {
-                if (PlaybackEndTime.HasValue == false || IsSeekable == false) return default;
-                return PlaybackEndTime.Value.Ticks <= Position.Ticks
-                    ? TimeSpan.Zero
-                    : TimeSpan.FromTicks(PlaybackEndTime.Value.Ticks - Position.Ticks);
+                //if (PlaybackEndTime.HasValue == false || IsSeekable == false) return default;
+                //return PlaybackEndTime.Value.Ticks <= Position.Ticks
+                //    ? TimeSpan.Zero
+                //    : TimeSpan.FromTicks(PlaybackEndTime.Value.Ticks - Position.Ticks);
+                return null;
             }
         }
 
@@ -139,11 +140,6 @@
         /// </summary>
         public bool HasVideo => MediaCore?.State.HasVideo ?? default;
 
-        /// <summary>
-        /// Returns whether the given media has subtitles. Only valid after the
-        /// MediaOpened event has fired.
-        /// </summary>
-        public bool HasSubtitles => MediaCore?.State.HasSubtitles ?? false;
 
         /// <summary>
         /// Gets the video codec.
@@ -333,9 +329,5 @@
         /// </summary>
         public bool IsOpen => MediaCore?.State.IsOpen ?? default;
 
-        /// <summary>
-        /// Gets a value indicating whether the video stream contains closed captions.
-        /// </summary>
-        public bool HasClosedCaptions => MediaCore?.State.HasClosedCaptions ?? default;
     }
 }

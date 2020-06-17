@@ -112,19 +112,10 @@
         bool HasMediaEnded { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the media has subtitles.
-        /// </summary>
-        bool HasSubtitles { get; }
-
-        /// <summary>
         /// Gets a value indicating whether the media has video.
         /// </summary>
         bool HasVideo { get; }
 
-        /// <summary>
-        /// Gets a value indicating whether the current video stream has closed captions.
-        /// </summary>
-        bool HasClosedCaptions { get; }
 
         /// <summary>
         /// Gets a value indicating whether the media container is at end of the stream.

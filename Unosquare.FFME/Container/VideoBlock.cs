@@ -1,9 +1,7 @@
 ﻿namespace Unosquare.FFME.Container
 {
-    using ClosedCaptions;
     using Common;
     using FFmpeg.AutoGen;
-    using System.Collections.Generic;
 
     /// <inheritdoc />
     /// <summary>
@@ -76,10 +74,6 @@
         /// </summary>
         public AVPictureType PictureType { get; internal set; }
 
-        /// <summary>
-        /// Gets the closed caption packets for this video block.
-        /// </summary>
-        public IReadOnlyList<ClosedCaptionPacket> ClosedCaptions { get; internal set; }
 
         /// <summary>
         /// Gets the picture buffer stride.

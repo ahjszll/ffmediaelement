@@ -11,13 +11,6 @@
     /// </summary>
     internal interface IMediaConnector
     {
-        /// <summary>
-        /// Creates a renderer of the specified media type.
-        /// </summary>
-        /// <param name="mediaType">Type of the media.</param>
-        /// <param name="mediaCore">The media engine.</param>
-        /// <returns>The renderer.</returns>
-        IMediaRenderer CreateRenderer(MediaType mediaType, MediaEngine mediaCore);
 
         /// <summary>
         /// Called when a message is logged.
@@ -152,11 +145,6 @@
         /// <param name="context">The unmanaged input format context.</param>
         unsafe void OnAudioFrameDecoded(AVFrame* audioFrame, AVFormatContext* context);
 
-        /// <summary>
-        /// Called when a subtitle is decoded.
-        /// </summary>
-        /// <param name="subtitle">The unmanaged subtitle pointer.</param>
-        /// <param name="context">The unmanaged input format context.</param>
-        unsafe void OnSubtitleDecoded(AVSubtitle* subtitle, AVFormatContext* context);
+
     }
 }

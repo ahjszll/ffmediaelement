@@ -7,6 +7,7 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
+    using Unosquare.FFME.Platform;
 
     public partial class MediaElement : ILoggingHandler, ILoggingSource, INotifyPropertyChanged
     {
@@ -148,4 +149,37 @@
         void ILoggingHandler.HandleLogMessage(LoggingMessage message) =>
             RaiseMessageLoggedEvent(message);
     }
+
+
+    [DefaultProperty(nameof(Source))]
+    public sealed partial class MediaElement : IDisposable
+    {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MediaElement" /> class.
+        /// </summary>
+        public MediaElement()
+        {
+            try
+            {
+                MediaCore = new MediaEngine(this, new MediaConnector(this));
+            }
+            finally
+            {
+            }
+        }
+
+        public void Dispose() => Dispose(true);
+
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="alsoManaged"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        private void Dispose(bool alsoManaged)
+        {
+            MediaCore.Dispose();
+        }
+    }
+
 }
