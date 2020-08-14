@@ -7,7 +7,7 @@
     /// Idea taken from Memory model and .NET operations in article:
     /// http://igoro.com/archive/volatile-keyword-in-c-memory-model-explained/.
     /// </summary>
-    internal sealed class AtomicDouble : AtomicTypeBase<double>
+    public sealed class AtomicDouble : AtomicTypeBase<double>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomicDouble"/> class.

@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides constants for logging aspect identifiers.
     /// </summary>
-    internal static class Aspects
+    public static class Aspects
     {
         public static string None => "Log.Text";
 

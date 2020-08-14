@@ -11,7 +11,7 @@
     /// Implement packet reading worker logic.
     /// </summary>
     /// <seealso cref="IMediaWorker" />
-    internal sealed class PacketReadingWorker : IntervalWorkerBase, IMediaWorker, ILoggingSource
+    public sealed class PacketReadingWorker : IntervalWorkerBase, IMediaWorker, ILoggingSource
     {
         public PacketReadingWorker(MediaEngine mediaCore)
             : base(nameof(PacketReadingWorker))
@@ -19,31 +19,15 @@
             MediaCore = mediaCore;
             Container = mediaCore.Container;
 
-            // Enable data frame processing as a connector callback (i.e. hanlde non-media frames)
             Container.Data.OnDataPacketReceived = (dataPacket, stream) =>
             {
                 try
                 {
                     var dataFrame = new DataFrame(dataPacket, stream, MediaCore);
-                    MediaCore.Connector?.OnDataFrameReceived(dataFrame, stream);
                 }
                 catch
                 {
                     // ignore
-                }
-            };
-
-            // Packet Buffer Notification Callbacks
-            Container.Components.OnPacketQueueChanged = (op, packet, mediaType, state) =>
-            {
-                MediaCore.State.UpdateBufferingStats(state.Length, state.Count, state.CountThreshold, state.Duration);
-
-                if (op != PacketQueueOp.Queued)
-                    return;
-
-                unsafe
-                {
-                    MediaCore.Connector?.OnPacketRead(packet.Pointer, Container.InputContext);
                 }
             };
         }

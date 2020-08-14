@@ -19,8 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support", "Support", "{8BF2
 		toc.yml = toc.yml
 	EndProjectSection
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Unosquare.FFME.MediaElement", "Unosquare.FFME.MediaElement\Unosquare.FFME.MediaElement.shproj", "{4F84C6A1-BA3A-4A1E-84EE-7A7AA214F317}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Unosquare.FFME", "Unosquare.FFME\Unosquare.FFME.shproj", "{B14A1CD8-E4E8-44E1-805A-66D0FAFC6263}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFWindowsFormsApp", "FFWindowsFormsApp\FFWindowsFormsApp.csproj", "{81AB2104-8FBE-4D2D-B7C0-31A1EAEA39E0}"
@@ -29,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFmpeg.AutoGen", "FFmpeg.Au
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Unosquare.FFME.MediaElement\Unosquare.FFME.MediaElement.projitems*{4f84c6a1-ba3a-4a1e-84ee-7a7aa214f317}*SharedItemsImports = 13
-		Unosquare.FFME.MediaElement\Unosquare.FFME.MediaElement.projitems*{81ab2104-8fbe-4d2d-b7c0-31a1eaea39e0}*SharedItemsImports = 5
 		Unosquare.FFME\Unosquare.FFME.projitems*{81ab2104-8fbe-4d2d-b7c0-31a1eaea39e0}*SharedItemsImports = 5
 		Unosquare.FFME\Unosquare.FFME.projitems*{b14a1cd8-e4e8-44e1-805a-66d0fafc6263}*SharedItemsImports = 13
 	EndGlobalSection

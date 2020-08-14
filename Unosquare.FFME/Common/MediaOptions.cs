@@ -14,7 +14,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaOptions"/> class.
         /// </summary>
-        internal MediaOptions()
+        public MediaOptions()
         {
             // placeholder
         }

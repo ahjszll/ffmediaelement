@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents an atomic TimeSpan type.
     /// </summary>
-    internal sealed class AtomicTimeSpan : AtomicTypeBase<TimeSpan>
+    public sealed class AtomicTimeSpan : AtomicTypeBase<TimeSpan>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomicTimeSpan" /> class.

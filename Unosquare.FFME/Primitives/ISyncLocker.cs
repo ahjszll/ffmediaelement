@@ -5,7 +5,7 @@
     /// <summary>
     /// Defines a generic interface for synchronized locking mechanisms.
     /// </summary>
-    internal interface ISyncLocker : IDisposable
+    public interface ISyncLocker : IDisposable
     {
         /// <summary>
         /// Gets a value indicating whether this instance is disposed.

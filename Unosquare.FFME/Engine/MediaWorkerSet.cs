@@ -9,7 +9,7 @@
     /// Provides a easy accessors to the Read, Decode and Render workers.
     /// </summary>
     /// <seealso cref="IDisposable" />
-    internal sealed class MediaWorkerSet : IDisposable
+    public sealed class MediaWorkerSet : IDisposable
     {
         private readonly object SyncLock = new object();
         private readonly IMediaWorker[] Workers = new IMediaWorker[2];

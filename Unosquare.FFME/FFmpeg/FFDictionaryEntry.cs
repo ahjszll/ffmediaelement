@@ -6,7 +6,7 @@
     /// <summary>
     /// An AVDictionaryEntry wrapper.
     /// </summary>
-    internal unsafe class FFDictionaryEntry
+    public unsafe class FFDictionaryEntry
     {
         // This pointer is generated in unmanaged code.
         private readonly IntPtr m_Pointer;

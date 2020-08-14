@@ -10,7 +10,7 @@
     /// Represents a managed packet wrapper for the <see cref="AVPacket"/> struct.
     /// </summary>
     /// <seealso cref="IDisposable" />
-    internal sealed unsafe class MediaPacket : IDisposable
+    public sealed unsafe class MediaPacket : IDisposable
     {
         /// <summary>
         /// The flush packet data pointer.
@@ -61,7 +61,7 @@
 
         /// <summary>
         /// Gets a value indicating whether the specified packet is a flush packet.
-        /// These flush packets are used to clear the internal decoder buffers.
+        /// These flush packets are used to clear the public decoder buffers.
         /// </summary>
         public bool IsFlushPacket => !m_IsDisposed.Value && (IntPtr)((AVPacket*)m_Pointer)->data == FlushPacketData;
 

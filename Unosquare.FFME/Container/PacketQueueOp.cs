@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the multiple packet queue operations.
     /// </summary>
-    internal enum PacketQueueOp
+    public enum PacketQueueOp
     {
         /// <summary>
         /// The packet queue was cleared.

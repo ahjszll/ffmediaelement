@@ -10,7 +10,7 @@
     /// </summary>
     /// <typeparam name="TValue">The type of the value.</typeparam>
     [Serializable]
-    internal sealed class MediaTypeDictionary<TValue>
+    public sealed class MediaTypeDictionary<TValue>
         : Dictionary<MediaType, TValue>
     {
         /// <summary>
@@ -37,7 +37,7 @@
         public new TValue this[MediaType key]
         {
             get => ContainsKey(key) == false ? default : base[key];
-            internal set => base[key] = value;
+            set => base[key] = value;
         }
     }
 }

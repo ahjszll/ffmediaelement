@@ -7,7 +7,7 @@
     /// Defines a standard API to control background application workers.
     /// </summary>
     /// <seealso cref="IDisposable" />
-    internal interface IWorker : IDisposable
+    public interface IWorker : IDisposable
     {
         /// <summary>
         /// Gets the current state of the worker.

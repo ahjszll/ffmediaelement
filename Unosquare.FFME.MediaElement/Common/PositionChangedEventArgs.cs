@@ -14,7 +14,7 @@
         /// <param name="engineState">State of the engine.</param>
         /// <param name="oldPosition">The old position.</param>
         /// <param name="newPosition">The new position.</param>
-        internal PositionChangedEventArgs(IMediaEngineState engineState, TimeSpan oldPosition, TimeSpan newPosition)
+        public PositionChangedEventArgs(IMediaEngineState engineState, TimeSpan oldPosition, TimeSpan newPosition)
         {
             Position = newPosition;
             OldPosition = oldPosition;

@@ -813,7 +813,7 @@ namespace FFmpeg.AutoGen
         @AV_FRAME_DATA_CONTENT_LIGHT_LEVEL = 14,
         /// <summary>The data contains an ICC profile as an opaque octet buffer following the format described by ISO 15076-1 with an optional name defined in the metadata key entry &quot;name&quot;.</summary>
         @AV_FRAME_DATA_ICC_PROFILE = 15,
-        /// <summary>Implementation-specific description of the format of AV_FRAME_QP_TABLE_DATA. The contents of this side data are undocumented and internal; use av_frame_set_qp_table() and av_frame_get_qp_table() to access this in a meaningful way instead.</summary>
+        /// <summary>Implementation-specific description of the format of AV_FRAME_QP_TABLE_DATA. The contents of this side data are undocumented and public; use av_frame_set_qp_table() and av_frame_get_qp_table() to access this in a meaningful way instead.</summary>
         @AV_FRAME_DATA_QP_TABLE_PROPERTIES = 16,
         /// <summary>Raw QP table data. Its format is described by AV_FRAME_DATA_QP_TABLE_PROPERTIES. Use av_frame_set_qp_table() and av_frame_get_qp_table() to access this instead.</summary>
         @AV_FRAME_DATA_QP_TABLE_DATA = 17,

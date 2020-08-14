@@ -29,10 +29,6 @@
         /// </summary>
         int AudioStreamIndex { get; }
 
-        /// <summary>
-        /// Gets the index of the subtitle stream.
-        /// </summary>
-        int SubtitleStreamIndex { get; }
 
         /// <summary>
         /// Gets the audio bit rate.

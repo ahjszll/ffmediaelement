@@ -11,7 +11,7 @@
         /// Initializes a new instance of the <see cref="HardwareDeviceInfo"/> class.
         /// </summary>
         /// <param name="config">The source configuration.</param>
-        internal HardwareDeviceInfo(AVCodecHWConfig* config)
+        public HardwareDeviceInfo(AVCodecHWConfig* config)
         {
             DeviceType = config->device_type;
             PixelFormat = config->pix_fmt;

@@ -14,13 +14,13 @@
         /// Initializes a new instance of the <see cref="MediaOpenedEventArgs" /> class.
         /// </summary>
         /// <param name="info">The input information.</param>
-        internal MediaOpenedEventArgs(MediaInfo info)
+        public MediaOpenedEventArgs(MediaInfo info)
         {
             Info = info;
         }
 
         /// <summary>
-        /// Provides internal details of the media, including its component streams.
+        /// Provides public details of the media, including its component streams.
         /// Typically, options are set based on what this information contains.
         /// </summary>
         public MediaInfo Info { get; }

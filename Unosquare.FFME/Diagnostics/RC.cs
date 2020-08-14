@@ -10,7 +10,7 @@
     /// <summary>
     /// A reference counter to keep track of unmanaged objects.
     /// </summary>
-    internal unsafe class RC
+    public unsafe class RC
     {
         /// <summary>
         /// The synchronization lock.
@@ -138,7 +138,7 @@
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string filePath = null,
             [CallerLineNumber] int lineNumber = 0) =>
-            AddInternal(UnmanagedType.Packet, (IntPtr)pointer, memberName, filePath, lineNumber);
+            Addpublic(UnmanagedType.Packet, (IntPtr)pointer, memberName, filePath, lineNumber);
 
         /// <summary>
         /// Adds the specified pointer.
@@ -151,7 +151,7 @@
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string filePath = null,
             [CallerLineNumber] int lineNumber = 0) =>
-            AddInternal(UnmanagedType.SwrContext, (IntPtr)pointer, memberName, filePath, lineNumber);
+            Addpublic(UnmanagedType.SwrContext, (IntPtr)pointer, memberName, filePath, lineNumber);
 
         /// <summary>
         /// Adds the specified pointer.
@@ -164,7 +164,7 @@
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string filePath = null,
             [CallerLineNumber] int lineNumber = 0) =>
-            AddInternal(UnmanagedType.SwsContext, (IntPtr)pointer, memberName, filePath, lineNumber);
+            Addpublic(UnmanagedType.SwsContext, (IntPtr)pointer, memberName, filePath, lineNumber);
 
         /// <summary>
         /// Adds the specified pointer.
@@ -177,7 +177,7 @@
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string filePath = null,
             [CallerLineNumber] int lineNumber = 0) =>
-            AddInternal(UnmanagedType.CodecContext, (IntPtr)pointer, memberName, filePath, lineNumber);
+            Addpublic(UnmanagedType.CodecContext, (IntPtr)pointer, memberName, filePath, lineNumber);
 
         /// <summary>
         /// Adds the specified pointer.
@@ -190,7 +190,7 @@
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string filePath = null,
             [CallerLineNumber] int lineNumber = 0) =>
-            AddInternal(UnmanagedType.Frame, (IntPtr)pointer, memberName, filePath, lineNumber);
+            Addpublic(UnmanagedType.Frame, (IntPtr)pointer, memberName, filePath, lineNumber);
 
         /// <summary>
         /// Adds the specified pointer.
@@ -203,7 +203,7 @@
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string filePath = null,
             [CallerLineNumber] int lineNumber = 0) =>
-            AddInternal(UnmanagedType.FilterGraph, (IntPtr)pointer, memberName, filePath, lineNumber);
+            Addpublic(UnmanagedType.FilterGraph, (IntPtr)pointer, memberName, filePath, lineNumber);
 
         /// <summary>
         /// Adds the specified unmanaged object reference.
@@ -213,7 +213,7 @@
         /// <param name="memberName">Name of the member.</param>
         /// <param name="filePath">The file path.</param>
         /// <param name="lineNumber">The line number.</param>
-        private void AddInternal(UnmanagedType unmanagedType, IntPtr pointer, string memberName, string filePath, int lineNumber)
+        private void Addpublic(UnmanagedType unmanagedType, IntPtr pointer, string memberName, string filePath, int lineNumber)
         {
             if (!Debugger.IsAttached) return;
 

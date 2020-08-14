@@ -6,12 +6,12 @@
     /// A scaled, pre-allocated audio frame container.
     /// The buffer is in 16-bit signed, interleaved sample data.
     /// </summary>
-    internal sealed class AudioBlock : MediaBlock
+    public sealed class AudioBlock : MediaBlock
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AudioBlock"/> class.
         /// </summary>
-        internal AudioBlock()
+        public AudioBlock()
             : base(MediaType.Audio)
         {
             // placeholder
@@ -22,17 +22,17 @@
         /// <summary>
         /// Gets the sample rate.
         /// </summary>
-        public int SampleRate { get; internal set; }
+        public int SampleRate { get;  set; }
 
         /// <summary>
         /// Gets the channel count.
         /// </summary>
-        public int ChannelCount { get; internal set; }
+        public int ChannelCount { get;  set; }
 
         /// <summary>
         /// Gets the available samples per channel.
         /// </summary>
-        public int SamplesPerChannel { get; internal set; }
+        public int SamplesPerChannel { get;  set; }
 
         /// <summary>
         /// Gets the length of the samples buffer. This might differ from the <see cref="MediaBlock.BufferLength"/>
@@ -41,7 +41,7 @@
         /// <value>
         /// The length of the samples buffer.
         /// </value>
-        public int SamplesBufferLength { get; internal set; }
+        public int SamplesBufferLength { get;  set; }
 
         #endregion
 

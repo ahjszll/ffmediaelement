@@ -8,7 +8,7 @@
     /// Defines FFmpeg library metadata and access.
     /// It allows for the loading of individual libraries.
     /// </summary>
-    internal class FFLibrary
+    public class FFLibrary
     {
         #region Private Members
 

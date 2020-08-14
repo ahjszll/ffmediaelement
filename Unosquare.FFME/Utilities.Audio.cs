@@ -37,7 +37,7 @@
         /// <param name="offset">The offset.</param>
         /// <param name="value">The value.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void PutAudioSample(this byte[] buffer, int offset, short value)
+        public static void PutAudioSample(this byte[] buffer, int offset, short value)
         {
             if (BitConverter.IsLittleEndian)
             {
@@ -57,7 +57,7 @@
         /// <param name="offset">The offset.</param>
         /// <returns>The signed integer.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static short GetAudioSample(this byte[] buffer, int offset) =>
+        public static short GetAudioSample(this byte[] buffer, int offset) =>
             BitConverter.ToInt16(buffer, offset);
     }
 }

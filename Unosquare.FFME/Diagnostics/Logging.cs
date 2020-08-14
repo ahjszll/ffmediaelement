@@ -12,7 +12,7 @@ namespace Unosquare.FFME.Diagnostics
     /// empties the queue constantly, at a low priority, and in batches.
     /// Messages are handled by the <see cref="ILoggingHandler"/> object associated with the message.
     /// </summary>
-    internal static class Logging
+    public static class Logging
     {
         #region Private Members
 
@@ -101,7 +101,7 @@ namespace Unosquare.FFME.Diagnostics
         /// <param name="loggingHandler">The object that will handle the message output.</param>
         /// <param name="messageType">Type of the message.</param>
         /// <param name="message">The message.</param>
-        internal static void Log(ILoggingHandler loggingHandler, MediaLogMessageType messageType, string message) =>
+        public static void Log(ILoggingHandler loggingHandler, MediaLogMessageType messageType, string message) =>
             Log(loggingHandler, messageType, Aspects.None, message);
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Unosquare.FFME.Diagnostics
         /// <param name="messageType">Type of the message.</param>
         /// <param name="aspectName">Name of the code aspect where the message is coming from.</param>
         /// <param name="message">The message.</param>
-        internal static void Log(ILoggingHandler loggingHandler, MediaLogMessageType messageType, string aspectName, string message)
+        public static void Log(ILoggingHandler loggingHandler, MediaLogMessageType messageType, string aspectName, string message)
         {
             // Prevent queueing messages without a handler
             if (loggingHandler == null || messageType == MediaLogMessageType.None)

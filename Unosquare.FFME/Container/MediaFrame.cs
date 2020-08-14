@@ -12,7 +12,7 @@
     /// Derived classes implement the specifics of each media type.
     /// </summary>
     /// <seealso cref="IDisposable" />
-    internal abstract unsafe class MediaFrame : IComparable<MediaFrame>, IDisposable
+    public abstract unsafe class MediaFrame : IComparable<MediaFrame>, IDisposable
     {
         #region Constructor
 
@@ -22,7 +22,7 @@
         /// <param name="pointer">The pointer.</param>
         /// <param name="component">The component.</param>
         /// <param name="mediaType">Type of the media.</param>
-        protected MediaFrame(AVFrame* pointer, MediaComponent component, MediaType mediaType)
+        public MediaFrame(AVFrame* pointer, MediaComponent component, MediaType mediaType)
             : this((void*)pointer, component, mediaType)
         {
             var packetSize = pointer->pkt_size;
@@ -39,7 +39,7 @@
         /// <param name="mediaType">Type of the media.</param>
         private MediaFrame(void* pointer, MediaComponent component, MediaType mediaType)
         {
-            InternalPointer = new IntPtr(pointer);
+            publicPointer = new IntPtr(pointer);
             StreamTimeBase = component.Stream->time_base;
             StreamIndex = component.StreamIndex;
             MediaType = mediaType;
@@ -101,17 +101,17 @@
         /// When the unmanaged frame is released (freed from unmanaged memory)
         /// this property will return true.
         /// </summary>
-        public bool IsStale => InternalPointer == IntPtr.Zero;
+        public bool IsStale => publicPointer == IntPtr.Zero;
 
         /// <summary>
         /// Gets the time base of the stream that generated this frame.
         /// </summary>
-        internal AVRational StreamTimeBase { get; }
+        public AVRational StreamTimeBase { get; }
 
         /// <summary>
-        /// Gets or sets the internal pointer.
+        /// Gets or sets the public pointer.
         /// </summary>
-        protected IntPtr InternalPointer { get; set; }
+        protected IntPtr publicPointer { get; set; }
 
         #endregion
 
@@ -132,7 +132,7 @@
         /// </summary>
         /// <returns>The frame allocated in unmanaged memory.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static AVFrame* CreateAVFrame()
+        public static AVFrame* CreateAVFrame()
         {
             var frame = ffmpeg.av_frame_alloc();
             RC.Current.Add(frame);
@@ -144,7 +144,7 @@
         /// </summary>
         /// <param name="frame">The frame.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void ReleaseAVFrame(AVFrame* frame)
+        public static void ReleaseAVFrame(AVFrame* frame)
         {
             RC.Current.Remove(frame);
             ffmpeg.av_frame_free(&frame);
@@ -156,7 +156,7 @@
         /// <param name="source">The source frame.</param>
         /// <returns>The cloned frame.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static AVFrame* CloneAVFrame(AVFrame* source)
+        public static AVFrame* CloneAVFrame(AVFrame* source)
         {
             var frame = ffmpeg.av_frame_clone(source);
             RC.Current.Add(frame);
@@ -168,7 +168,7 @@
         /// </summary>
         /// <returns>The subtitle struct pointer.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static AVSubtitle* CreateAVSubtitle()
+        public static AVSubtitle* CreateAVSubtitle()
         {
             return (AVSubtitle*)ffmpeg.av_malloc((ulong)Marshal.SizeOf(typeof(AVSubtitle)));
         }
@@ -178,7 +178,7 @@
         /// </summary>
         /// <param name="frame">The frame.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void ReleaseAVSubtitle(AVSubtitle* frame)
+        public static void ReleaseAVSubtitle(AVSubtitle* frame)
         {
             if (frame == null) return;
             ffmpeg.avsubtitle_free(frame);

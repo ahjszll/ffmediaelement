@@ -1,8 +1,10 @@
 ﻿using FFmpeg.AutoGen;
 using System;
 using System.Windows.Forms;
+using Unosquare.FFME.Common;
+using Unosquare.FFME.Container;
 
-namespace FFWindowsFormsApp.Core.Renderer
+namespace Unosquare.FFWindowsFormsApp.Core.Renderer
 {
     public class SDL2VideoRenderer : Renderer
     {
@@ -15,6 +17,7 @@ namespace FFWindowsFormsApp.Core.Renderer
 
         public static bool SdlInit = false;
 
+
         public SDL2VideoRenderer()
         {
             InitSDL();
@@ -25,16 +28,15 @@ namespace FFWindowsFormsApp.Core.Renderer
 
         private void _timer_Tick(object sender, EventArgs e)
         {
-            if (_videoQueue.Count > 0)
-            {
-                _videoQueue.TryDequeue(out AVFrame frame);
-                Render(frame);
-                unsafe
-                {
-                    AVFrame* iframe = &frame;
-                    ffmpeg.av_frame_free(&iframe);
-                }
-            }
+            //if (_videoQueue.Count > 0)
+            //{
+            //    _videoQueue.TryDequeue(out MediaFrame frame);
+            //    if (frame != null)
+            //    {
+            //        //Render(frame.);
+            //        frame.Dispose();
+            //    }
+            //}
         }
 
         private void InitSDL()

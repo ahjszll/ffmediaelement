@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the contents of a logging message that was sent to the log manager.
     /// </summary>
-    internal sealed class LoggingMessage
+    public sealed class LoggingMessage
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LoggingMessage" /> class.
@@ -15,7 +15,7 @@
         /// <param name="messageType">Type of the message.</param>
         /// <param name="messageText">The message text.</param>
         /// <param name="aspectName">Name of the code aspect the message came from.</param>
-        internal LoggingMessage(ILoggingHandler loggingHandler, MediaLogMessageType messageType, string messageText, string aspectName)
+        public LoggingMessage(ILoggingHandler loggingHandler, MediaLogMessageType messageType, string messageText, string aspectName)
         {
             MessageType = messageType;
             Message = messageText;

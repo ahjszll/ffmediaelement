@@ -13,7 +13,7 @@
     /// Reuse blocks as much as possible. Once you create a block from a frame,
     /// you don't need the frame anymore so make sure you dispose the frame.
     /// </summary>
-    internal abstract class MediaBlock
+    public abstract class MediaBlock
         : IComparable<MediaBlock>, IComparable<TimeSpan>, IComparable<long>, IEquatable<MediaBlock>, IDisposable
     {
         private readonly object SyncLock = new object();
@@ -44,39 +44,39 @@
         /// <summary>
         /// Gets the size of the compressed frame.
         /// </summary>
-        public int CompressedSize { get; internal set; }
+        public int CompressedSize { get;  set; }
 
         /// <summary>
         /// Gets a value indicating whether the start time was guessed from siblings
         /// or the source frame PTS comes from a NO PTS value.
         /// </summary>
-        public bool IsStartTimeGuessed { get; internal set; }
+        public bool IsStartTimeGuessed { get;  set; }
 
         /// <summary>
         /// Gets the time at which this data should be presented (PTS).
         /// </summary>
-        public TimeSpan StartTime { get; internal set; }
+        public TimeSpan StartTime { get;  set; }
 
         /// <summary>
         /// Gets the amount of time this data has to be presented.
         /// </summary>
-        public TimeSpan Duration { get; internal set; }
+        public TimeSpan Duration { get;  set; }
 
         /// <summary>
         /// Gets the end time.
         /// </summary>
-        public TimeSpan EndTime { get; internal set; }
+        public TimeSpan EndTime { get;  set; }
 
         /// <summary>
         /// Gets the unadjusted, original presentation timestamp (PTS) of the frame given in
         /// the stream's Time Base units.
         /// </summary>
-        public long PresentationTime { get; internal set; }
+        public long PresentationTime { get;  set; }
 
         /// <summary>
         /// Gets the index of the stream.
         /// </summary>
-        public int StreamIndex { get; internal set; }
+        public int StreamIndex { get;  set; }
 
         /// <summary>
         /// Gets a pointer to the first byte of the unmanaged data buffer.
@@ -112,17 +112,17 @@
         /// <summary>
         /// Gets or sets the index within the block buffer.
         /// </summary>
-        internal int Index { get; set; }
+        public int Index { get; set; }
 
         /// <summary>
         /// Gets or sets the next MediaBlock.
         /// </summary>
-        internal MediaBlock Next { get; set; }
+        public MediaBlock Next { get; set; }
 
         /// <summary>
         /// Gets or sets the previous MediaBlock.
         /// </summary>
-        internal MediaBlock Previous { get; set; }
+        public MediaBlock Previous { get; set; }
 
         #region Operators
 
@@ -280,7 +280,7 @@
         /// <param name="bufferLength">Length of the buffer.</param>
         /// <returns>True if the buffer is successfully allocated.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal virtual unsafe bool Allocate(int bufferLength)
+        public virtual unsafe bool Allocate(int bufferLength)
         {
             if (bufferLength <= 0)
                 throw new ArgumentException($"{nameof(bufferLength)} must be greater than 0");

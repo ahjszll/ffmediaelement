@@ -7,7 +7,7 @@
     /// Provides factory methods to create synchronized reader-writer locks
     /// that support a generalized locking and releasing api and syntax.
     /// </summary>
-    internal static class SyncLockerFactory
+    public static class SyncLockerFactory
     {
         #region Enums and Interfaces
 

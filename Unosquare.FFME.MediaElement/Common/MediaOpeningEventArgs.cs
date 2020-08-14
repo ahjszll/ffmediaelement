@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="options">The options.</param>
         /// <param name="info">The input information.</param>
-        internal MediaOpeningEventArgs(MediaOptions options, MediaInfo info)
+        public MediaOpeningEventArgs(MediaOptions options, MediaInfo info)
         {
             Options = options;
             Info = info;
@@ -26,7 +26,7 @@
         public MediaOptions Options { get; }
 
         /// <summary>
-        /// Provides internal details of the media, including its component streams.
+        /// Provides public details of the media, including its component streams.
         /// Typically, options are set based on what this information contains.
         /// </summary>
         public MediaInfo Info { get; }

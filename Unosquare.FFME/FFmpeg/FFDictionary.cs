@@ -8,7 +8,7 @@
     /// <summary>
     /// An AVDictionary management class.
     /// </summary>
-    internal sealed unsafe class FFDictionary : IDisposable
+    public sealed unsafe class FFDictionary : IDisposable
     {
         #region Unmanaged Fields
 

@@ -216,7 +216,7 @@ namespace FFmpeg.AutoGen
         public ulong @crop_bottom;
         public ulong @crop_left;
         public ulong @crop_right;
-        /// <summary>AVBufferRef for internal use by a single libav* library. Must not be used to transfer data between libraries. Has to be NULL when ownership of the frame leaves the respective library.</summary>
+        /// <summary>AVBufferRef for public use by a single libav* library. Must not be used to transfer data between libraries. Has to be NULL when ownership of the frame leaves the respective library.</summary>
         public AVBufferRef* @private_ref;
     }
     
@@ -306,8 +306,8 @@ namespace FFmpeg.AutoGen
     {
         /// <summary>A class for logging. Set by av_hwdevice_ctx_alloc().</summary>
         public AVClass* @av_class;
-        /// <summary>Private data used internally by libavutil. Must not be accessed in any way by the caller.</summary>
-        public AVHWDeviceInternal* @internal;
+        /// <summary>Private data used publicly by libavutil. Must not be accessed in any way by the caller.</summary>
+        public AVHWDevicepublic* @public;
         /// <summary>This field identifies the underlying API used for hardware access.</summary>
         public AVHWDeviceType @type;
         /// <summary>The format-specific data, allocated and freed by libavutil along with this context.</summary>
@@ -323,8 +323,8 @@ namespace FFmpeg.AutoGen
     {
         /// <summary>A class for logging.</summary>
         public AVClass* @av_class;
-        /// <summary>Private data used internally by libavutil. Must not be accessed in any way by the caller.</summary>
-        public AVHWFramesInternal* @internal;
+        /// <summary>Private data used publicly by libavutil. Must not be accessed in any way by the caller.</summary>
+        public AVHWFramespublic* @public;
         /// <summary>A reference to the parent AVHWDeviceContext. This reference is owned and managed by the enclosing AVHWFramesContext, but the caller may derive additional references from it.</summary>
         public AVBufferRef* @device_ref;
         /// <summary>The parent AVHWDeviceContext. This is simply a pointer to device_ref-&gt;data provided for convenience.</summary>
@@ -397,7 +397,7 @@ namespace FFmpeg.AutoGen
         /// <summary>The surface pool. When an external pool is not provided by the caller, this will be managed (allocated and filled on init, freed on uninit) by libavutil.</summary>
         public IDirect3DSurface9** @surfaces;
         public int @nb_surfaces;
-        /// <summary>Certain drivers require the decoder to be destroyed before the surfaces. To allow internally managed pools to work properly in such cases, this field is provided.</summary>
+        /// <summary>Certain drivers require the decoder to be destroyed before the surfaces. To allow publicly managed pools to work properly in such cases, this field is provided.</summary>
         public IDirectXVideoDecoder* @decoder_to_release;
     }
     
@@ -457,7 +457,7 @@ namespace FFmpeg.AutoGen
         public ID3D11VideoDevice* @video_device;
         /// <summary>If unset, this will be set from the device_context field on init.</summary>
         public ID3D11VideoContext* @video_context;
-        /// <summary>Callbacks for locking. They protect accesses to device_context and video_context calls. They also protect access to the internal staging texture (for av_hwframe_transfer_data() calls). They do NOT protect access to hwcontext or decoder state in general.</summary>
+        /// <summary>Callbacks for locking. They protect accesses to device_context and video_context calls. They also protect access to the public staging texture (for av_hwframe_transfer_data() calls). They do NOT protect access to hwcontext or decoder state in general.</summary>
         public AVD3D11VADeviceContext_lock_func @lock;
         public AVD3D11VADeviceContext_unlock_func @unlock;
         public void* @lock_ctx;
@@ -898,8 +898,8 @@ namespace FFmpeg.AutoGen
         /// <summary>fourcc (LSB first, so &quot;ABCD&quot; -&gt; (&apos;D&apos;&lt;&lt;24) + (&apos;C&apos;&lt;&lt;16) + (&apos;B&apos;&lt;&lt;8) + &apos;A&apos;). This is used to work around some encoder bugs. A demuxer should set this to what is stored in the field used to identify the codec. If there are multiple such fields in a container then the demuxer should choose the one which maximizes the information about the used codec. If the codec tag field in a container is larger than 32 bits then the demuxer should remap the longer ID to 32 bits with a table or other structure. Alternatively a new extra_codec_tag + size could be added but for this a clear advantage must be demonstrated first. - encoding: Set by user, if not then the default based on codec_id will be used. - decoding: Set by user, will be converted to uppercase by libavcodec during init.</summary>
         public uint @codec_tag;
         public void* @priv_data;
-        /// <summary>Private context used for internal data.</summary>
-        public AVCodecInternal* @internal;
+        /// <summary>Private context used for public data.</summary>
+        public AVCodecpublic* @public;
         /// <summary>Private data of the user, can be used to carry app specific stuff. - encoding: Set by user. - decoding: Set by user.</summary>
         public void* @opaque;
         /// <summary>the average bitrate - encoding: Set by user; unused for constant quantizer encoding. - decoding: Set by user, may be overwritten by libavcodec if this info is available in the stream</summary>
@@ -1138,7 +1138,7 @@ namespace FFmpeg.AutoGen
         public int @idct_algo;
         /// <summary>bits per sample/pixel from the demuxer (needed for huffyuv). - encoding: Set by libavcodec. - decoding: Set by user.</summary>
         public int @bits_per_coded_sample;
-        /// <summary>Bits per sample/pixel of internal libavcodec pixel/sample format. - encoding: set by user. - decoding: set by libavcodec.</summary>
+        /// <summary>Bits per sample/pixel of public libavcodec pixel/sample format. - encoding: set by user. - decoding: set by libavcodec.</summary>
         public int @bits_per_raw_sample;
         /// <summary>low resolution decoding, 1-&gt; 1/2 size, 2-&gt;1/4 size - encoding: unused - decoding: Set by user.</summary>
         public int @lowres;
@@ -1286,12 +1286,12 @@ namespace FFmpeg.AutoGen
         public AVCodec_receive_frame_func @receive_frame;
         /// <summary>Flush buffers. Will be called when seeking</summary>
         public AVCodec_flush_func @flush;
-        /// <summary>Internal codec capabilities. See FF_CODEC_CAP_* in internal.h</summary>
-        public int @caps_internal;
+        /// <summary>public codec capabilities. See FF_CODEC_CAP_* in public.h</summary>
+        public int @caps_public;
         /// <summary>Decoding only, a comma-separated list of bitstream filters to apply to packets before decoding.</summary>
         public byte* @bsfs;
         /// <summary>Array of pointers to hardware configurations supported by the codec, or NULL if no hardware supported. The array is terminated by a NULL pointer.</summary>
-        public AVCodecHWConfigInternal** @hw_configs;
+        public AVCodecHWConfigpublic** @hw_configs;
     }
     
     public unsafe struct AVSubtitle
@@ -1368,10 +1368,10 @@ namespace FFmpeg.AutoGen
         public AVHWAccel_init_func @init;
         /// <summary>Uninitialize the hwaccel private data.</summary>
         public AVHWAccel_uninit_func @uninit;
-        /// <summary>Size of the private data to allocate in AVCodecInternal.hwaccel_priv_data.</summary>
+        /// <summary>Size of the private data to allocate in AVCodecpublic.hwaccel_priv_data.</summary>
         public int @priv_data_size;
-        /// <summary>Internal hwaccel capabilities.</summary>
-        public int @caps_internal;
+        /// <summary>public hwaccel capabilities.</summary>
+        public int @caps_public;
         /// <summary>Fill the given hw_frames context with current codec parameters. Called from get_format. Refer to avcodec_get_hw_frames_parameters() for details.</summary>
         public AVHWAccel_frame_params_func @frame_params;
     }
@@ -1516,8 +1516,8 @@ namespace FFmpeg.AutoGen
         public AVClass* @av_class;
         /// <summary>The bitstream filter this context is an instance of.</summary>
         public AVBitStreamFilter* @filter;
-        /// <summary>Opaque libavcodec internal data. Must not be touched by the caller in any way.</summary>
-        public AVBSFInternal* @internal;
+        /// <summary>Opaque libavcodec public data. Must not be touched by the caller in any way.</summary>
+        public AVBSFpublic* @public;
         /// <summary>Opaque filter-specific private data. If filter-&gt;priv_class is non-NULL, this is an AVOptions-enabled struct.</summary>
         public void* @priv_data;
         /// <summary>Parameters of the input stream. This field is allocated in av_bsf_alloc(), it needs to be filled by the caller before av_bsf_init().</summary>
@@ -1551,7 +1551,7 @@ namespace FFmpeg.AutoGen
         public AVBitStreamFilter* @filter;
         public AVCodecParserContext* @parser;
         public AVBitStreamFilterContext* @next;
-        /// <summary>Internal default arguments, used if NULL is passed to av_bitstream_filter_filter(). Not for access by library users.</summary>
+        /// <summary>public default arguments, used if NULL is passed to av_bitstream_filter_filter(). Not for access by library users.</summary>
         public byte* @args;
     }
     
@@ -1746,32 +1746,32 @@ namespace FFmpeg.AutoGen
         public long @first_discard_sample;
         /// <summary>The sample after last sample that is intended to be discarded after first_discard_sample. Works on frame boundaries only. Used to prevent early EOF if the gapless info is broken (considered concatenated mp3s).</summary>
         public long @last_discard_sample;
-        /// <summary>Number of internally decoded frames, used internally in libavformat, do not access its lifetime differs from info which is why it is not in that structure.</summary>
+        /// <summary>Number of publicly decoded frames, used publicly in libavformat, do not access its lifetime differs from info which is why it is not in that structure.</summary>
         public int @nb_decoded_frames;
         /// <summary>Timestamp offset added to timestamps before muxing NOT PART OF PUBLIC API</summary>
         public long @mux_ts_offset;
-        /// <summary>Internal data to check for wrapping of the time stamp</summary>
+        /// <summary>public data to check for wrapping of the time stamp</summary>
         public long @pts_wrap_reference;
         /// <summary>Options for behavior, when a wrap is detected.</summary>
         public int @pts_wrap_behavior;
-        /// <summary>Internal data to prevent doing update_initial_durations() twice</summary>
+        /// <summary>public data to prevent doing update_initial_durations() twice</summary>
         public int @update_initial_durations_done;
-        /// <summary>Internal data to generate dts from pts</summary>
+        /// <summary>public data to generate dts from pts</summary>
         public long_array17 @pts_reorder_error;
         public byte_array17 @pts_reorder_error_count;
-        /// <summary>Internal data to analyze DTS and detect faulty mpeg streams</summary>
+        /// <summary>public data to analyze DTS and detect faulty mpeg streams</summary>
         public long @last_dts_for_order_check;
         public byte @dts_ordered;
         public byte @dts_misordered;
-        /// <summary>Internal data to inject global side data</summary>
+        /// <summary>public data to inject global side data</summary>
         public int @inject_global_side_data;
-        /// <summary>display aspect ratio (0 if unknown) - encoding: unused - decoding: Set by libavformat to calculate sample_aspect_ratio internally</summary>
+        /// <summary>display aspect ratio (0 if unknown) - encoding: unused - decoding: Set by libavformat to calculate sample_aspect_ratio publicly</summary>
         public AVRational @display_aspect_ratio;
-        /// <summary>An opaque field for libavformat internal usage. Must not be accessed in any way by callers.</summary>
-        public AVStreamInternal* @internal;
+        /// <summary>An opaque field for libavformat public usage. Must not be accessed in any way by callers.</summary>
+        public AVStreampublic* @public;
     }
     
-    /// <summary>Stream information used internally by avformat_find_stream_info()</summary>
+    /// <summary>Stream information used publicly by avformat_find_stream_info()</summary>
     public unsafe struct AVStream_info
     {
         public long @last_dts;
@@ -1993,8 +1993,8 @@ namespace FFmpeg.AutoGen
         public byte* @codec_whitelist;
         /// <summary>&apos;,&apos; separated list of allowed demuxers. If NULL then all are allowed - encoding: unused - decoding: set by user</summary>
         public byte* @format_whitelist;
-        /// <summary>An opaque field for libavformat internal usage. Must not be accessed in any way by callers.</summary>
-        public AVFormatInternal* @internal;
+        /// <summary>An opaque field for libavformat public usage. Must not be accessed in any way by callers.</summary>
+        public AVFormatpublic* @public;
         /// <summary>IO repositioned flag. This is set by avformat when the underlaying IO context read pointer is repositioned, for example when doing byte based seeking. Demuxers can use the flag to detect such changes.</summary>
         public int @io_repositioned;
         /// <summary>Forced video codec. This allows forcing a specific decoder, even when there are multiple with the same codec_id. Demuxing: Set by user</summary>
@@ -2146,19 +2146,19 @@ namespace FFmpeg.AutoGen
         public AVIOContext_read_seek_func @read_seek;
         /// <summary>A combination of AVIO_SEEKABLE_ flags or 0 when the stream is not seekable.</summary>
         public int @seekable;
-        /// <summary>max filesize, used to limit allocations This field is internal to libavformat and access from outside is not allowed.</summary>
+        /// <summary>max filesize, used to limit allocations This field is public to libavformat and access from outside is not allowed.</summary>
         public long @maxsize;
         /// <summary>avio_read and avio_write should if possible be satisfied directly instead of going through a buffer, and avio_seek will always call the underlying seek function directly.</summary>
         public int @direct;
-        /// <summary>Bytes read statistic This field is internal to libavformat and access from outside is not allowed.</summary>
+        /// <summary>Bytes read statistic This field is public to libavformat and access from outside is not allowed.</summary>
         public long @bytes_read;
-        /// <summary>seek statistic This field is internal to libavformat and access from outside is not allowed.</summary>
+        /// <summary>seek statistic This field is public to libavformat and access from outside is not allowed.</summary>
         public int @seek_count;
-        /// <summary>writeout statistic This field is internal to libavformat and access from outside is not allowed.</summary>
+        /// <summary>writeout statistic This field is public to libavformat and access from outside is not allowed.</summary>
         public int @writeout_count;
-        /// <summary>Original buffer size used internally after probing and ensure seekback to reset the buffer size This field is internal to libavformat and access from outside is not allowed.</summary>
+        /// <summary>Original buffer size used publicly after probing and ensure seekback to reset the buffer size This field is public to libavformat and access from outside is not allowed.</summary>
         public int @orig_buffer_size;
-        /// <summary>Threshold to favor readahead over seek. This is current internal only, do not use from outside.</summary>
+        /// <summary>Threshold to favor readahead over seek. This is current public only, do not use from outside.</summary>
         public int @short_seek_threshold;
         /// <summary>&apos;,&apos; separated list of allowed protocols.</summary>
         public byte* @protocol_whitelist;
@@ -2168,10 +2168,10 @@ namespace FFmpeg.AutoGen
         public AVIOContext_write_data_type_func @write_data_type;
         /// <summary>If set, don&apos;t call write_data_type separately for AVIO_DATA_MARKER_BOUNDARY_POINT, but ignore them and treat them as AVIO_DATA_MARKER_UNKNOWN (to avoid needlessly small chunks of data returned from the callback).</summary>
         public int @ignore_boundary_point;
-        /// <summary>Internal, not meant to be used from outside of AVIOContext.</summary>
+        /// <summary>public, not meant to be used from outside of AVIOContext.</summary>
         public AVIODataMarkerType @current_type;
         public long @last_time;
-        /// <summary>A callback that is used instead of short_seek_threshold. This is current internal only, do not use from outside.</summary>
+        /// <summary>A callback that is used instead of short_seek_threshold. This is current public only, do not use from outside.</summary>
         public AVIOContext_short_seek_get_func @short_seek_get;
         public long @written;
         /// <summary>Maximum reached position before a backward seek in the write buffer, used keeping track of already written data for a later flush.</summary>
@@ -2244,8 +2244,8 @@ namespace FFmpeg.AutoGen
         public AVFilterGraph* @graph;
         /// <summary>Type of multithreading being allowed/used. A combination of AVFILTER_THREAD_* flags.</summary>
         public int @thread_type;
-        /// <summary>An opaque struct for libavfilter internal use.</summary>
-        public AVFilterInternal* @internal;
+        /// <summary>An opaque struct for libavfilter public use.</summary>
+        public AVFilterpublic* @public;
         public AVFilterCommand* @command_queue;
         /// <summary>enable expression string</summary>
         public byte* @enable_str;
@@ -2292,8 +2292,8 @@ namespace FFmpeg.AutoGen
         public AVFilter_query_formats_func @query_formats;
         /// <summary>size of private data to allocate for the filter</summary>
         public int @priv_size;
-        /// <summary>Additional flags for avfilter internal use only.</summary>
-        public int @flags_internal;
+        /// <summary>Additional flags for avfilter public use only.</summary>
+        public int @flags_public;
         /// <summary>Used by the filter registration system. Must not be touched by any other code.</summary>
         public AVFilter* @next;
         /// <summary>Make the filter instance process a command.</summary>
@@ -2374,7 +2374,7 @@ namespace FFmpeg.AutoGen
         public int @frame_wanted_out;
         /// <summary>For hwaccel pixel formats, this should be a reference to the AVHWFramesContext describing the frames.</summary>
         public AVBufferRef* @hw_frames_ctx;
-        /// <summary>Internal structure members. The fields below this limit are internal for libavfilter&apos;s use and must in no way be accessed by applications.</summary>
+        /// <summary>public structure members. The fields below this limit are public for libavfilter&apos;s use and must in no way be accessed by applications.</summary>
         public byte_array61440 @reserved;
     }
     
@@ -2391,8 +2391,8 @@ namespace FFmpeg.AutoGen
         public int @thread_type;
         /// <summary>Maximum number of threads used by filters in this graph. May be set by the caller before adding any filters to the filtergraph. Zero (the default) means that the number of threads is determined automatically.</summary>
         public int @nb_threads;
-        /// <summary>Opaque object for libavfilter internal use.</summary>
-        public AVFilterGraphInternal* @internal;
+        /// <summary>Opaque object for libavfilter public use.</summary>
+        public AVFilterGraphpublic* @public;
         /// <summary>Opaque user data. May be set by the caller to an arbitrary value, e.g. to be used from callbacks like Libavfilter will not touch this field in any way.</summary>
         public void* @opaque;
         /// <summary>This callback may be set by the caller immediately after allocating the graph and before adding any filters to it, to provide a custom multithreading implementation.</summary>

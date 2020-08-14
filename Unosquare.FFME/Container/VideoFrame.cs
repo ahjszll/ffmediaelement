@@ -9,7 +9,7 @@
     /// Represents a wrapper for an unmanaged ffmpeg video frame.
     /// </summary>
     /// <seealso cref="MediaFrame" />
-    internal sealed unsafe class VideoFrame : MediaFrame
+    public sealed unsafe class VideoFrame : MediaFrame
     {
         #region Private Members
 
@@ -25,7 +25,7 @@
         /// </summary>
         /// <param name="frame">The frame.</param>
         /// <param name="component">The video component.</param>
-        internal VideoFrame(AVFrame* frame, VideoComponent component)
+        public VideoFrame(AVFrame* frame, VideoComponent component)
             : base(frame, component, MediaType.Video)
         {
             var frameRate = ffmpeg.av_guess_frame_rate(component.Container.InputContext, component.Stream, frame);
@@ -105,7 +105,7 @@
         /// <summary>
         /// Gets the pointer to the unmanaged frame.
         /// </summary>
-        internal AVFrame* Pointer => (AVFrame*)InternalPointer;
+        public AVFrame* Pointer => (AVFrame*)publicPointer;
 
         #endregion
 
@@ -118,10 +118,10 @@
             {
                 if (IsDisposed) return;
 
-                if (InternalPointer != IntPtr.Zero)
+                if (publicPointer != IntPtr.Zero)
                     ReleaseAVFrame(Pointer);
 
-                InternalPointer = IntPtr.Zero;
+                publicPointer = IntPtr.Zero;
                 IsDisposed = true;
             }
         }

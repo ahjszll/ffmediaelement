@@ -10,7 +10,7 @@
     /// Queued, unmanaged packets are disposed automatically by this queue.
     /// Dequeued packets are the responsibility of the calling code.
     /// </summary>
-    internal sealed class PacketQueue : IDisposable
+    public sealed class PacketQueue : IDisposable
     {
         #region Private Declarations
 

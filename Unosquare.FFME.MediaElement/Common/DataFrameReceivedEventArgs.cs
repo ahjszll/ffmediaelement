@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name="dataFrame">The data frame.</param>
         /// <param name="stream">The stream.</param>
-        internal DataFrameReceivedEventArgs(DataFrame dataFrame, StreamInfo stream)
+        public DataFrameReceivedEventArgs(DataFrame dataFrame, StreamInfo stream)
         {
             Frame = dataFrame;
             Stream = stream;

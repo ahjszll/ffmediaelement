@@ -6,7 +6,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    internal abstract class WorkerBase : IWorker
+    public abstract class WorkerBase : IWorker
     {
         private readonly object SyncLock = new object();
         private readonly Stopwatch CycleClock = new Stopwatch();

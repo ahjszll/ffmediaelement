@@ -11,7 +11,7 @@
         /// Initializes a new instance of the <see cref="OptionMetadata"/> class.
         /// </summary>
         /// <param name="option">The option.</param>
-        internal unsafe OptionMetadata(AVOption* option)
+        public unsafe OptionMetadata(AVOption* option)
         {
             OptionType = option->type;
             Flags = option->flags;

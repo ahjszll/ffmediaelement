@@ -19,7 +19,7 @@
         /// <param name="sourceType">Type of the source.</param>
         /// <param name="parent">The parent.</param>
         /// <returns>A buffer containing all the blocks.</returns>
-        internal static MediaBlockBuffer LoadBlocks(string mediaSource, MediaType sourceType, ILoggingHandler parent)
+        public static MediaBlockBuffer LoadBlocks(string mediaSource, MediaType sourceType, ILoggingHandler parent)
         {
             if (string.IsNullOrWhiteSpace(mediaSource))
                 throw new ArgumentNullException(nameof(mediaSource));
@@ -75,7 +75,7 @@
         /// The serial picture number.
         /// </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static long ComputePictureNumber(TimeSpan streamStartTime, TimeSpan pictureStartTime, AVRational frameRate)
+        public static long ComputePictureNumber(TimeSpan streamStartTime, TimeSpan pictureStartTime, AVRational frameRate)
         {
             var streamTicks = streamStartTime == TimeSpan.MinValue ? 0 : streamStartTime.Ticks;
             var frameTicks = pictureStartTime == TimeSpan.MinValue ? 0 : pictureStartTime.Ticks;
@@ -93,7 +93,7 @@
         /// <param name="frameRate">The frame rate.</param>
         /// <returns>The FFmpeg computed SMTPE Time code.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static unsafe string ComputeSmtpeTimeCode(long pictureNumber, AVRational frameRate)
+        public static unsafe string ComputeSmtpeTimeCode(long pictureNumber, AVRational frameRate)
         {
             var pictureIndex = pictureNumber - 1;
             var frameIndex = Convert.ToInt32(pictureIndex >= int.MaxValue ? pictureIndex % int.MaxValue : pictureIndex);
@@ -125,7 +125,7 @@
         /// <param name="max">The maximum.</param>
         /// <returns>A value that indicates the relative order of the objects being compared.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static T Clamp<T>(this T value, T min, T max)
+        public static T Clamp<T>(this T value, T min, T max)
             where T : struct, IComparable
         {
             switch (value)
@@ -160,7 +160,7 @@
         ///   <c>true</c> if the specified value is between the min and max; otherwise, <c>false</c>.
         /// </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static bool IsBetween<T>(this T value, T min, T max)
+        public static bool IsBetween<T>(this T value, T min, T max)
             where T : struct, IComparable
         {
             switch (value)
@@ -186,7 +186,7 @@
         /// <param name="value">The value.</param>
         /// <returns>The find index. Returns -1 if not found.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static int StartIndexOf<TItem, TComparable>(this IList<TItem> items, TComparable value)
+        public static int StartIndexOf<TItem, TComparable>(this IList<TItem> items, TComparable value)
             where TItem : IComparable<TComparable>
         {
             var itemCount = items.Count;
@@ -228,7 +228,7 @@
         /// </summary>
         /// <param name="hexString">The hexadecimal string to convert.</param>
         /// <returns>The byte array with the data of the hexadecimal string.</returns>
-        internal static byte[] HexToBytes(this string hexString)
+        public static byte[] HexToBytes(this string hexString)
         {
             if (hexString.Length % 2 != 0)
                 throw new ArgumentException($"The binary key cannot have an odd number of digits: {hexString}");

@@ -3,9 +3,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
-    <RootNamespace>FFWindowsFormsApp</RootNamespace>
-    <StartupObject>FFWindowsFormsApp.Program</StartupObject>
-    <AssemblyName>FFWindowsFormsApp</AssemblyName>
+    <RootNamespace>Unosquare.Unosquare.FFWindowsFormsApp</RootNamespace>
+    <StartupObject>Unosquare.FFWindowsFormsApp.Program</StartupObject>
+    <AssemblyName>Unosquare.FFWindowsFormsApp</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -26,7 +26,5 @@
     <Folder Include="Core\Encoder\" />
     <Folder Include="Core\Packager\" />
   </ItemGroup>
-  
-  <Import Project="..\Unosquare.FFME.MediaElement\Unosquare.FFME.MediaElement.projitems" Label="Shared" />
   <Import Project="..\Unosquare.FFME\Unosquare.FFME.projitems" Label="Shared" />
 </Project>

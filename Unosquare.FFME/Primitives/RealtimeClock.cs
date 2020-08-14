@@ -6,7 +6,7 @@
     /// <summary>
     /// A time measurement artifact.
     /// </summary>
-    internal sealed class RealTimeClock
+    public sealed class RealTimeClock
     {
         private readonly Stopwatch Chronometer = new Stopwatch();
         private readonly object SyncLock = new object();
@@ -35,9 +35,9 @@
         }
 
         /// <summary>
-        /// Gets the elapsed time of the internal stopwatch.
+        /// Gets the elapsed time of the public stopwatch.
         /// </summary>
-        public TimeSpan ElapsedInternal => Chronometer.Elapsed;
+        public TimeSpan Elapsedpublic => Chronometer.Elapsed;
 
         /// <summary>
         /// Gets a value indicating whether the clock is running.

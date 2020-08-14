@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents an atomically readable or writable integer.
     /// </summary>
-    internal sealed class AtomicInteger : AtomicTypeBase<int>
+    public sealed class AtomicInteger : AtomicTypeBase<int>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomicInteger"/> class.

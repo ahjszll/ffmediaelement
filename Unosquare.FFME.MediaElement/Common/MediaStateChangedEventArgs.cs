@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="oldState">State of the previous.</param>
         /// <param name="newState">The new state.</param>
-        internal MediaStateChangedEventArgs(MediaPlaybackState oldState, MediaPlaybackState newState)
+        public MediaStateChangedEventArgs(MediaPlaybackState oldState, MediaPlaybackState newState)
         {
             OldMediaState = oldState;
             MediaState = newState;

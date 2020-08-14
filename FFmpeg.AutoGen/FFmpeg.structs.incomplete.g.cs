@@ -27,11 +27,11 @@ namespace FFmpeg.AutoGen
     {
     }
     
-    public unsafe struct AVHWDeviceInternal
+    public unsafe struct AVHWDevicepublic
     {
     }
     
-    public unsafe struct AVHWFramesInternal
+    public unsafe struct AVHWFramespublic
     {
     }
     
@@ -47,11 +47,11 @@ namespace FFmpeg.AutoGen
     {
     }
     
-    public unsafe struct AVCodecHWConfigInternal
+    public unsafe struct AVCodecHWConfigpublic
     {
     }
     
-    public unsafe struct AVCodecInternal
+    public unsafe struct AVCodecpublic
     {
     }
     
@@ -59,7 +59,7 @@ namespace FFmpeg.AutoGen
     {
     }
     
-    public unsafe struct AVBSFInternal
+    public unsafe struct AVBSFpublic
     {
     }
     
@@ -67,11 +67,11 @@ namespace FFmpeg.AutoGen
     {
     }
     
-    public unsafe struct AVStreamInternal
+    public unsafe struct AVStreampublic
     {
     }
     
-    public unsafe struct AVFormatInternal
+    public unsafe struct AVFormatpublic
     {
     }
     
@@ -95,11 +95,11 @@ namespace FFmpeg.AutoGen
     {
     }
     
-    public unsafe struct AVFilterGraphInternal
+    public unsafe struct AVFilterGraphpublic
     {
     }
     
-    public unsafe struct AVFilterInternal
+    public unsafe struct AVFilterpublic
     {
     }
     

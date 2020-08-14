@@ -8,7 +8,7 @@
     /// <summary>
     /// Encapsulates Hardware Accelerator Properties.
     /// </summary>
-    internal sealed unsafe class HardwareAccelerator
+    public sealed unsafe class HardwareAccelerator
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HardwareAccelerator"/> class.

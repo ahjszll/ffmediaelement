@@ -3,11 +3,9 @@
     using Common;
 
     /// <summary>
-    /// Represents the component set for non-media packets.
-    /// Data packets sent to this component is not queued and decoding of
-    /// data frames is up to the user.
+    /// Represents the component set for non-media packets.Data packets sent to this component is not queued and decoding of data frames is up to the user.
     /// </summary>
-    internal sealed class DataComponentSet
+    public sealed class DataComponentSet
     {
         private readonly object SyncLock = new object();
         public delegate void OnDataPacketReceivedDelegate(MediaPacket dataPacket, StreamInfo stream);

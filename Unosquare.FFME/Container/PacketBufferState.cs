@@ -5,7 +5,7 @@
     /// <summary>
     /// A value type that representing the packet buffer state.
     /// </summary>
-    internal struct PacketBufferState : IEquatable<PacketBufferState>
+    public struct PacketBufferState : IEquatable<PacketBufferState>
     {
         /// <summary>
         /// The length in bytes of the packet buffer.

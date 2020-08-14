@@ -7,7 +7,6 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
-    using Unosquare.FFME.Platform;
 
     public partial class MediaElement : ILoggingHandler, ILoggingSource, INotifyPropertyChanged
     {
@@ -18,7 +17,7 @@
         /// Provides access to the underlying media engine driving this control.
         /// This property is intended for advanced usages only.
         /// </summary>
-        internal MediaEngine MediaCore { get; }
+        public MediaEngine MediaCore { get; }
 
         #region Public API
 
@@ -162,7 +161,7 @@
         {
             try
             {
-                MediaCore = new MediaEngine(this, new MediaConnector(this));
+                MediaCore = new MediaEngine();
             }
             finally
             {

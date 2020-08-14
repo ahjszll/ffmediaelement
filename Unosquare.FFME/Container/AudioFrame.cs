@@ -10,7 +10,7 @@
     /// </summary>
     /// <seealso cref="MediaFrame" />
     /// <seealso cref="IDisposable" />
-    internal sealed unsafe class AudioFrame : MediaFrame
+    public sealed unsafe class AudioFrame : MediaFrame
     {
         #region Private Members
 
@@ -26,7 +26,7 @@
         /// </summary>
         /// <param name="frame">The frame.</param>
         /// <param name="component">The component.</param>
-        internal AudioFrame(AVFrame* frame, MediaComponent component)
+        public AudioFrame(AVFrame* frame, MediaComponent component)
             : base(frame, component, MediaType.Audio)
         {
             // Compute the start time.
@@ -52,7 +52,7 @@
         /// <summary>
         /// Gets the pointer to the unmanaged frame.
         /// </summary>
-        internal AVFrame* Pointer => (AVFrame*)InternalPointer;
+        public AVFrame* Pointer => (AVFrame*)publicPointer;
 
         #endregion
 
@@ -66,10 +66,10 @@
                 if (IsDisposed)
                     return;
 
-                if (InternalPointer != IntPtr.Zero)
+                if (publicPointer != IntPtr.Zero)
                     ReleaseAVFrame(Pointer);
 
-                InternalPointer = IntPtr.Zero;
+                publicPointer = IntPtr.Zero;
                 IsDisposed = true;
             }
         }

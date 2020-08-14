@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FFWindowsFormsApp.Core.Decoder
+namespace Unosquare.FFWindowsFormsApp.Core.Decoder
 {
     public class Decoder
     {

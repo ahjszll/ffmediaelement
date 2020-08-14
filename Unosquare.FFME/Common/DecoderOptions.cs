@@ -15,7 +15,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="DecoderOptions"/> class.
         /// </summary>
-        internal DecoderOptions()
+        public DecoderOptions()
         {
             Threads = "auto";
         }
@@ -37,7 +37,7 @@
         /// Enables low_delay flag for no delay in frame decoding.
         /// When frames are received by some codecs, they are delayed by 1 frame per active thread.
         /// This flag is not of much use because the decoder pre-caches and pre-orders a set of decoded
-        /// frames internally.
+        /// frames publicly.
         /// </summary>
         public bool EnableLowDelayDecoding { get; set; }
 
@@ -62,7 +62,7 @@
         /// <summary>
         /// Gets or sets the index of the low resolution index.
         /// </summary>
-        internal string LowResIndexOption
+        public string LowResIndexOption
         {
             get => this[GlobalOptionNames.LowRes];
             set => this[GlobalOptionNames.LowRes] = value;
@@ -109,7 +109,7 @@
         /// </summary>
         /// <param name="streamIndex">Index of the stream.</param>
         /// <returns>An options dictionary.</returns>
-        internal FFDictionary GetStreamCodecOptions(int streamIndex)
+        public FFDictionary GetStreamCodecOptions(int streamIndex)
         {
             var result = new Dictionary<string, string>(GlobalOptions);
             if (!PrivateOptions.ContainsKey(streamIndex))

@@ -18,7 +18,7 @@
         /// <param name="packet">The packet.</param>
         /// <param name="stream">The stream.</param>
         /// <param name="mediaCore">The associated media engine.</param>
-        internal DataFrame(MediaPacket packet, StreamInfo stream, MediaEngine mediaCore)
+        public DataFrame(MediaPacket packet, StreamInfo stream, MediaEngine mediaCore)
         {
             StreamIndex = stream == null ? -1 : stream.StreamIndex;
             PacketData = default;
@@ -48,7 +48,6 @@
                 ? TimeSpan.MinValue
                 : PacketPresetnationTimestamp.ToTimeSpan(stream.TimeBase);
 
-            GuessStartTime(mediaCore);
         }
 
         /// <summary>
@@ -98,40 +97,5 @@
         /// <returns>The raw bytes of the packet data. May return null when no packet data is available.</returns>
         public byte[] GetPacketData() => PacketData;
 
-        /// <summary>
-        /// Guesses the start time of the packet.
-        /// Side effect modify the <see cref="StartTime"/> property and the
-        /// <see cref="IsStartTimeGuessed"/> property.
-        /// </summary>
-        /// <param name="mediaCore">The media core.</param>
-        private void GuessStartTime(MediaEngine mediaCore)
-        {
-            if (PacketPresetnationTimestamp != ffmpeg.AV_NOPTS_VALUE)
-                return;
-
-            if (mediaCore == null)
-                return;
-
-            var t = mediaCore.Timing.ReferenceType;
-            var component = mediaCore.Container.Components[t];
-            if (component == null)
-                return;
-
-            var blocks = mediaCore.Blocks[t];
-            if (blocks == null)
-                return;
-
-            var blocksStartTime = blocks.Count > 0
-                ? blocks.RangeStartTime
-                : mediaCore.CurrentRenderStartTime[t];
-
-            var bufferDuration = component.BufferDuration;
-
-            if (bufferDuration.Ticks <= 0 && component.BufferCount > 0)
-                bufferDuration = TimeSpan.FromTicks(blocks.AverageBlockDuration.Ticks * component.BufferCount);
-
-            StartTime = TimeSpan.FromTicks(blocksStartTime.Ticks - bufferDuration.Ticks);
-            IsStartTimeGuessed = true;
-        }
     }
 }

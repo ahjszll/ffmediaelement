@@ -15,7 +15,7 @@
     /// Related Discussion:
     /// https://bugs.chromium.org/p/chromium/issues/detail?id=467617.
     /// </summary>
-    internal sealed class VerticalSyncContext : IDisposable
+    public sealed class VerticalSyncContext : IDisposable
     {
         private static readonly object NativeSyncLock = new object();
         private readonly Stopwatch RefreshStopwatch = Stopwatch.StartNew();

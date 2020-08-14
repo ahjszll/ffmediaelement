@@ -127,7 +127,7 @@ namespace FFmpeg.AutoGen
             }
             av_bsf_flush_fptr(@ctx);
         };
-        /// <summary>Reset the internal bitstream filter state / flush internal buffers.</summary>
+        /// <summary>Reset the public bitstream filter state / flush public buffers.</summary>
         public static void av_bsf_flush(AVBSFContext* @ctx)
         {
             av_bsf_flush_fptr(@ctx);
@@ -464,7 +464,7 @@ namespace FFmpeg.AutoGen
             return av_bsf_send_packet_fptr(@ctx, @pkt);
         };
         /// <summary>Submit a packet for filtering.</summary>
-        /// <param name="pkt">the packet to filter. The bitstream filter will take ownership of the packet and reset the contents of pkt. pkt is not touched if an error occurs. This parameter may be NULL, which signals the end of the stream (i.e. no more packets will be sent). That will cause the filter to output any packets it may have buffered internally.</param>
+        /// <param name="pkt">the packet to filter. The bitstream filter will take ownership of the packet and reset the contents of pkt. pkt is not touched if an error occurs. This parameter may be NULL, which signals the end of the stream (i.e. no more packets will be sent). That will cause the filter to output any packets it may have buffered publicly.</param>
         /// <returns>0 on success, a negative AVERROR on error.</returns>
         public static int av_bsf_send_packet(AVBSFContext* @ctx, AVPacket* @pkt)
         {
@@ -2751,7 +2751,7 @@ namespace FFmpeg.AutoGen
             }
             avcodec_flush_buffers_fptr(@avctx);
         };
-        /// <summary>Reset the internal decoder state / flush internal buffers. Should be called e.g. when seeking or when switching to a different stream.</summary>
+        /// <summary>Reset the public decoder state / flush public buffers. Should be called e.g. when seeking or when switching to a different stream.</summary>
         public static void avcodec_flush_buffers(AVCodecContext* @avctx)
         {
             avcodec_flush_buffers_fptr(@avctx);
@@ -3326,7 +3326,7 @@ namespace FFmpeg.AutoGen
         /// <summary>Supply a raw video or audio frame to the encoder. Use avcodec_receive_packet() to retrieve buffered output packets.</summary>
         /// <param name="avctx">codec context</param>
         /// <param name="frame">AVFrame containing the raw audio or video frame to be encoded. Ownership of the frame remains with the caller, and the encoder will not write to the frame. The encoder may create a reference to the frame data (or copy it if the frame is not reference-counted). It can be NULL, in which case it is considered a flush packet.  This signals the end of the stream. If the encoder still has packets buffered, it will return them after this call. Once flushing mode has been entered, additional flush packets are ignored, and sending frames will return AVERROR_EOF.</param>
-        /// <returns>0 on success, otherwise negative error code: AVERROR(EAGAIN):   input is not accepted in the current state - user must read output with avcodec_receive_packet() (once all output is read, the packet should be resent, and the call will not fail with EAGAIN). AVERROR_EOF:       the encoder has been flushed, and no new frames can be sent to it AVERROR(EINVAL):   codec not opened, refcounted_frames not set, it is a decoder, or requires flush AVERROR(ENOMEM):   failed to add packet to internal queue, or similar other errors: legitimate decoding errors</returns>
+        /// <returns>0 on success, otherwise negative error code: AVERROR(EAGAIN):   input is not accepted in the current state - user must read output with avcodec_receive_packet() (once all output is read, the packet should be resent, and the call will not fail with EAGAIN). AVERROR_EOF:       the encoder has been flushed, and no new frames can be sent to it AVERROR(EINVAL):   codec not opened, refcounted_frames not set, it is a decoder, or requires flush AVERROR(ENOMEM):   failed to add packet to public queue, or similar other errors: legitimate decoding errors</returns>
         public static int avcodec_send_frame(AVCodecContext* @avctx, AVFrame* @frame)
         {
             return avcodec_send_frame_fptr(@avctx, @frame);
@@ -3350,7 +3350,7 @@ namespace FFmpeg.AutoGen
         /// <summary>Supply raw packet data as input to a decoder.</summary>
         /// <param name="avctx">codec context</param>
         /// <param name="avpkt">The input AVPacket. Usually, this will be a single video frame, or several complete audio frames. Ownership of the packet remains with the caller, and the decoder will not write to the packet. The decoder may create a reference to the packet data (or copy it if the packet is not reference-counted). Unlike with older APIs, the packet is always fully consumed, and if it contains multiple frames (e.g. some audio codecs), will require you to call avcodec_receive_frame() multiple times afterwards before you can send a new packet. It can be NULL (or an AVPacket with data set to NULL and size set to 0); in this case, it is considered a flush packet, which signals the end of the stream. Sending the first flush packet will return success. Subsequent ones are unnecessary and will return AVERROR_EOF. If the decoder still has frames buffered, it will return them after sending a flush packet.</param>
-        /// <returns>0 on success, otherwise negative error code: AVERROR(EAGAIN):   input is not accepted in the current state - user must read output with avcodec_receive_frame() (once all output is read, the packet should be resent, and the call will not fail with EAGAIN). AVERROR_EOF:       the decoder has been flushed, and no new packets can be sent to it (also returned if more than 1 flush packet is sent) AVERROR(EINVAL):   codec not opened, it is an encoder, or requires flush AVERROR(ENOMEM):   failed to add packet to internal queue, or similar other errors: legitimate decoding errors</returns>
+        /// <returns>0 on success, otherwise negative error code: AVERROR(EAGAIN):   input is not accepted in the current state - user must read output with avcodec_receive_frame() (once all output is read, the packet should be resent, and the call will not fail with EAGAIN). AVERROR_EOF:       the decoder has been flushed, and no new packets can be sent to it (also returned if more than 1 flush packet is sent) AVERROR(EINVAL):   codec not opened, it is an encoder, or requires flush AVERROR(ENOMEM):   failed to add packet to public queue, or similar other errors: legitimate decoding errors</returns>
         public static int avcodec_send_packet(AVCodecContext* @avctx, AVPacket* @avpkt)
         {
             return avcodec_send_packet_fptr(@avctx, @avpkt);
@@ -4371,7 +4371,7 @@ namespace FFmpeg.AutoGen
         };
         /// <summary>Initialize the buffersrc or abuffersrc filter with the provided parameters. This function may be called multiple times, the later calls override the previous ones. Some of the parameters may also be set through AVOptions, then whatever method is used last takes precedence.</summary>
         /// <param name="ctx">an instance of the buffersrc or abuffersrc filter</param>
-        /// <param name="param">the stream parameters. The frames later passed to this filter must conform to those parameters. All the allocated fields in param remain owned by the caller, libavfilter will make internal copies or references when necessary.</param>
+        /// <param name="param">the stream parameters. The frames later passed to this filter must conform to those parameters. All the allocated fields in param remain owned by the caller, libavfilter will make public copies or references when necessary.</param>
         /// <returns>0 on success, a negative AVERROR code on failure.</returns>
         public static int av_buffersrc_parameters_set(AVFilterContext* @ctx, AVBufferSrcParameters* @param)
         {
@@ -6079,7 +6079,7 @@ namespace FFmpeg.AutoGen
             }
             return av_get_output_timestamp_fptr(@s, @stream, @dts, @wall);
         };
-        /// <summary>Get timing information for the data currently output. The exact meaning of &quot;currently output&quot; depends on the format. It is mostly relevant for devices that have an internal buffer and/or work in real time.</summary>
+        /// <summary>Get timing information for the data currently output. The exact meaning of &quot;currently output&quot; depends on the format. It is mostly relevant for devices that have an public buffer and/or work in real time.</summary>
         /// <param name="s">media file handle</param>
         /// <param name="stream">stream in the media file</param>
         /// <param name="dts">DTS of the last packet output for the stream, in stream time_base units</param>
@@ -6851,7 +6851,7 @@ namespace FFmpeg.AutoGen
             }
             return av_stream_get_codec_timebase_fptr(@st);
         };
-        /// <summary>Get the internal codec timebase from a stream.</summary>
+        /// <summary>Get the public codec timebase from a stream.</summary>
         /// <param name="st">input stream to extract the timebase from</param>
         public static AVRational av_stream_get_codec_timebase(AVStream* @st)
         {
@@ -7082,7 +7082,7 @@ namespace FFmpeg.AutoGen
         };
         /// <summary>Write a packet to an output media file.</summary>
         /// <param name="s">media file handle</param>
-        /// <param name="pkt">The packet containing the data to be written. Note that unlike av_interleaved_write_frame(), this function does not take ownership of the packet passed to it (though some muxers may make an internal reference to the input packet).  This parameter can be NULL (at any time, not just at the end), in order to immediately flush data buffered within the muxer, for muxers that buffer up data internally before writing it to the output.  Packet&apos;s</param>
+        /// <param name="pkt">The packet containing the data to be written. Note that unlike av_interleaved_write_frame(), this function does not take ownership of the packet passed to it (though some muxers may make an public reference to the input packet).  This parameter can be NULL (at any time, not just at the end), in order to immediately flush data buffered within the muxer, for muxers that buffer up data publicly before writing it to the output.  Packet&apos;s</param>
         /// <returns>&lt; 0 on error, = 0 if OK, 1 if flushed and there is no more data to flush</returns>
         public static int av_write_frame(AVFormatContext* @s, AVPacket* @pkt)
         {
@@ -7283,7 +7283,7 @@ namespace FFmpeg.AutoGen
             }
             return avformat_flush_fptr(@s);
         };
-        /// <summary>Discard all internally buffered data. This can be useful when dealing with discontinuities in the byte stream. Generally works only with formats that can resync. This includes headerless formats like MPEG-TS/TS but should also work with NUT, Ogg and in a limited way AVI for example.</summary>
+        /// <summary>Discard all publicly buffered data. This can be useful when dealing with discontinuities in the byte stream. Generally works only with formats that can resync. This includes headerless formats like MPEG-TS/TS but should also work with NUT, Ogg and in a limited way AVI for example.</summary>
         /// <param name="s">media file handle</param>
         /// <returns>&gt;=0 on success, error code otherwise</returns>
         public static int avformat_flush(AVFormatContext* @s)
@@ -7657,27 +7657,27 @@ namespace FFmpeg.AutoGen
         
         
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        private delegate int avformat_transfer_internal_stream_timing_info_delegate(AVOutputFormat* @ofmt, AVStream* @ost, AVStream* @ist, AVTimebaseSource @copy_tb);
-        private static avformat_transfer_internal_stream_timing_info_delegate avformat_transfer_internal_stream_timing_info_fptr = (AVOutputFormat* @ofmt, AVStream* @ost, AVStream* @ist, AVTimebaseSource @copy_tb) =>
+        private delegate int avformat_transfer_public_stream_timing_info_delegate(AVOutputFormat* @ofmt, AVStream* @ost, AVStream* @ist, AVTimebaseSource @copy_tb);
+        private static avformat_transfer_public_stream_timing_info_delegate avformat_transfer_public_stream_timing_info_fptr = (AVOutputFormat* @ofmt, AVStream* @ost, AVStream* @ist, AVTimebaseSource @copy_tb) =>
         {
-            avformat_transfer_internal_stream_timing_info_fptr = GetFunctionDelegate<avformat_transfer_internal_stream_timing_info_delegate>(GetOrLoadLibrary("avformat"), "avformat_transfer_internal_stream_timing_info");
-            if (avformat_transfer_internal_stream_timing_info_fptr == null)
+            avformat_transfer_public_stream_timing_info_fptr = GetFunctionDelegate<avformat_transfer_public_stream_timing_info_delegate>(GetOrLoadLibrary("avformat"), "avformat_transfer_public_stream_timing_info");
+            if (avformat_transfer_public_stream_timing_info_fptr == null)
             {
-                avformat_transfer_internal_stream_timing_info_fptr = delegate 
+                avformat_transfer_public_stream_timing_info_fptr = delegate 
                 {
-                    throw new PlatformNotSupportedException("avformat_transfer_internal_stream_timing_info is not supported on this platform.");
+                    throw new PlatformNotSupportedException("avformat_transfer_public_stream_timing_info is not supported on this platform.");
                 };
             }
-            return avformat_transfer_internal_stream_timing_info_fptr(@ofmt, @ost, @ist, @copy_tb);
+            return avformat_transfer_public_stream_timing_info_fptr(@ofmt, @ost, @ist, @copy_tb);
         };
-        /// <summary>Transfer internal timing information from one stream to another.</summary>
+        /// <summary>Transfer public timing information from one stream to another.</summary>
         /// <param name="ofmt">target output format for ost</param>
         /// <param name="ost">output stream which needs timings copy and adjustments</param>
         /// <param name="ist">reference input stream to copy timings from</param>
         /// <param name="copy_tb">define from where the stream codec timebase needs to be imported</param>
-        public static int avformat_transfer_internal_stream_timing_info(AVOutputFormat* @ofmt, AVStream* @ost, AVStream* @ist, AVTimebaseSource @copy_tb)
+        public static int avformat_transfer_public_stream_timing_info(AVOutputFormat* @ofmt, AVStream* @ost, AVStream* @ist, AVTimebaseSource @copy_tb)
         {
-            return avformat_transfer_internal_stream_timing_info_fptr(@ofmt, @ost, @ist, @copy_tb);
+            return avformat_transfer_public_stream_timing_info_fptr(@ofmt, @ost, @ist, @copy_tb);
         }
         
         
@@ -12436,7 +12436,7 @@ namespace FFmpeg.AutoGen
             return av_get_standard_channel_layout_fptr(@index, @layout, @name);
         };
         /// <summary>Get the value and name of a standard channel layout.</summary>
-        /// <param name="index">index in an internal list, starting at 0</param>
+        /// <param name="index">index in an public list, starting at 0</param>
         /// <param name="layout">channel layout mask</param>
         /// <param name="name">name of the layout</param>
         /// <returns>0  if the layout exists,  &lt; 0 if index is beyond the limits</returns>
@@ -12460,7 +12460,7 @@ namespace FFmpeg.AutoGen
             }
             return av_get_time_base_q_fptr();
         };
-        /// <summary>Return the fractional representation of the internal time base.</summary>
+        /// <summary>Return the fractional representation of the public time base.</summary>
         public static AVRational av_get_time_base_q()
         {
             return av_get_time_base_q_fptr();
@@ -12782,7 +12782,7 @@ namespace FFmpeg.AutoGen
             return av_hwframe_ctx_alloc_fptr(@device_ctx);
         };
         /// <summary>Allocate an AVHWFramesContext tied to a given device context.</summary>
-        /// <param name="device_ctx">a reference to a AVHWDeviceContext. This function will make a new reference for internal use, the one passed to the function remains owned by the caller.</param>
+        /// <param name="device_ctx">a reference to a AVHWDeviceContext. This function will make a new reference for public use, the one passed to the function remains owned by the caller.</param>
         /// <returns>a reference to the newly created AVHWFramesContext on success or NULL on failure.</returns>
         public static AVBufferRef* av_hwframe_ctx_alloc(AVBufferRef* @device_ctx)
         {
@@ -16672,7 +16672,7 @@ namespace FFmpeg.AutoGen
             }
             return swr_get_out_samples_fptr(@s, @in_samples);
         };
-        /// <summary>Find an upper bound on the number of samples that the next swr_convert call will output, if called with in_samples of input samples. This depends on the internal state, and anything changing the internal state (like further swr_convert() calls) will may change the number of samples swr_get_out_samples() returns for the same number of input samples.</summary>
+        /// <summary>Find an upper bound on the number of samples that the next swr_convert call will output, if called with in_samples of input samples. This depends on the public state, and anything changing the public state (like further swr_convert() calls) will may change the number of samples swr_get_out_samples() returns for the same number of input samples.</summary>
         /// <param name="in_samples">number of input samples.</param>
         public static int swr_get_out_samples(SwrContext* @s, int @in_samples)
         {
@@ -16810,7 +16810,7 @@ namespace FFmpeg.AutoGen
             }
             return swr_set_compensation_fptr(@s, @sample_delta, @compensation_distance);
         };
-        /// <summary>Activate resampling compensation (&quot;soft&quot; compensation). This function is internally called when needed in swr_next_pts().</summary>
+        /// <summary>Activate resampling compensation (&quot;soft&quot; compensation). This function is publicly called when needed in swr_next_pts().</summary>
         /// <param name="s">allocated Swr context. If it is not initialized, or SWR_FLAG_RESAMPLE is not set, swr_init() is called with the flag set.</param>
         /// <param name="sample_delta">delta in PTS per sample</param>
         /// <param name="compensation_distance">number of samples to compensate for</param>

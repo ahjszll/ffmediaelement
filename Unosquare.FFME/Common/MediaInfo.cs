@@ -17,7 +17,7 @@
         /// Initializes a new instance of the <see cref="MediaInfo"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        internal MediaInfo(MediaContainer container)
+        public MediaInfo(MediaContainer container)
         {
             // The below logic was implemented using the same ideas conveyed by the following code:
             // Reference: https://ffmpeg.org/doxygen/3.2/dump_8c_source.html --
@@ -91,7 +91,7 @@
 
         /// <summary>
         /// Provides access to the best streams of each media type found in the container.
-        /// This uses some internal FFmpeg heuristics.
+        /// This uses some public FFmpeg heuristics.
         /// </summary>
         public IReadOnlyDictionary<AVMediaType, StreamInfo> BestStreams { get; }
 
@@ -360,182 +360,182 @@
         /// Gets the stream identifier. This is different from the stream index.
         /// Typically this value is not very useful.
         /// </summary>
-        public int StreamId { get; internal set; }
+        public int StreamId { get; set; }
 
         /// <summary>
         /// Gets the index of the stream.
         /// </summary>
-        public int StreamIndex { get; internal set; }
+        public int StreamIndex { get; set; }
 
         /// <summary>
         /// Gets the type of the codec.
         /// </summary>
-        public AVMediaType CodecType { get; internal set; }
+        public AVMediaType CodecType { get; set; }
 
         /// <summary>
         /// Gets the name of the codec type. Audio, Video, Subtitle, Data, etc.
         /// </summary>
-        public string CodecTypeName { get; internal set; }
+        public string CodecTypeName { get; set; }
 
         /// <summary>
         /// Gets the codec identifier.
         /// </summary>
-        public AVCodecID Codec { get; internal set; }
+        public AVCodecID Codec { get; set; }
 
         /// <summary>
         /// Gets the name of the codec.
         /// </summary>
-        public string CodecName { get; internal set; }
+        public string CodecName { get; set; }
 
         /// <summary>
         /// Gets the codec profile. Only valid for H.264 or
         /// video codecs that use profiles. Otherwise empty.
         /// </summary>
-        public string CodecProfile { get; internal set; }
+        public string CodecProfile { get; set; }
 
         /// <summary>
         /// Gets the codec tag. Not very useful except for fixing bugs with
         /// some demuxer scenarios.
         /// </summary>
-        public uint CodecTag { get; internal set; }
+        public uint CodecTag { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether this stream has closed captions.
         /// Typically this is set for video streams.
         /// </summary>
-        public bool HasClosedCaptions { get; internal set; }
+        public bool HasClosedCaptions { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether this stream contains lossless compressed data.
         /// </summary>
-        public bool IsLossless { get; internal set; }
+        public bool IsLossless { get; set; }
 
         /// <summary>
         /// Gets the pixel format. Only valid for Video streams.
         /// </summary>
-        public AVPixelFormat PixelFormat { get; internal set; }
+        public AVPixelFormat PixelFormat { get; set; }
 
         /// <summary>
         /// Gets the width of the video frames.
         /// </summary>
-        public int PixelWidth { get; internal set; }
+        public int PixelWidth { get; set; }
 
         /// <summary>
         /// Gets the height of the video frames.
         /// </summary>
-        public int PixelHeight { get; internal set; }
+        public int PixelHeight { get; set; }
 
         /// <summary>
         /// Gets the field order. This is useful to determine
         /// if the video needs de-interlacing.
         /// </summary>
-        public AVFieldOrder FieldOrder { get; internal set; }
+        public AVFieldOrder FieldOrder { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the video frames are interlaced.
         /// </summary>
-        public bool IsInterlaced { get; internal set; }
+        public bool IsInterlaced { get; set; }
 
         /// <summary>
         /// Gets the video color range.
         /// </summary>
-        public AVColorRange ColorRange { get; internal set; }
+        public AVColorRange ColorRange { get; set; }
 
         /// <summary>
         /// Gets the audio sample rate.
         /// </summary>
-        public int SampleRate { get; internal set; }
+        public int SampleRate { get; set; }
 
         /// <summary>
         /// Gets the audio sample format.
         /// </summary>
-        public AVSampleFormat SampleFormat { get; internal set; }
+        public AVSampleFormat SampleFormat { get; set; }
 
         /// <summary>
         /// Gets the stream time base unit in seconds.
         /// </summary>
-        public AVRational TimeBase { get; internal set; }
+        public AVRational TimeBase { get; set; }
 
         /// <summary>
         /// Gets the sample aspect ratio.
         /// </summary>
-        public AVRational SampleAspectRatio { get; internal set; }
+        public AVRational SampleAspectRatio { get; set; }
 
         /// <summary>
         /// Gets the display aspect ratio.
         /// </summary>
-        public AVRational DisplayAspectRatio { get; internal set; }
+        public AVRational DisplayAspectRatio { get; set; }
 
         /// <summary>
         /// Gets the reported bit rate. 9 for unavailable.
         /// </summary>
-        public long BitRate { get; internal set; }
+        public long BitRate { get;  set; }
 
         /// <summary>
         /// Gets the maximum bit rate for variable bit rate streams. 0 if unavailable.
         /// </summary>
-        public long MaxBitRate { get; internal set; }
+        public long MaxBitRate { get;  set; }
 
         /// <summary>
         /// Gets the number of frames that were read to obtain the stream's information.
         /// </summary>
-        public int InfoFrameCount { get; internal set; }
+        public int InfoFrameCount { get; set; }
 
         /// <summary>
         /// Gets the number of reference frames.
         /// </summary>
-        public int ReferenceFrameCount { get; internal set; }
+        public int ReferenceFrameCount { get; set; }
 
         /// <summary>
         /// Gets the average FPS reported by the stream.
         /// </summary>
-        public double FPS { get; internal set; }
+        public double FPS { get; set; }
 
         /// <summary>
         /// Gets the real (base) frame rate of the stream.
         /// </summary>
-        public double TBR { get; internal set; }
+        public double TBR { get; set; }
 
         /// <summary>
         /// Gets the fundamental unit of time in 1/seconds used to represent timestamps in the stream, according to the stream data.
         /// </summary>
-        public double TBN { get; internal set; }
+        public double TBN { get; set; }
 
         /// <summary>
         /// Gets the fundamental unit of time in 1/seconds used to represent timestamps in the stream ,according to the codec.
         /// </summary>
-        public double TBC { get; internal set; }
+        public double TBC { get; set; }
 
         /// <summary>
         /// Gets the disposition flags.
         /// Please see ffmpeg.AV_DISPOSITION_* fields.
         /// </summary>
-        public int Disposition { get; internal set; }
+        public int Disposition { get; set; }
 
         /// <summary>
         /// Gets the start time.
         /// </summary>
-        public TimeSpan StartTime { get; internal set; }
+        public TimeSpan StartTime { get; set; }
 
         /// <summary>
         /// Gets the duration.
         /// </summary>
-        public TimeSpan Duration { get; internal set; }
+        public TimeSpan Duration { get; set; }
 
         /// <summary>
         /// Gets the stream's metadata.
         /// </summary>
-        public IReadOnlyDictionary<string, string> Metadata { get; internal set; }
+        public IReadOnlyDictionary<string, string> Metadata { get; set; }
 
         /// <summary>
         /// Gets the compatible hardware device configurations for the stream's codec.
         /// </summary>
-        public IReadOnlyList<HardwareDeviceInfo> HardwareDevices { get; internal set; }
+        public IReadOnlyList<HardwareDeviceInfo> HardwareDevices { get; set; }
 
         /// <summary>
         /// Gets a list of compatible hardware decoder names.
         /// </summary>
-        public IReadOnlyList<string> HardwareDecoders { get; internal set; }
+        public IReadOnlyList<string> HardwareDecoders { get; set; }
 
         /// <summary>
         /// Gets the language string from the stream's metadata.
@@ -561,27 +561,27 @@
         /// <summary>
         /// Gets the chapter index.
         /// </summary>
-        public int Index { get; internal set; }
+        public int Index { get;  set; }
 
         /// <summary>
         /// Gets the chapter identifier.
         /// </summary>
-        public int ChapterId { get; internal set; }
+        public int ChapterId { get;  set; }
 
         /// <summary>
         /// Gets the start time of the chapter.
         /// </summary>
-        public TimeSpan StartTime { get; internal set; }
+        public TimeSpan StartTime { get;  set; }
 
         /// <summary>
         /// Gets the end time of the chapter.
         /// </summary>
-        public TimeSpan EndTime { get; internal set; }
+        public TimeSpan EndTime { get;  set; }
 
         /// <summary>
         /// Gets the chapter metadata.
         /// </summary>
-        public IReadOnlyDictionary<string, string> Metadata { get; internal set; }
+        public IReadOnlyDictionary<string, string> Metadata { get;  set; }
     }
 
     /// <summary>
@@ -592,22 +592,22 @@
         /// <summary>
         /// Gets the program number.
         /// </summary>
-        public int ProgramNumber { get; internal set; }
+        public int ProgramNumber { get; set; }
 
         /// <summary>
         /// Gets the program identifier.
         /// </summary>
-        public int ProgramId { get; internal set; }
+        public int ProgramId { get; set; }
 
         /// <summary>
         /// Gets the program metadata.
         /// </summary>
-        public IReadOnlyDictionary<string, string> Metadata { get; internal set; }
+        public IReadOnlyDictionary<string, string> Metadata { get; set; }
 
         /// <summary>
         /// Gets the associated program streams.
         /// </summary>
-        public IReadOnlyList<StreamInfo> Streams { get; internal set; }
+        public IReadOnlyList<StreamInfo> Streams { get; set; }
 
         /// <summary>
         /// Gets the name of the program. Empty if unavailable.

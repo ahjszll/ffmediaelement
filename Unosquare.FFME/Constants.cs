@@ -10,7 +10,7 @@
     /// <summary>
     /// Defaults and constants of the Media Engine.
     /// </summary>
-    internal static partial class Constants
+    public static partial class Constants
     {
         /// <summary>
         /// Initializes static members of the <see cref="Constants"/> class.
@@ -137,12 +137,12 @@
         /// Components that are offset more than this time span with respect to the
         /// main component are deemed unrelated.
         /// </summary>
-        internal static TimeSpan TimeSyncMaxOffset { get; } = TimeSpan.FromSeconds(10);
+        public static TimeSpan TimeSyncMaxOffset { get; } = TimeSpan.FromSeconds(10);
 
         /// <summary>
         /// Gets the timing period for default scenarios.
         /// </summary>
-        internal static TimeSpan DefaultTimingPeriod => TimeSpan.FromMilliseconds(15);
+        public static TimeSpan DefaultTimingPeriod => TimeSpan.FromMilliseconds(15);
 
         /// <summary>
         /// Gets the maximum blocks to cache for the given component type.
@@ -150,7 +150,7 @@
         /// <param name="t">The t.</param>
         /// <param name="mediaCore">The media core.</param>
         /// <returns>The number of blocks to cache.</returns>
-        internal static int GetMaxBlocks(MediaType t, MediaEngine mediaCore)
+        public static int GetMaxBlocks(MediaType t, MediaEngine mediaCore)
         {
             const int MinVideoBlocks = 8;
             const int MinAudioBlocks = 48;
@@ -159,12 +159,12 @@
 
             if (t == MediaType.Video)
             {
-                result = mediaCore.MediaOptions.VideoBlockCache;
+                result = mediaCore.Container.MediaOptions.VideoBlockCache;
                 if (result < MinVideoBlocks) result = MinVideoBlocks;
             }
             else if (t == MediaType.Audio)
             {
-                result = mediaCore.MediaOptions.AudioBlockCache;
+                result = mediaCore.Container.MediaOptions.AudioBlockCache;
                 if (result < MinAudioBlocks) result = MinAudioBlocks;
             }
 

@@ -3,7 +3,7 @@ namespace Unosquare.FFME.Diagnostics
     /// <summary>
     /// Defines interface methods for logging message handlers.
     /// </summary>
-    internal interface ILoggingHandler
+    public interface ILoggingHandler
     {
         /// <summary>
         /// Handles a log message.

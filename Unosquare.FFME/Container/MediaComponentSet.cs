@@ -12,7 +12,7 @@
     /// a single set. Sending packets is automatically handled by
     /// this class. This class is thread safe.
     /// </summary>
-    internal sealed class MediaComponentSet : IDisposable
+    public sealed class MediaComponentSet : IDisposable
     {
         #region Private Declarations
 
@@ -44,11 +44,6 @@
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets a method that gets called when a packet is queued.
-        /// </summary>
-        public OnPacketQueueChangedDelegate OnPacketQueueChanged { get; set; }
 
         /// <summary>
         /// Gets or sets a method that gets called when an audio or video frame gets decoded.
@@ -267,49 +262,6 @@
         #region Helper Methods
 
         /// <summary>
-        /// Updates queue properties and invokes the on packet queue changed callback.
-        /// </summary>
-        /// <param name="operation">The operation.</param>
-        /// <param name="packet">The packet.</param>
-        /// <param name="mediaType">Type of the media.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal void ProcessPacketQueueChanges(PacketQueueOp operation, MediaPacket packet, MediaType mediaType)
-        {
-            if (OnPacketQueueChanged == null)
-                return;
-
-            var state = default(PacketBufferState);
-            state.HasEnoughPackets = true;
-            state.Duration = TimeSpan.MaxValue;
-
-            foreach (var c in All)
-            {
-                state.Length += c.BufferLength;
-                state.Count += c.BufferCount;
-                state.CountThreshold += c.BufferCountThreshold;
-                if (c.HasEnoughPackets == false)
-                    state.HasEnoughPackets = false;
-
-                if ((c.MediaType == MediaType.Audio || c.MediaType == MediaType.Video) &&
-                    c.BufferDuration != TimeSpan.MinValue &&
-                    c.BufferDuration.Ticks < state.Duration.Ticks)
-                {
-                    state.Duration = c.BufferDuration;
-                }
-            }
-
-            if (state.Duration == TimeSpan.MaxValue)
-                state.Duration = TimeSpan.MinValue;
-
-            // Update the buffer state
-            lock (BufferSyncLock)
-                BufferState = state;
-
-            // Send the callback
-            OnPacketQueueChanged?.Invoke(operation, packet, mediaType, state);
-        }
-
-        /// <summary>
         /// Registers the component in this component set.
         /// </summary>
         /// <param name="component">The component.</param>
@@ -317,7 +269,7 @@
         /// <exception cref="NotSupportedException">When MediaType is not supported.</exception>
         /// <exception cref="ArgumentException">When the component is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal void AddComponent(MediaComponent component)
+        public void AddComponent(MediaComponent component)
         {
             lock (ComponentSyncLock)
             {
@@ -353,7 +305,7 @@
         /// </summary>
         /// <param name="mediaType">Type of the media.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal void RemoveComponent(MediaType mediaType)
+        public void RemoveComponent(MediaType mediaType)
         {
             lock (ComponentSyncLock)
             {

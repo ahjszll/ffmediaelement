@@ -254,7 +254,7 @@
         /// Gets all registered encoder and decoder codecs.
         /// </summary>
         /// <exception cref="InvalidOperationException">When the MediaEngine has not been initialized.</exception>
-        internal static unsafe AVCodec*[] AllCodecs
+        public static unsafe AVCodec*[] AllCodecs
         {
             get
             {

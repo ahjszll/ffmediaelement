@@ -3,7 +3,7 @@
     /// <summary>
     /// A base class for implementing interval workers.
     /// </summary>
-    internal abstract class IntervalWorkerBase : WorkerBase
+    public abstract class IntervalWorkerBase : WorkerBase
     {
         private readonly StepTimer QuantumTimer;
 

@@ -12,12 +12,12 @@
         /// <summary>
         /// The scan all PMTS private option name.
         /// </summary>
-        internal const string ScanAllPmts = "scan_all_pmts";
+        public const string ScanAllPmts = "scan_all_pmts";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContainerConfiguration"/> class.
         /// </summary>
-        internal ContainerConfiguration()
+        public ContainerConfiguration()
         {
             // placeholder
         }

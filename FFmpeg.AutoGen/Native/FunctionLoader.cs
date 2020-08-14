@@ -23,7 +23,7 @@ namespace FFmpeg.AutoGen.Native
         /// <returns>
         ///     A new delegate which points to the native function.
         /// </returns>
-        internal static T GetFunctionDelegate<T>(IntPtr nativeLibraryHandle, string functionName, bool throwOnError = true)
+        public static T GetFunctionDelegate<T>(IntPtr nativeLibraryHandle, string functionName, bool throwOnError = true)
         {
             var ptr = GetFunctionPointer(nativeLibraryHandle, functionName);
 

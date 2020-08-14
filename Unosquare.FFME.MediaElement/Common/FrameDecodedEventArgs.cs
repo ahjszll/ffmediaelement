@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name="frame">The audio or video frame pointer.</param>
         /// <param name="context">The input format context.</param>
-        internal FrameDecodedEventArgs(AVFrame* frame, AVFormatContext* context)
+        public FrameDecodedEventArgs(AVFrame* frame, AVFormatContext* context)
             : base(context)
         {
             Frame = frame;

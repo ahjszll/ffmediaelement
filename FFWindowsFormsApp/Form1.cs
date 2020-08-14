@@ -1,11 +1,11 @@
-﻿using FFWindowsFormsApp.Core.Decoder;
-using FFWindowsFormsApp.Core.Renderer;
+﻿using Unosquare.FFWindowsFormsApp.Core.Decoder;
+using Unosquare.FFWindowsFormsApp.Core.Renderer;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FFWindowsFormsApp
+namespace Unosquare.FFWindowsFormsApp
 {
     public partial class Form1 : Form
     {
@@ -29,7 +29,8 @@ namespace FFWindowsFormsApp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            _decoder = new FFDecoder("e:\\电影模式.mp4");
+            _decoder = new FFDecoder("rtsp://192.168.2.185/ch1");
+            _decoder.Start();
             SDL2VideoRenderer renderer = new SDL2VideoRenderer();
             renderer.SetHandle(video1.Handle);
             _decoder.AddRenderer(renderer);

@@ -675,12 +675,12 @@ namespace FFmpeg.AutoGen
         public const int AVFILTER_FLAG_DYNAMIC_OUTPUTS = 0x1 << 0x1;
         /// <summary>AVFILTER_FLAG_SLICE_THREADS = 0x1 &lt;&lt; 0x2</summary>
         public const int AVFILTER_FLAG_SLICE_THREADS = 0x1 << 0x2;
-        /// <summary>AVFILTER_FLAG_SUPPORT_TIMELINE = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL</summary>
-        public const int AVFILTER_FLAG_SUPPORT_TIMELINE = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL;
+        /// <summary>AVFILTER_FLAG_SUPPORT_TIMELINE = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SUPPORT_TIMELINE_public</summary>
+        public const int AVFILTER_FLAG_SUPPORT_TIMELINE = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SUPPORT_TIMELINE_public;
         /// <summary>AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC = 0x1 &lt;&lt; 0x10</summary>
         public const int AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC = 0x1 << 0x10;
-        /// <summary>AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL = 0x1 &lt;&lt; 0x11</summary>
-        public const int AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL = 0x1 << 0x11;
+        /// <summary>AVFILTER_FLAG_SUPPORT_TIMELINE_public = 0x1 &lt;&lt; 0x11</summary>
+        public const int AVFILTER_FLAG_SUPPORT_TIMELINE_public = 0x1 << 0x11;
         /// <summary>AVFILTER_THREAD_SLICE = 0x1 &lt;&lt; 0x0</summary>
         public const int AVFILTER_THREAD_SLICE = 0x1 << 0x0;
         /// <summary>AVFMT_ALLOW_FLUSH = 0x10000</summary>

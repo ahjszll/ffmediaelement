@@ -5,7 +5,7 @@
     /// <summary>
     /// Defines an atomic DateTime.
     /// </summary>
-    internal sealed class AtomicDateTime : AtomicTypeBase<DateTime>
+    public sealed class AtomicDateTime : AtomicTypeBase<DateTime>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomicDateTime"/> class.

@@ -7,12 +7,12 @@
     /// <summary>
     /// A pre-allocated, scaled video block. The buffer is in BGR, 24-bit format.
     /// </summary>
-    internal sealed class VideoBlock : MediaBlock
+    public sealed class VideoBlock : MediaBlock
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VideoBlock" /> class.
         /// </summary>
-        internal VideoBlock()
+        public VideoBlock()
             : base(MediaType.Video)
         {
             // placeholder
@@ -34,51 +34,51 @@
         /// Gets the pixel aspect width.
         /// This is NOT the display aspect width.
         /// </summary>
-        public int PixelAspectWidth { get; internal set; }
+        public int PixelAspectWidth { get;set; }
 
         /// <summary>
         /// Gets the pixel aspect height.
         /// This is NOT the display aspect height.
         /// </summary>
-        public int PixelAspectHeight { get; internal set; }
+        public int PixelAspectHeight { get;set; }
 
         /// <summary>
         /// Gets the SMTPE time code.
         /// </summary>
-        public string SmtpeTimeCode { get; internal set; }
+        public string SmtpeTimeCode { get;set; }
 
         /// <summary>
         /// Gets a value indicating whether this frame was decoded in a hardware context.
         /// </summary>
-        public bool IsHardwareFrame { get; internal set; }
+        public bool IsHardwareFrame { get;set; }
 
         /// <summary>
         /// Gets the name of the hardware decoder if the frame was decoded in a hardware context.
         /// </summary>
-        public string HardwareAcceleratorName { get; internal set; }
+        public string HardwareAcceleratorName { get;set; }
 
         /// <summary>
         /// Gets the display picture number (frame number).
         /// If not set by the decoder, this attempts to obtain it by dividing the start time by the
         /// frame duration.
         /// </summary>
-        public long DisplayPictureNumber { get; internal set; }
+        public long DisplayPictureNumber { get;set; }
 
         /// <summary>
         /// Gets the coded picture number set by the decoder.
         /// </summary>
-        public long CodedPictureNumber { get; internal set; }
+        public long CodedPictureNumber { get;set; }
 
         /// <summary>
         /// Gets the picture type.
         /// </summary>
-        public AVPictureType PictureType { get; internal set; }
+        public AVPictureType PictureType { get;set; }
 
 
         /// <summary>
         /// Gets the picture buffer stride.
         /// </summary>
-        internal int PictureBufferStride { get; private set; }
+        public int PictureBufferStride { get; private set; }
 
         #endregion
 
@@ -91,7 +91,7 @@
         /// <param name="source">The source.</param>
         /// <param name="pixelFormat">The pixel format.</param>
         /// <returns>True if the allocation was successful.</returns>
-        internal unsafe bool Allocate(VideoFrame source, AVPixelFormat pixelFormat)
+        public unsafe bool Allocate(VideoFrame source, AVPixelFormat pixelFormat)
         {
             // Ensure proper allocation of the buffer
             // If there is a size mismatch between the wanted buffer length and the existing one,
@@ -116,7 +116,6 @@
             PixelWidth = 0;
             PixelHeight = 0;
         }
-
         #endregion
     }
 }

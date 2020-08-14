@@ -13,7 +13,7 @@
         /// Initializes a new instance of the <see cref="MediaLogMessageEventArgs"/> class.
         /// </summary>
         /// <param name="message">The message.</param>
-        internal MediaLogMessageEventArgs(LoggingMessage message)
+        public MediaLogMessageEventArgs(LoggingMessage message)
         {
             TimestampUtc = message.TimestampUtc;
             MessageType = message.MessageType;

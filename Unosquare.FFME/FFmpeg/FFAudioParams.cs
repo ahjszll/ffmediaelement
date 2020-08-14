@@ -7,7 +7,7 @@
     /// Contains audio format properties essential
     /// to audio processing and re-sampling in FFmpeg libraries.
     /// </summary>
-    internal sealed unsafe class FFAudioParams
+    public sealed unsafe class FFAudioParams
     {
         #region Constant Definitions
 
@@ -102,7 +102,7 @@
         /// </summary>
         /// <param name="frame">The frame.</param>
         /// <returns>The audio parameters.</returns>
-        internal static FFAudioParams CreateSource(AVFrame* frame)
+        public static FFAudioParams CreateSource(AVFrame* frame)
         {
             var spec = new FFAudioParams(frame);
             if (spec.ChannelLayout == 0)
@@ -117,7 +117,7 @@
         /// </summary>
         /// <param name="frame">The frame.</param>
         /// <returns>The audio parameters.</returns>
-        internal static FFAudioParams CreateTarget(AVFrame* frame)
+        public static FFAudioParams CreateTarget(AVFrame* frame)
         {
             var spec = new FFAudioParams
             {
@@ -141,7 +141,7 @@
         /// <param name="a">a.</param>
         /// <param name="b">The b.</param>
         /// <returns>True if the params are compatible, false otherwise.</returns>
-        internal static bool AreCompatible(FFAudioParams a, FFAudioParams b)
+        public static bool AreCompatible(FFAudioParams a, FFAudioParams b)
         {
             if (a.Format != b.Format) return false;
             if (a.ChannelCount != b.ChannelCount) return false;

@@ -21,7 +21,7 @@ namespace Unosquare.FFME.Container
     /// 4. Perform continuous block materialization.
     /// </summary>
     /// <seealso cref="IDisposable" />
-    internal sealed unsafe class MediaContainer : IDisposable, ILoggingSource
+    public sealed unsafe class MediaContainer : IDisposable, ILoggingSource
     {
         #region Private Fields
 
@@ -93,7 +93,7 @@ namespace Unosquare.FFME.Container
         private AVIOContext* CustomInputStreamContext;
 
         /// <summary>
-        /// Hold the value for the internal property with the same name.
+        /// Hold the value for the public property with the same name.
         /// Picture attachments are required when video streams support them
         /// and these attached packets must be read before reading the first frame
         /// of the stream and after seeking.
@@ -169,6 +169,7 @@ namespace Unosquare.FFME.Container
         #region Properties
 
         /// <inheritdoc />
+
         ILoggingHandler ILoggingSource.LoggingHandler => m_LoggingHandler;
 
         /// <summary>
@@ -299,42 +300,16 @@ namespace Unosquare.FFME.Container
 
         #endregion
 
-        #region Internal Properties
+        #region public Properties
 
         /// <summary>
         /// Holds a reference to the input context.
         /// </summary>
-        internal AVFormatContext* InputContext { get; private set; } = null;
+        public AVFormatContext* InputContext { get; private set; } = null;
 
         #endregion
 
-        #region Private State Management
-
-        /// <summary>
-        /// Picture attachments are required when video streams support them
-        /// and these attached packets must be read before reading the first frame
-        /// of the stream and after seeking. This property is not part of the public API
-        /// and is meant more for internal purposes.
-        /// </summary>
-        private bool StateRequiresPictureAttachments
-        {
-            get
-            {
-                var canRequireAttachments = Components.HasVideo &&
-                    Components.Video.IsStillPictures;
-
-                return canRequireAttachments && RequiresPictureAttachments;
-            }
-            set
-            {
-                var canRequireAttachments = Components.HasVideo &&
-                    Components.Video.IsStillPictures;
-
-                RequiresPictureAttachments = canRequireAttachments && value;
-            }
-        }
-
-        #endregion
+       
 
         #region Public API
 
@@ -393,11 +368,11 @@ namespace Unosquare.FFME.Container
 
         /// <summary>
         /// Reads the next available packet, sending the packet to the corresponding
-        /// internal media component. It also sets IsAtEndOfStream property.
+        /// public media component. It also sets IsAtEndOfStream property.
         /// Returns the media type if the packet was accepted by any of the media components.
         /// Returns None if the packet was not accepted by any of the media components
         /// or if reading failed (i.e. End of stream already or read error).
-        /// Packets are queued internally. To dequeue them you need to call the receive frames
+        /// Packets are queued publicly. To dequeue them you need to call the receive frames
         /// method of each component until the packet buffer count becomes 0.
         /// </summary>
         /// <returns>The media type of the packet that was read.</returns>
@@ -448,8 +423,8 @@ namespace Unosquare.FFME.Container
         }
 
         /// <summary>
-        /// Performs audio, video and subtitle conversions on the decoded input frame so data
-        /// can be used as a Frame. Please note that if the output is passed as a reference.
+        /// Performs audio, video and subtitle conversions on the decoded input frame so data can be used as a Frame.
+        ///  Please note that if the output is passed as a reference.
         /// This works as follows: if the output reference is null it will be automatically instantiated
         /// and returned by this function. This enables to  either instantiate or reuse a previously allocated Frame.
         /// This is important because buffer allocations are expensive operations and this allows you
@@ -910,10 +885,6 @@ namespace Unosquare.FFME.Container
             if (Components.HasVideo == false && Components.HasAudio == false)
                 throw new MediaContainerException($"{MediaSource}: No audio, video, or subtitle streams found to decode.");
 
-            // Initially and depending on the video component, require picture attachments.
-            // Picture attachments are only required after the first read or after a seek.
-            StateRequiresPictureAttachments = true;
-
             // Return the registered component types
             return Components.MediaTypes.ToArray();
         }
@@ -934,18 +905,6 @@ namespace Unosquare.FFME.Container
 
             if (IsReadAborted)
                 return MediaType.None;
-
-            if (StateRequiresPictureAttachments)
-            {
-                var attachedPacket = MediaPacket.ClonePacket(&Components.Video.Stream->attached_pic);
-                if (attachedPacket != null)
-                {
-                    Components.Video.SendPacket(attachedPacket);
-                    Components.Video.SendEmptyPacket();
-                }
-
-                StateRequiresPictureAttachments = false;
-            }
 
             // Allocate the packet to read
             var readPacket = MediaPacket.CreateReadPacket();
@@ -1144,7 +1103,6 @@ namespace Unosquare.FFME.Container
 
                 // Flush the buffered packets and codec on every seek.
                 Components.ClearQueuedPackets(flushBuffers: true);
-                StateRequiresPictureAttachments = true;
                 IsAtEndOfStream = false;
 
                 // Ensure we had a successful seek operation
@@ -1205,7 +1163,6 @@ namespace Unosquare.FFME.Container
 
             // Flush packets, state, and codec buffers
             Components.ClearQueuedPackets(flushBuffers: true);
-            StateRequiresPictureAttachments = true;
             IsAtEndOfStream = false;
 
             if (seekResult >= 0)

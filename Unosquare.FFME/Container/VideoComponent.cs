@@ -12,7 +12,7 @@
     /// Performs video picture decoding, scaling and extraction logic.
     /// </summary>
     /// <seealso cref="MediaComponent" />
-    internal sealed unsafe class VideoComponent : MediaComponent
+    public sealed unsafe class VideoComponent : MediaComponent
     {
         #region Private State Variables
 
@@ -38,7 +38,7 @@
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="streamIndex">Index of the stream.</param>
-        internal VideoComponent(MediaContainer container, int streamIndex)
+        public VideoComponent(MediaContainer container, int streamIndex)
             : base(container, streamIndex)
         {
             BaseFrameRateQ = Stream->r_frame_rate;
@@ -88,7 +88,7 @@
         /// Point / nearest-neighbor is the default and it is the cheapest. This is by design as
         /// we don't change the dimensions of the image. We only do color conversion.
         /// </summary>
-        public static int ScalerFlags { get; internal set; } = ffmpeg.SWS_POINT;
+        public static int ScalerFlags { get; set; } = ffmpeg.SWS_POINT;
 
         /// <summary>
         /// Gets the base frame rate as reported by the stream component.

@@ -9,7 +9,7 @@
     /// the dispose method when you are done using it.
     /// </summary>
     /// <seealso cref="IDisposable" />
-    internal sealed unsafe class CircularBuffer : IDisposable
+    public sealed unsafe class CircularBuffer : IDisposable
     {
         #region Private State Variables
 

@@ -14,7 +14,7 @@
         /// <param name="divideBy">The divide by.</param>
         /// <returns>The formatted string.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static string Format(this long ts, double divideBy) =>
+        public static string Format(this long ts, double divideBy) =>
             Math.Abs(divideBy - 1d) <= double.Epsilon ? $"{ts,10:#,##0}" : $"{ts / divideBy,10:#,##0.000}";
 
         /// <summary>
@@ -24,7 +24,7 @@
         /// <param name="ts">The timestamp.</param>
         /// <returns>The formatted string.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static string Format(this long ts) => Format(ts, 1);
+        public static string Format(this long ts) => Format(ts, 1);
 
         /// <summary>
         /// Gets a timespan given a timestamp and a timebase.
@@ -33,7 +33,7 @@
         /// <param name="timeBase">The time base.</param>
         /// <returns>The TimeSpan.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static TimeSpan ToTimeSpan(this double pts, AVRational timeBase)
+        public static TimeSpan ToTimeSpan(this double pts, AVRational timeBase)
         {
             if (double.IsNaN(pts) || Math.Abs(pts - ffmpeg.AV_NOPTS_VALUE) <= double.Epsilon)
                 return TimeSpan.MinValue;
@@ -52,7 +52,7 @@
         /// A long, ffmpeg compatible timestamp.
         /// </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static long ToLong(this TimeSpan ts, AVRational timeBase)
+        public static long ToLong(this TimeSpan ts, AVRational timeBase)
         {
             return Convert.ToInt64(ts.TotalSeconds * timeBase.den / timeBase.num); // (secs) * (units) / (secs) = (units)
         }
@@ -64,7 +64,7 @@
         /// <param name="timeBase">The time base.</param>
         /// <returns>The TimeSpan.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static TimeSpan ToTimeSpan(this long pts, AVRational timeBase)
+        public static TimeSpan ToTimeSpan(this long pts, AVRational timeBase)
         {
             return Convert.ToDouble(pts).ToTimeSpan(timeBase);
         }
@@ -76,7 +76,7 @@
         /// <param name="timeBase">The time base.</param>
         /// <returns>The TimeSpan.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static TimeSpan ToTimeSpan(this double pts, double timeBase)
+        public static TimeSpan ToTimeSpan(this double pts, double timeBase)
         {
             if (double.IsNaN(pts) || Math.Abs(pts - ffmpeg.AV_NOPTS_VALUE) <= double.Epsilon)
                 return TimeSpan.MinValue;
@@ -91,7 +91,7 @@
         /// <param name="timeBase">The time base.</param>
         /// <returns>The TimeSpan.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static TimeSpan ToTimeSpan(this long pts, double timeBase)
+        public static TimeSpan ToTimeSpan(this long pts, double timeBase)
         {
             return Convert.ToDouble(pts).ToTimeSpan(timeBase);
         }
@@ -102,7 +102,7 @@
         /// <param name="pts">The PTS.</param>
         /// <returns>The TimeSpan.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static TimeSpan ToTimeSpan(this double pts)
+        public static TimeSpan ToTimeSpan(this double pts)
         {
             return ToTimeSpan(pts, ffmpeg.AV_TIME_BASE);
         }
@@ -113,7 +113,7 @@
         /// <param name="pts">The PTS.</param>
         /// <returns>The TimeSpan.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static TimeSpan ToTimeSpan(this long pts)
+        public static TimeSpan ToTimeSpan(this long pts)
         {
             return Convert.ToDouble(pts).ToTimeSpan();
         }
@@ -124,7 +124,7 @@
         /// <param name="rational">The rational.</param>
         /// <returns>The value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static double ToDouble(this AVRational rational)
+        public static double ToDouble(this AVRational rational)
         {
             if (rational.den == 0) return 0; // prevent overflows.
             return Convert.ToDouble(rational.num) / Convert.ToDouble(rational.den);
@@ -136,7 +136,7 @@
         /// <param name="source">The source.</param>
         /// <returns>The normalized, whole-millisecond timespan.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static TimeSpan Normalize(this TimeSpan source)
+        public static TimeSpan Normalize(this TimeSpan source)
         {
             return TimeSpan.FromSeconds(source.TotalSeconds);
         }
@@ -147,7 +147,7 @@
         /// <param name="ts">The ts.</param>
         /// <returns>The formatted string.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static string Format(this TimeSpan ts)
+        public static string Format(this TimeSpan ts)
         {
             return ts == TimeSpan.MinValue ?
                 $"{"N/A",10}" :
@@ -161,7 +161,7 @@
         /// <param name="dt">The dt.</param>
         /// <returns>The formatted string.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static string FormatElapsed(this DateTime dt)
+        public static string FormatElapsed(this DateTime dt)
         {
             return $"{DateTime.UtcNow.Subtract(dt).TotalMilliseconds,6:0}";
         }

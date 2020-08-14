@@ -5,7 +5,7 @@
     /// Idea taken from Memory model and .NET operations in article:
     /// http://igoro.com/archive/volatile-keyword-in-c-memory-model-explained/.
     /// </summary>
-    internal sealed class AtomicBoolean : AtomicTypeBase<bool>
+    public sealed class AtomicBoolean : AtomicTypeBase<bool>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomicBoolean"/> class.

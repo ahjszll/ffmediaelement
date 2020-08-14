@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace FFmpeg.AutoGen
 {
-    internal class ConstCharPtrMarshaler : ICustomMarshaler
+    public class ConstCharPtrMarshaler : ICustomMarshaler
     {
         public object MarshalNativeToManaged(IntPtr pNativeData) => Marshal.PtrToStringAnsi(pNativeData);
 

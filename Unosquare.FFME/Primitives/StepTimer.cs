@@ -14,7 +14,7 @@
     /// for all registered <see cref="StepTimer"/> instances. This effectively reduces
     /// the amount <see cref="Timer"/> instances when many of such objects are required.
     /// </summary>
-    internal sealed class StepTimer : IDisposable
+    public sealed class StepTimer : IDisposable
     {
         private static readonly Stopwatch Stopwatch = new Stopwatch();
         private static readonly List<StepTimer> RegisteredTimers = new List<StepTimer>();

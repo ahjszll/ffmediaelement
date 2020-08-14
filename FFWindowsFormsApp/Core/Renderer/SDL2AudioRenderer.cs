@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Timers;
 
-namespace FFWindowsFormsApp.Core.Renderer
+namespace Unosquare.FFWindowsFormsApp.Core.Renderer
 {
     public class SDL2AudioRenderer : Renderer
     {

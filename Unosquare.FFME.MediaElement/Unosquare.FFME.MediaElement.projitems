@@ -10,8 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Common\DataFrameReceivedEventArgs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\ViewModelBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\MediaFailedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\FrameDecodedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\InputFormatEventArgs.cs" />
@@ -23,12 +21,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\PacketReadEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\PositionChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaElement.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MediaElement.Properties.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MediaElement.Events.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Platform\IPropertyProxy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Platform\MediaConnector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Platform\ClassProxy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Platform\PropertyMapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Platform\PropertyProxy.cs" />
   </ItemGroup>
 </Project>

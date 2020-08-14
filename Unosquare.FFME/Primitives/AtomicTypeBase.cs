@@ -8,7 +8,7 @@
     /// Provides a generic implementation of an Atomic (interlocked) type.
     /// </summary>
     /// <typeparam name="T">The structure type backed by a 64-bit value.</typeparam>
-    internal abstract class AtomicTypeBase<T> : IComparable, IComparable<T>, IComparable<AtomicTypeBase<T>>, IEquatable<T>, IEquatable<AtomicTypeBase<T>>
+    public abstract class AtomicTypeBase<T> : IComparable, IComparable<T>, IComparable<AtomicTypeBase<T>>, IEquatable<T>, IEquatable<AtomicTypeBase<T>>
         where T : struct, IComparable, IComparable<T>, IEquatable<T>
     {
         private long backingValue;

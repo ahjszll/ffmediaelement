@@ -47,12 +47,12 @@
         /// <summary>
         /// Gets the stream index this seeking index belongs to.
         /// </summary>
-        public int StreamIndex { get; internal set; }
+        public int StreamIndex { get; set; }
 
         /// <summary>
         /// Gets the source URL this seeking index belongs to.
         /// </summary>
-        public string MediaSource { get; internal set; }
+        public string MediaSource { get; set; }
 
         /// <summary>
         /// Loads the specified stream in the CSV-like UTF8 format it was written by the <see cref="Save(Stream)"/> method.
@@ -161,7 +161,7 @@
         /// True if the index entry was created from the frame.
         /// False if the frame is of wrong picture type or if it already existed.
         /// </returns>
-        internal bool TryAdd(VideoFrame managedFrame)
+        public bool TryAdd(VideoFrame managedFrame)
         {
             // Update the Seek index
             if (managedFrame.PictureType != AVPictureType.AV_PICTURE_TYPE_I)
@@ -184,7 +184,7 @@
         /// Adds the monotonic entries up to a stream duration.
         /// </summary>
         /// <param name="streamDuration">Duration of the stream.</param>
-        internal void AddMonotonicEntries(TimeSpan streamDuration)
+        public void AddMonotonicEntries(TimeSpan streamDuration)
         {
             if (Entries.Count < 2) return;
 
@@ -223,7 +223,7 @@
         /// Returns -1 if there are less than 2 entries or if the entries are not monotonic.
         /// </summary>
         /// <returns>-1 if the entries are not monotonic.</returns>
-        internal long ComputeMonotonicDistance()
+        public long ComputeMonotonicDistance()
         {
             if (Entries.Count < 2) return -1L;
             var lastDistance = -1L;

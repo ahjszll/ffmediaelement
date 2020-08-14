@@ -15,7 +15,7 @@
     /// Provides a set of utilities to perform logging, text formatting,
     /// conversion and other handy calculations.
     /// </summary>
-    internal static unsafe class FFInterop
+    public static unsafe class FFInterop
     {
         #region Private Declarations
 
@@ -341,7 +341,7 @@
         /// Handles FFmpeg library messages.
         /// </summary>
         /// <seealso cref="ILoggingHandler" />
-        internal class FFLoggingHandler : ILoggingHandler
+        public class FFLoggingHandler : ILoggingHandler
         {
             /// <inheritdoc />
             void ILoggingHandler.HandleLogMessage(LoggingMessage message) =>

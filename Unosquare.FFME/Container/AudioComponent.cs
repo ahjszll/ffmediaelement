@@ -11,7 +11,7 @@
     /// Provides audio sample extraction, decoding and scaling functionality.
     /// </summary>
     /// <seealso cref="MediaComponent" />
-    internal sealed unsafe class AudioComponent : MediaComponent
+    public sealed unsafe class AudioComponent : MediaComponent
     {
         #region Private Declarations
 
@@ -44,7 +44,7 @@
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="streamIndex">Index of the stream.</param>
-        internal AudioComponent(MediaContainer container, int streamIndex)
+        public AudioComponent(MediaContainer container, int streamIndex)
             : base(container, streamIndex)
         {
             Channels = Stream->codec->channels;

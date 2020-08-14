@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the different worker types.
     /// </summary>
-    internal enum MediaWorkerType
+    public enum MediaWorkerType
     {
         /// <summary>
         /// The packet reading worker

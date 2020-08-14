@@ -14,7 +14,7 @@
     /// logic.
     /// </summary>
     /// <seealso cref="IDisposable" />
-    internal abstract unsafe class MediaComponent : IDisposable, ILoggingSource
+    public abstract unsafe class MediaComponent : IDisposable, ILoggingSource
     {
         #region Private Declarations
 
@@ -69,7 +69,7 @@
         /// <param name="streamIndex">Index of the stream.</param>
         /// <exception cref="ArgumentNullException">container.</exception>
         /// <exception cref="MediaContainerException">The container exception.</exception>
-        protected MediaComponent(MediaContainer container, int streamIndex)
+        public MediaComponent(MediaContainer container, int streamIndex)
         {
             // Ported from: https://github.com/FFmpeg/FFmpeg/blob/master/fftools/ffplay.c#L2559
             Container = container ?? throw new ArgumentNullException(nameof(container));
@@ -289,13 +289,13 @@
         /// by the start time of the stream.
         /// Returns TimeSpan.MinValue when unknown.
         /// </summary>
-        public TimeSpan StartTime { get; internal set; }
+        public TimeSpan StartTime { get;  set; }
 
         /// <summary>
         /// Gets the duration of this stream component.
         /// If there is no such information it will return TimeSpan.MinValue.
         /// </summary>
-        public TimeSpan Duration { get; internal set; }
+        public TimeSpan Duration { get;  set; }
 
         /// <summary>
         /// Gets the component's stream end timestamp as reported
@@ -405,7 +405,7 @@
         /// <summary>
         /// Gets or sets the last frame PTS.
         /// </summary>
-        internal long? LastFramePts { get; set; }
+        public long? LastFramePts { get; set; }
 
         #endregion
 
@@ -423,8 +423,6 @@
 
             if (flushBuffers)
                 FlushCodecBuffers();
-
-            Container.Components.ProcessPacketQueueChanges(PacketQueueOp.Clear, null, MediaType);
         }
 
         /// <summary>
@@ -451,9 +449,7 @@
                 SendEmptyPacket();
                 return;
             }
-
             Packets.Push(packet);
-            Container.Components.ProcessPacketQueueChanges(PacketQueueOp.Queued, packet, MediaType);
         }
 
         /// <summary>
@@ -471,7 +467,6 @@
             {
                 Duration = TimeSpan.FromTicks(frame.EndTime.Ticks - StartTime.Ticks);
             }
-
             return frame;
         }
 
@@ -530,7 +525,7 @@
 
         /// <summary>
         /// Sends a special kind of packet (a flush packet)
-        /// that tells the decoder to flush it internal buffers
+        /// that tells the decoder to flush it public buffers
         /// This an encapsulation of flush_pkt.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -588,7 +583,6 @@
                 {
                     // Dequeue the packet and release it.
                     packet = Packets.Dequeue();
-                    Container.Components.ProcessPacketQueueChanges(PacketQueueOp.Dequeued, packet, MediaType);
 
                     packet.Dispose();
                     packetCount++;
@@ -655,10 +649,6 @@
             if (frame == null || Container.Components.OnFrameDecoded == null)
                 return frame;
 
-            unsafe 
-            {
-                frame.Dispose();
-            }
             if (MediaType == MediaType.Audio && frame is AudioFrame audioFrame)
                 Container.Components.OnFrameDecoded?.Invoke((IntPtr)audioFrame.Pointer, MediaType);
             else if (MediaType == MediaType.Video && frame is VideoFrame videoFrame)

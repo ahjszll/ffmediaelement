@@ -3,7 +3,7 @@
     /// <summary>
     /// Enumerates the different states in which a worker can be.
     /// </summary>
-    internal enum WorkerState
+    public enum WorkerState
     {
         /// <summary>
         /// The worker has been created and it is ready to start.

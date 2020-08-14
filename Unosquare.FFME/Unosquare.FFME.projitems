@@ -12,11 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\DataFrame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Container\DataComponentSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Aspects.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandManager.Direct.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandManager.Enums.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandManager.Priority.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandManager.Seek.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FFmpeg\FFAudioParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FFmpeg\FFDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FFmpeg\FFDictionaryEntry.cs" />
@@ -24,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FFmpeg\FFLibrary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\RC.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Library.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Container\MediaFrameBuffer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\StepTimer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\IntervalWorkerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\RealtimeClock.cs" />
@@ -52,7 +48,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\HardwareDeviceInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\ILoggingHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\ILoggingSource.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Platform\IMediaConnector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\IMediaEngineState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\IMediaInputStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Container\MediaBlock.cs" />
@@ -70,7 +65,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\VideoSeekIndex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\VideoSeekIndexEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Logging.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\MediaEngine.Connector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\MediaEngine.Controller.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\MediaEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\MediaEngine.Workers.cs" />
@@ -81,8 +75,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\AtomicLong.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\AtomicTimeSpan.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\AtomicTypeBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Benchmark.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\BenchmarkResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\CircularBuffer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\ISyncLocker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\IWorker.cs" />
@@ -95,7 +87,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\MediaWorkerSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\MediaWorkerType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\PacketReadingWorker.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\TimingController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities.Audio.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities.Time.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities.Media.cs" />

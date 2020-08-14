@@ -12,7 +12,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="DemuxerGlobalOptions"/> class.
         /// </summary>
-        internal DemuxerGlobalOptions()
+        public DemuxerGlobalOptions()
         {
             // placeholder
         }

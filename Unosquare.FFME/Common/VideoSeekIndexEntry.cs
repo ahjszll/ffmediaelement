@@ -21,7 +21,7 @@
         /// <param name="startTimeTicks">The start time ticks.</param>
         /// <param name="presentationTime">The presentation time.</param>
         /// <param name="decodingTime">The decoding time.</param>
-        internal VideoSeekIndexEntry(int streamIndex, int timeBaseNum, int timeBaseDen, long startTimeTicks, long presentationTime, long decodingTime)
+        public VideoSeekIndexEntry(int streamIndex, int timeBaseNum, int timeBaseDen, long startTimeTicks, long presentationTime, long decodingTime)
         {
             StreamIndex = streamIndex;
             StartTime = TimeSpan.FromTicks(startTimeTicks);
@@ -34,7 +34,7 @@
         /// Initializes a new instance of the <see cref="VideoSeekIndexEntry"/> class.
         /// </summary>
         /// <param name="frame">The frame.</param>
-        internal VideoSeekIndexEntry(VideoFrame frame)
+        public VideoSeekIndexEntry(VideoFrame frame)
         {
             StreamIndex = frame.StreamIndex;
             StreamTimeBase = frame.StreamTimeBase;
@@ -171,7 +171,7 @@
         /// </summary>
         /// <param name="line">The line.</param>
         /// <returns>An index entry or null if unsuccessful.</returns>
-        internal static VideoSeekIndexEntry FromCsvString(string line)
+        public static VideoSeekIndexEntry FromCsvString(string line)
         {
             var parts = line.Split(CommaSeparator);
             if (parts.Length >= 6 &&
@@ -193,7 +193,7 @@
         /// Converts values of this instance to a line of CSV text.
         /// </summary>
         /// <returns>The comma-separated values.</returns>
-        internal string ToCsvString() =>
+        public string ToCsvString() =>
             $"{StreamIndex},{StreamTimeBase.num},{StreamTimeBase.den},{StartTime.Ticks},{PresentationTime},{DecodingTime}";
     }
 }
