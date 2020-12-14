@@ -2,11 +2,11 @@
 {
     using Common;
     using Diagnostics;
+    using global::Unosquare.FFME.Container;
     using Primitives;
     using System;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
-    using Unosquare.FFME.Container;
 
     /// <summary>
     /// Represents a Media Engine that contains underlying streams of audio and/or video.

@@ -1,4 +1,4 @@
-﻿namespace Unosquare.FFWindowsFormsApp
+﻿namespace FFWindowsFormsApp
 {
     partial class Form1
     {

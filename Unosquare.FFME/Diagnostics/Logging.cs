@@ -17,7 +17,7 @@ namespace Unosquare.FFME.Diagnostics
         #region Private Members
 
         private static readonly ConcurrentQueue<LoggingMessage> LogQueue = new ConcurrentQueue<LoggingMessage>();
-        private static readonly LogOutputTimerWorker LogOutputWorker = new LogOutputTimerWorker();
+       // private static readonly LogOutputTimerWorker LogOutputWorker = new LogOutputTimerWorker();
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Unosquare.FFME.Diagnostics
         /// </summary>
         static Logging()
         {
-            LogOutputWorker.StartAsync();
+            //LogOutputWorker.StartAsync();
         }
 
         #endregion
@@ -133,7 +133,7 @@ namespace Unosquare.FFME.Diagnostics
             /// Initializes a new instance of the <see cref="LogOutputTimerWorker"/> class.
             /// </summary>
             public LogOutputTimerWorker()
-                : base(nameof(LogOutputWorker))
+                : base("LogOutputWorker")
             {
                 // placeholder
             }
@@ -156,7 +156,7 @@ namespace Unosquare.FFME.Diagnostics
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"{nameof(Logging)}.{nameof(LogOutputWorker)} - {ex.GetType()}: {ex.Message}");
+                   // Debug.WriteLine($"{nameof(Logging)}.{nameof(LogOutputWorker)} - {ex.GetType()}: {ex.Message}");
                 }
             }
 

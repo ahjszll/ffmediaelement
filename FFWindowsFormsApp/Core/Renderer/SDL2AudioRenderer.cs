@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Timers;
 
-namespace Unosquare.FFWindowsFormsApp.Core.Renderer
+namespace FFWindowsFormsApp.Core.Package
 {
     public class SDL2AudioRenderer : Renderer
     {
@@ -24,11 +24,11 @@ namespace Unosquare.FFWindowsFormsApp.Core.Renderer
 
         private void InitSDL()
         {
-            if (SDL2VideoRenderer.SdlInit)
+            if (SDL2VideoRenderer.GlobalSdlInit)
                 return;
             SDL2.SDL.SDL_Init(SDL2.SDL.SDL_INIT_AUDIO | SDL2.SDL.SDL_INIT_VIDEO);
             SDL2.SDL.SDL_EventState(SDL2.SDL.SDL_EventType.SDL_WINDOWEVENT, SDL2.SDL.SDL_IGNORE);
-            SDL2VideoRenderer.SdlInit = true;
+            SDL2VideoRenderer.GlobalSdlInit = true;
         }
 
 

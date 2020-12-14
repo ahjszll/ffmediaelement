@@ -16,7 +16,6 @@
     /// </summary>
     public sealed class StepTimer : IDisposable
     {
-        private static readonly Stopwatch Stopwatch = new Stopwatch();
         private static readonly List<StepTimer> RegisteredTimers = new List<StepTimer>();
         private static readonly ConcurrentQueue<StepTimer> PendingAddTimers = new ConcurrentQueue<StepTimer>();
         private static readonly ConcurrentQueue<StepTimer> PendingRemoveTimers = new ConcurrentQueue<StepTimer>();
@@ -28,7 +27,6 @@
             Priority = ThreadPriority.AboveNormal
         };
 
-        private static double TickCount;
 
         private readonly Action UserCallback;
         private int m_IsDisposing;
@@ -39,8 +37,6 @@
         /// </summary>
         static StepTimer()
         {
-            Resolution = Constants.DefaultTimingPeriod;
-            Stopwatch.Start();
             TimerThread.Start();
         }
 
@@ -54,14 +50,6 @@
             PendingAddTimers.Enqueue(this);
         }
 
-        /// <summary>
-        /// Gets the current time interval at which callbacks are being enqueued.
-        /// </summary>
-        public static TimeSpan Resolution
-        {
-            get;
-            private set;
-        }
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance is running cycle to prevent reentrancy.
@@ -100,16 +88,6 @@
         {
             while (true)
             {
-                TickCount++;
-                if (TickCount >= 60)
-                {
-                    Resolution = TimeSpan.FromMilliseconds(Stopwatch.Elapsed.TotalMilliseconds / TickCount);
-                    Stopwatch.Restart();
-                    TickCount = 0;
-
-                    // Debug.WriteLine($"Timer Resolution is now {Resolution.TotalMilliseconds}");
-                }
-
                 Parallel.ForEach(RegisteredTimers, (t) =>
                 {
                     if (t.IsRunningCycle || t.IsDisposing)
@@ -125,7 +103,7 @@
                         }
                         finally
                         {
-                            t.IsRunningCycle = false;
+                          t.IsRunningCycle = false;
                         }
                     });
                 });

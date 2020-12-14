@@ -18,18 +18,6 @@
         {
             MediaCore = mediaCore;
             Container = mediaCore.Container;
-
-            Container.Data.OnDataPacketReceived = (dataPacket, stream) =>
-            {
-                try
-                {
-                    var dataFrame = new DataFrame(dataPacket, stream, MediaCore);
-                }
-                catch
-                {
-                    // ignore
-                }
-            };
         }
 
         /// <inheritdoc />
@@ -53,9 +41,11 @@
                 {
                     break;
                 }
-
-                try { Container.Read(); }
+                try { 
+                   Container.Read();
+                }
                 catch (MediaContainerException) { /* ignore */ }
+                
             }
         }
 

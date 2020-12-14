@@ -15,7 +15,7 @@
 
         #region Public API
 
-        public void Open(IMediaInputStream stream, Uri streamUri)
+        public void Open(IMediaInputStream stream, Uri streamUri, HardwareDeviceInfo ha)
         {
             if (stream != null || streamUri != null)
             {
@@ -31,16 +31,9 @@
                     State.ResetAll();
                     State.UpdateSource(source);
 
-                    // Register FFmpeg libraries if not already done
-                    //if (Library.LoadFFmpeg())
-                    //{
-                    //    // Log an init message
-                    //    this.LogInfo(Aspects.EngineCommand,
-                    //        $"{nameof(FFInterop)}.{nameof(FFInterop.Initialize)}: FFmpeg v{Library.FFmpegVersionInfo}");
-                    //}
-
                     // Create a default stream container configuration object
                     var containerConfig = new ContainerConfiguration();
+
 
                     // Convert the URI object to something the Media Container understands (Uri to String)
                     var mediaSource = source.IsWellFormedOriginalString()
@@ -90,6 +83,8 @@
 
                     // Initialize the container
                     Container.Initialize();
+
+                    Container.MediaOptions.VideoHardwareDevice = ha;
 
                     // Side-load subtitles if requested
 

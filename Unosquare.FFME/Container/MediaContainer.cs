@@ -443,7 +443,7 @@ namespace Unosquare.FFME.Container
         /// <exception cref="ArgumentException">input
         /// or
         /// input.</exception>
-        public bool Convert(MediaFrame input, ref MediaBlock output, bool releaseInput, MediaBlock previousBlock)
+        public bool Convert(MediaFrame input, ref MediaBlock output)
         {
             lock (ConvertSyncRoot)
             {
@@ -460,20 +460,12 @@ namespace Unosquare.FFME.Container
                         $"The {nameof(input)} {nameof(MediaFrame)} ({input.MediaType}) has already been released (it's stale).");
                 }
 
-                try
+                return input.MediaType switch
                 {
-                    return input.MediaType switch
-                    {
-                        MediaType.Video => Components.HasVideo && Components.Video.MaterializeFrame(input, ref output, previousBlock),
-                        MediaType.Audio => Components.HasAudio && Components.Audio.MaterializeFrame(input, ref output, previousBlock),
-                        _ => throw new MediaContainerException($"Unable to materialize frame of {nameof(MediaType)} {input.MediaType}"),
-                    };
-                }
-                finally
-                {
-                    if (releaseInput)
-                        input.Dispose();
-                }
+                    MediaType.Video => Components.HasVideo && Components.Video.MaterializeFrame(input, ref output),
+                    MediaType.Audio => Components.HasAudio && Components.Audio.MaterializeFrame(input, ref output),
+                    _ => throw new MediaContainerException($"Unable to materialize frame of {nameof(MediaType)} {input.MediaType}"),
+                };
             }
         }
 
@@ -905,7 +897,6 @@ namespace Unosquare.FFME.Container
 
             if (IsReadAborted)
                 return MediaType.None;
-
             // Allocate the packet to read
             var readPacket = MediaPacket.CreateReadPacket();
             StreamReadInterruptStartTime.Value = DateTime.UtcNow;

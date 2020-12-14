@@ -1,11 +1,9 @@
-﻿using Unosquare.FFWindowsFormsApp.Core.Decoder;
-using Unosquare.FFWindowsFormsApp.Core.Renderer;
+﻿using FFWindowsFormsApp.Core;
+using FFWindowsFormsApp.Core.Package;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Unosquare.FFWindowsFormsApp
+namespace FFWindowsFormsApp
 {
     public partial class Form1 : Form
     {
@@ -13,7 +11,7 @@ namespace Unosquare.FFWindowsFormsApp
         Panel video1 = new Panel();
         Panel video2 = new Panel();
 
-        FFDecoder _decoder = null;
+        MediaBox mb = new MediaBox();
 
         public Form1()
         {
@@ -29,27 +27,17 @@ namespace Unosquare.FFWindowsFormsApp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            _decoder = new FFDecoder("rtsp://192.168.2.185/ch1");
-            _decoder.Start();
+            FFDecoder decoder = new FFDecoder();
+            decoder.Open("f:\\test.mpg");
+            decoder.Play();
+            mb.AddFFDecoder(decoder);
+
             SDL2VideoRenderer renderer = new SDL2VideoRenderer();
             renderer.SetHandle(video1.Handle);
-            _decoder.AddRenderer(renderer);
+            mb.AddRenderer(renderer);
 
-            Task.Factory.StartNew(() => 
-            {
-                while (true) 
-                {
-                    Thread.Sleep(3000);
-                    this.Invoke(new MethodInvoker(() => { 
-                        renderer.SetHandle(video2.Handle);
-                    }));
-                    Thread.Sleep(3000);
-                    this.Invoke(new MethodInvoker(() => {
-                        renderer.SetHandle(video1.Handle);
-                    }));
-                    
-                }
-            });
+            mb.Start();
+            mb.Connect();
         }
     }
 }

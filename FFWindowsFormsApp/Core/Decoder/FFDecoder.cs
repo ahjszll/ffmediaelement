@@ -1,42 +1,66 @@
 ﻿using FFmpeg.AutoGen;
 using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Unosquare.FFME;
 using Unosquare.FFME.Common;
 using Unosquare.FFME.Container;
-using Unosquare.FFME.Primitives;
 
-namespace Unosquare.FFWindowsFormsApp.Core.Decoder
+namespace FFWindowsFormsApp.Core.Package
 {
-    public class FFDecoder : Decoder
+    public class FFDecoder: MediaNode
     {
-        FFME.Engine.MediaEngine _me = new FFME.Engine.MediaEngine();
-        public FFDecoder(string file)
+        private Unosquare.FFME.Engine.MediaEngine _me = null;
+        private HardwareDeviceInfo _haInfo = null;
+     
+
+        public FFDecoder()
         {
-            _me.Open(null,new Uri(file));
+            _me = new Unosquare.FFME.Engine.MediaEngine();
         }
 
-        public void Start() 
+        public void Open(string file)
+        {
+            _me.Open(null, new Uri(file), _haInfo);
+        }
+
+        public void UseHW()
+        {
+            _haInfo = null;
+            foreach (var haa in HardwareAccelerator.GetCompatibleDevices(AVCodecID.AV_CODEC_ID_H264))
+            {
+                if (haa.DeviceType == AVHWDeviceType.AV_HWDEVICE_TYPE_D3D11VA)
+                {
+                    _haInfo = haa;
+                }
+            }
+        }
+
+        public void Play()
         {
             _me.Play();
-            Task.Factory.StartNew(() =>
-            {
-                while (true) 
-                {
-                    Thread.Sleep(40);
-                    foreach (MediaFrame videoFrame in _me.Frames[MediaType.Video].ReadAll()) 
-                    {
-                        foreach (var render in _renderers) 
-                        {
-                            render.RenderVideo(videoFrame,_me.Container);
-                        }
-                    }
-                }
-            });
         }
+
+        public void Stop()
+        { 
+        
+        }
+
+        public void Close() 
+        { 
+        
+        }
+
+        public List<MediaFrame> ReadVideoMediaFrame()
+        {
+            return _me.Frames[MediaType.Video].ReadAll();
+        }
+
+        public List<MediaFrame> ReadAudioMediaFrame() 
+        {
+            return _me.Frames[MediaType.Audio].ReadAll();
+        }
+
+
     }
 }

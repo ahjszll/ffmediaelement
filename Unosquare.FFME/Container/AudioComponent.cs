@@ -81,7 +81,7 @@
         #region Methods
 
         /// <inheritdoc />
-        public override bool MaterializeFrame(MediaFrame input, ref MediaBlock output, MediaBlock previousBlock)
+        public override bool MaterializeFrame(MediaFrame input, ref MediaBlock output)
         {
             if (output == null) output = new AudioBlock();
             if (input is AudioFrame == false || output is AudioBlock == false)
@@ -144,22 +144,11 @@
             // Flag the block if we have to
             target.PresentationTime = source.PresentationTime;
             target.IsStartTimeGuessed = source.HasValidStartTime == false;
-
-            // Try to fix the start time, duration and End time if we don't have valid data
-            if (source.HasValidStartTime == false && previousBlock != null)
-            {
-                // Get timing information from the previous block
-                target.StartTime = TimeSpan.FromTicks(previousBlock.EndTime.Ticks + 1);
-                target.Duration = source.Duration.Ticks > 0 ? source.Duration : previousBlock.Duration;
-                target.EndTime = TimeSpan.FromTicks(target.StartTime.Ticks + target.Duration.Ticks);
-            }
-            else
-            {
-                // We set the target properties directly from the source
-                target.StartTime = source.StartTime;
-                target.Duration = source.Duration;
-                target.EndTime = source.EndTime;
-            }
+          
+            // We set the target properties directly from the source
+            target.StartTime = source.StartTime;
+            target.Duration = source.Duration;
+            target.EndTime = source.EndTime;
 
             target.CompressedSize = source.CompressedSize;
             target.SamplesBufferLength = outputBufferLength;

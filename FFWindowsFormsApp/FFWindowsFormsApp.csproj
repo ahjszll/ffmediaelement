@@ -3,9 +3,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
-    <RootNamespace>Unosquare.Unosquare.FFWindowsFormsApp</RootNamespace>
-    <StartupObject>Unosquare.FFWindowsFormsApp.Program</StartupObject>
-    <AssemblyName>Unosquare.FFWindowsFormsApp</AssemblyName>
+    <RootNamespace>FFWindowsFormsApp</RootNamespace>
+    <StartupObject>FFWindowsFormsApp.Program</StartupObject>
+    <AssemblyName>FFWindowsFormsApp</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

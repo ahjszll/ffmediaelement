@@ -252,6 +252,11 @@
             SendFlushPacket();
         }
 
+        public MediaComponent()
+        {
+            
+        }
+
         #endregion
 
         #region Properties
@@ -481,7 +486,7 @@
         /// <returns>
         /// Returns true of the operation succeeded. False otherwise.
         /// </returns>
-        public abstract bool MaterializeFrame(MediaFrame input, ref MediaBlock output, MediaBlock previousBlock);
+        public abstract bool MaterializeFrame(MediaFrame input, ref MediaBlock output);
 
         /// <inheritdoc />
         public void Dispose() => Dispose(true);

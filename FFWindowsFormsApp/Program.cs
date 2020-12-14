@@ -3,7 +3,7 @@ using System;
 using System.Windows.Forms;
 using Unosquare.FFME;
 
-namespace Unosquare.FFWindowsFormsApp
+namespace FFWindowsFormsApp
 {
     static class Program
     {

@@ -142,7 +142,7 @@
         /// <summary>
         /// Gets the timing period for default scenarios.
         /// </summary>
-        public static TimeSpan DefaultTimingPeriod => TimeSpan.FromMilliseconds(15);
+        public static TimeSpan DefaultTimingPeriod => TimeSpan.FromMilliseconds(20);
 
         /// <summary>
         /// Gets the maximum blocks to cache for the given component type.

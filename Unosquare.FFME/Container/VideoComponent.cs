@@ -72,11 +72,11 @@
             var aspectRatio = ffmpeg.av_d2q((double)FrameWidth / FrameHeight, int.MaxValue);
             DisplayAspectWidth = aspectRatio.num;
             DisplayAspectHeight = aspectRatio.den;
+        }
 
-            var seekIndex = container.MediaOptions.VideoSeekIndex;
-            SeekIndex = seekIndex != null && seekIndex.StreamIndex == StreamIndex ?
-                seekIndex.Entries :
-                new List<VideoSeekIndexEntry>(0);
+        public VideoComponent()
+        {
+            
         }
 
         #endregion
@@ -144,6 +144,7 @@
         /// </summary>
         public IList<VideoSeekIndexEntry> SeekIndex { get; }
 
+
         /// <summary>
         /// Provides access to the VideoFilter string of the container's MediaOptions.
         /// </summary>
@@ -203,7 +204,7 @@
         }
 
         /// <inheritdoc />
-        public override bool MaterializeFrame(MediaFrame input, ref MediaBlock output, MediaBlock previousBlock)
+        public override bool MaterializeFrame(MediaFrame input, ref MediaBlock output)
         {
             if (output == null) output = new VideoBlock();
             if (input is VideoFrame == false || output is VideoBlock == false)
@@ -275,30 +276,14 @@
             target.IsStartTimeGuessed = source.HasValidStartTime == false;
             target.PresentationTime = source.PresentationTime;
 
-            // Try to fix the start time, duration and End time if we don't have valid data
-            if (source.HasValidStartTime == false && previousBlock != null)
-            {
-                // Get timing information from the previous block
-                target.StartTime = TimeSpan.FromTicks(previousBlock.EndTime.Ticks + 1);
-                target.Duration = source.Duration.Ticks > 0 ? source.Duration : previousBlock.Duration;
-                target.EndTime = TimeSpan.FromTicks(target.StartTime.Ticks + target.Duration.Ticks);
+            // We set the target properties directly from the source
+            target.StartTime = source.StartTime;
+            target.Duration = source.Duration;
+            target.EndTime = source.EndTime;
 
-                // Guess picture number and SMTPE
-                var frameRate = ffmpeg.av_guess_frame_rate(Container.InputContext, Stream, source.Pointer);
-                target.DisplayPictureNumber = Utilities.ComputePictureNumber(StartTime, target.StartTime, frameRate);
-                target.SmtpeTimeCode = Utilities.ComputeSmtpeTimeCode(target.DisplayPictureNumber, frameRate);
-            }
-            else
-            {
-                // We set the target properties directly from the source
-                target.StartTime = source.StartTime;
-                target.Duration = source.Duration;
-                target.EndTime = source.EndTime;
-
-                // Copy picture number and SMTPE
-                target.DisplayPictureNumber = source.DisplayPictureNumber;
-                target.SmtpeTimeCode = source.SmtpeTimeCode;
-            }
+            // Copy picture number and SMTPE
+            target.DisplayPictureNumber = source.DisplayPictureNumber;
+            target.SmtpeTimeCode = source.SmtpeTimeCode;
 
             // Fill out other properties
             target.IsHardwareFrame = source.IsHardwareFrame;
@@ -404,7 +389,7 @@
         /// </summary>
         /// <param name="frame">The frame.</param>
         /// <returns>A normalized pixel format.</returns>
-        private static AVPixelFormat NormalizePixelFormat(AVFrame* frame)
+        private AVPixelFormat NormalizePixelFormat(AVFrame* frame)
         {
             var currentFormat = (AVPixelFormat)frame->format;
             switch (currentFormat)

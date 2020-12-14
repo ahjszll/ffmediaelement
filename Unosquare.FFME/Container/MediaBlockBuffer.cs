@@ -159,7 +159,7 @@
                     var targetBlock = PoolBlocks.Dequeue();
                     var lastBlock = PlaybackBlocks.Count > 0 ? PlaybackBlocks[PlaybackBlocks.Count - 1] : null;
 
-                    if (container.Convert(source, ref targetBlock, true, lastBlock) == false)
+                    if (container.Convert(source, ref targetBlock) == false)
                     {
                         // return the converted block to the pool
                         PoolBlocks.Enqueue(targetBlock);
@@ -177,6 +177,15 @@
                     // update collection-wide properties
                     UpdateCollectionProperties();
                 }
+            }
+        }
+
+        public void UseMediaBlock(Action<MediaBlock> act)
+        {
+            lock (SyncLock)
+            {
+                if (PlaybackBlocks.Count > 0)
+                    act(this[0]);
             }
         }
 
